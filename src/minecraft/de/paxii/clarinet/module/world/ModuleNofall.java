@@ -1,0 +1,35 @@
+package de.paxii.clarinet.module.world;
+
+import de.paxii.clarinet.Wrapper;
+import de.paxii.clarinet.event.EventHandler;
+import de.paxii.clarinet.event.events.game.SendPacketEvent;
+import de.paxii.clarinet.module.Module;
+import de.paxii.clarinet.module.ModuleCategory;
+import net.minecraft.network.play.client.CPacketPlayer;
+
+public class ModuleNofall extends Module {
+	public ModuleNofall() {
+		super("Nofall", ModuleCategory.WORLD);
+
+		this.setDescription("Disables fall damage.");
+	}
+
+	@Override
+	public void onEnable() {
+		Wrapper.getEventManager().register(this);
+	}
+
+	@EventHandler
+	public void onSendPacket(SendPacketEvent e) {
+		if (!Wrapper.getPlayer().onGround && e.getPacket() instanceof CPacketPlayer) {
+			CPacketPlayer curPacket = (CPacketPlayer) e.getPacket();
+			curPacket.setOnGround(true);
+			e.setPacket(curPacket);
+		}
+	}
+
+	@Override
+	public void onDisable() {
+		Wrapper.getEventManager().unregister(this);
+	}
+}
