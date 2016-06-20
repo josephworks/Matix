@@ -1,0 +1,1392 @@
+Index: ../../src/minecraft/net/minecraft/block/Block.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/block/Block.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/block/Block.java	(date 1466372942000)
+@@ -5,6 +5,8 @@
+ import java.util.Random;
+ import java.util.Set;
+ import javax.annotation.Nullable;
++
++import de.paxii.clarinet.module.render.ModuleXray;
+ import net.minecraft.block.material.EnumPushReaction;
+ import net.minecraft.block.material.MapColor;
+ import net.minecraft.block.material.Material;
+@@ -472,6 +474,14 @@
+     @Deprecated
+     public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                if (ModuleXray.getBlockList().contains(REGISTRY.getIDForObject(this))) {
++                    return true;
++                }
++            }
++        //
++
+         AxisAlignedBB axisalignedbb = blockState.getBoundingBox(blockAccess, pos);
+ 
+         switch (side)
+@@ -774,9 +784,19 @@
+ 
+     public BlockRenderLayer getBlockLayer()
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                if (ModuleXray.getBlockList().contains(REGISTRY.getIDForObject(this))) {
+-        return BlockRenderLayer.SOLID;
+-    }
++                    return BlockRenderLayer.SOLID;
++                }
+ 
++                return BlockRenderLayer.TRANSLUCENT;
++            }
++        //
++
++        return BlockRenderLayer.SOLID;
++    }
++
+     public boolean canReplace(World worldIn, BlockPos pos, EnumFacing side, @Nullable ItemStack stack)
+     {
+         return this.canPlaceBlockOnSide(worldIn, pos, side);
+@@ -1409,4 +1429,10 @@
+         XZ,
+         XYZ;
+     }
++
++    //TODO: Client
++        public Material getMaterial() {
++        return this.blockMaterial;
++    }
++    //
+ }
+Index: ../../src/minecraft/net/minecraft/block/BlockBush.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/block/BlockBush.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/block/BlockBush.java	(date 1466372942000)
+@@ -2,6 +2,8 @@
+ 
+ import java.util.Random;
+ import javax.annotation.Nullable;
++
++import de.paxii.clarinet.module.render.ModuleXray;
+ import net.minecraft.block.material.MapColor;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
+@@ -98,6 +100,11 @@
+ 
+     public BlockRenderLayer getBlockLayer()
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                return super.getBlockLayer();
++            }
++        //
+         return BlockRenderLayer.CUTOUT;
+     }
+ }
+Index: ../../src/minecraft/net/minecraft/block/BlockCactus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/block/BlockCactus.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/block/BlockCactus.java	(date 1466372942000)
+@@ -1,6 +1,8 @@
+ package net.minecraft.block;
+ 
+ import java.util.Random;
++
++import de.paxii.clarinet.module.render.ModuleXray;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.properties.IProperty;
+ import net.minecraft.block.properties.PropertyInteger;
+@@ -124,6 +126,12 @@
+ 
+     public BlockRenderLayer getBlockLayer()
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                return super.getBlockLayer();
++            }
++        //
++
+         return BlockRenderLayer.CUTOUT;
+     }
+ 
+Index: ../../src/minecraft/net/minecraft/block/BlockGlass.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/block/BlockGlass.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/block/BlockGlass.java	(date 1466372942000)
+@@ -1,6 +1,8 @@
+ package net.minecraft.block;
+ 
+ import java.util.Random;
++
++import de.paxii.clarinet.module.render.ModuleXray;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.creativetab.CreativeTabs;
+@@ -24,6 +26,12 @@
+ 
+     public BlockRenderLayer getBlockLayer()
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                return super.getBlockLayer();
++            }
++        //
++
+         return BlockRenderLayer.CUTOUT;
+     }
+ 
+Index: ../../src/minecraft/net/minecraft/block/BlockGrass.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/block/BlockGrass.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/block/BlockGrass.java	(date 1466372942000)
+@@ -2,6 +2,8 @@
+ 
+ import java.util.Random;
+ import javax.annotation.Nullable;
++
++import de.paxii.clarinet.module.render.ModuleXray;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.properties.IProperty;
+ import net.minecraft.block.properties.PropertyBool;
+@@ -148,6 +150,12 @@
+ 
+     public BlockRenderLayer getBlockLayer()
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                return super.getBlockLayer();
++            }
++        //
++
+         return BlockRenderLayer.CUTOUT_MIPPED;
+     }
+ 
+Index: ../../src/minecraft/net/minecraft/block/BlockLeaves.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/block/BlockLeaves.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/block/BlockLeaves.java	(date 1466372942000)
+@@ -2,6 +2,8 @@
+ 
+ import java.util.Random;
+ import javax.annotation.Nullable;
++
++import de.paxii.clarinet.module.render.ModuleXray;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.properties.PropertyBool;
+ import net.minecraft.block.state.IBlockState;
+@@ -277,6 +279,12 @@
+ 
+     public BlockRenderLayer getBlockLayer()
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                return super.getBlockLayer();
++            }
++        //
++
+         return this.leavesFancy ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
+     }
+ 
+Index: ../../src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java	(date 1466372942000)
+@@ -2,6 +2,12 @@
+ 
+ import java.util.List;
+ import javax.annotation.Nullable;
++
++import de.paxii.clarinet.Wrapper;
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.player.PlayerMoveEvent;
++import de.paxii.clarinet.event.events.player.PostMotionUpdateEvent;
++import de.paxii.clarinet.event.events.player.PreMotionUpdateEvent;
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.audio.ElytraSound;
+@@ -214,10 +220,37 @@
+      */
+     public void onUpdate()
+     {
++        //TODO: Client
++            if (this.motionX != 0 || this.motionY != -0.0784000015258789 || this.motionZ != 0) {
++                PlayerMoveEvent moveEvent = new PlayerMoveEvent(this);
++                EventManager.call(moveEvent);
++
++                if (moveEvent.isCancelled())
++                    return;
++
++                this.motionX = moveEvent.getMotionX();
++                this.motionY = moveEvent.getMotionY();
++                this.motionZ = moveEvent.getMotionZ();
++
++                this.posX = moveEvent.getPosX();
++                this.posY = moveEvent.getPosY();
++                this.posZ = moveEvent.getPosZ();
++            }
++        //
++
+         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
+         {
+             super.onUpdate();
+ 
++            //TODO: Client
++                PreMotionUpdateEvent preMotionEvent = new PreMotionUpdateEvent(this);
++                EventManager.call(preMotionEvent);
++
++                if (preMotionEvent.isCancelled()) {
++                    return;
++                }
++            //
++
+             if (this.isRiding())
+             {
+                 this.connection.sendPacket(new CPacketPlayer.Rotation(this.rotationYaw, this.rotationPitch, this.onGround));
+@@ -233,6 +266,11 @@
+             {
+                 this.onUpdateWalkingPlayer();
+             }
++
++            //TODO: Client
++                PostMotionUpdateEvent postMotion = new PostMotionUpdateEvent(this);
++                EventManager.call(postMotion);
++            //
+         }
+     }
+ 
+@@ -924,9 +962,13 @@
+ 
+         if (this.isHandActive() && !this.isRiding())
+         {
++            //TODO: Client
++                if (!Wrapper.getModuleManager().isModuleActive("NoItemSlowdown")) {
+-            this.movementInput.moveStrafe *= 0.2F;
+-            this.movementInput.moveForward *= 0.2F;
+-            this.sprintToggleTimer = 0;
++                    this.movementInput.moveStrafe *= 0.2F;
++                    this.movementInput.moveForward *= 0.2F;
++                    this.sprintToggleTimer = 0;
++                }
++            //
+         }
+ 
+         boolean flag3 = false;
+Index: ../../src/minecraft/net/minecraft/client/gui/inventory/GuiEditSign.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/gui/inventory/GuiEditSign.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/gui/inventory/GuiEditSign.java	(date 1466372942000)
+@@ -1,6 +1,10 @@
+ package net.minecraft.client.gui.inventory;
+ 
+ import java.io.IOException;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.gui.sign.StartEditSignEvent;
++import de.paxii.clarinet.event.events.gui.sign.StopEditSignEvent;
+ import net.minecraft.block.Block;
+ import net.minecraft.client.gui.GuiButton;
+ import net.minecraft.client.gui.GuiScreen;
+@@ -44,13 +48,40 @@
+         Keyboard.enableRepeatEvents(true);
+         this.doneBtn = this.func_189646_b(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done", new Object[0])));
+         this.tileSign.setEditable(false);
++
++        // TODO: Client
++            StartEditSignEvent startEditSignEvent = new StartEditSignEvent(this.tileSign);
++            EventManager.call(startEditSignEvent);
++
++            for (int i = 0; i < startEditSignEvent.getSignText().length; i++) {
++                this.tileSign.signText[i] = startEditSignEvent.getSignText()[i];
+-    }
++            }
+ 
++            this.editLine = startEditSignEvent.getEditLine();
++
++            if (startEditSignEvent.isCloseGui()) {
++                this.tileSign.markDirty();
++                this.mc.displayGuiScreen(null);
++            }
++        //
++    }
++
+     /**
+      * Called when the screen is unloaded. Used to disable keyboard repeat events
+      */
+     public void onGuiClosed()
+     {
++        // TODO: Client
++            StopEditSignEvent stopEditSignEvent = new StopEditSignEvent(this.tileSign);
++            EventManager.call(stopEditSignEvent);
++
++            for (int i = 0; i < stopEditSignEvent.getSignText().length; i++) {
++                this.tileSign.signText[i] = stopEditSignEvent.getSignText()[i];
++            }
++
++            this.editLine = stopEditSignEvent.getEditLine();
++        //
++
+         Keyboard.enableRepeatEvents(false);
+         NetHandlerPlayClient nethandlerplayclient = this.mc.getConnection();
+ 
+Index: ../../src/minecraft/net/minecraft/client/gui/Gui.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/gui/Gui.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/gui/Gui.java	(date 1466372942000)
+@@ -17,7 +17,8 @@
+     /**
+      * Draws a thin horizontal line between two points.
+      */
+-    protected void drawHorizontalLine(int startX, int endX, int y, int color)
++    //TODO: Client
++    protected static void drawHorizontalLine(int startX, int endX, int y, int color)
+     {
+         if (endX < startX)
+         {
+@@ -32,7 +33,8 @@
+     /**
+      * Draw a 1 pixel wide vertical line. Args : x, y1, y2, color
+      */
+-    protected void drawVerticalLine(int x, int startY, int endY, int color)
++    //TODO: Client
++    protected static void drawVerticalLine(int x, int startY, int endY, int color)
+     {
+         if (endY < startY)
+         {
+@@ -79,6 +81,9 @@
+         vertexbuffer.pos((double)right, (double)top, 0.0D).endVertex();
+         vertexbuffer.pos((double)left, (double)top, 0.0D).endVertex();
+         tessellator.draw();
++        //TODO: Client
++            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
++        //
+         GlStateManager.enableTexture2D();
+         GlStateManager.disableBlend();
+     }
+Index: ../../src/minecraft/net/minecraft/client/gui/GuiChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/gui/GuiChat.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/gui/GuiChat.java	(date 1466372942000)
+@@ -2,6 +2,9 @@
+ 
+ import java.io.IOException;
+ import javax.annotation.Nullable;
++
++import lombok.Getter;
++import lombok.Setter;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.util.ITabCompleter;
+ import net.minecraft.util.TabCompleter;
+@@ -33,6 +36,10 @@
+     /**
+      * is the text that appears when you press the chat key and the input box appears pre-filled
+      */
++    //TODO: Client
++        @Getter
++        @Setter
++    //
+     private String defaultInputFieldText = "";
+ 
+     public GuiChat()
+Index: ../../src/minecraft/net/minecraft/client/gui/GuiScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/gui/GuiScreen.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/gui/GuiScreen.java	(date 1466372942000)
+@@ -15,6 +15,9 @@
+ import java.util.Arrays;
+ import java.util.List;
+ import java.util.Set;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.gui.RenderGuiScreenEvent;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.RenderHelper;
+@@ -84,6 +87,11 @@
+      */
+     public void drawScreen(int mouseX, int mouseY, float partialTicks)
+     {
++        //TODO: Client
++            RenderGuiScreenEvent renderScreen = new RenderGuiScreenEvent(mouseX, mouseY, partialTicks);
++            EventManager.call(renderScreen);
++        //
++
+         for (int i = 0; i < this.buttonList.size(); ++i)
+         {
+             ((GuiButton)this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY);
+Index: ../../src/minecraft/net/minecraft/client/gui/GuiSlot.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/gui/GuiSlot.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/gui/GuiSlot.java	(date 1466372942000)
+@@ -23,7 +23,9 @@
+     protected int left;
+ 
+     /** The height of a slot. */
+-    protected final int slotHeight;
++    //TODO: Client
++        protected int slotHeight;
++    //
+ 
+     /** The buttonID of the button used to scroll up */
+     private int scrollUpButtonID;
+Index: ../../src/minecraft/net/minecraft/client/gui/GuiTextField.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/gui/GuiTextField.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/gui/GuiTextField.java	(date 1466372942000)
+@@ -11,51 +11,53 @@
+ 
+ public class GuiTextField extends Gui
+ {
+-    private final int id;
+-    private final FontRenderer fontRendererInstance;
++    //TODO: Client
++        protected final int id;
++        protected final FontRenderer fontRendererInstance;
+-    public int xPosition;
+-    public int yPosition;
++        public int xPosition;
++        public int yPosition;
+ 
+-    /** The width of this text field. */
++        /** The width of this text field. */
+-    private final int width;
+-    private final int height;
++        protected final int width;
++        protected final int height;
+ 
+-    /** Has the current text being edited on the textbox. */
++        /** Has the current text being edited on the textbox. */
+-    private String text = "";
+-    private int maxStringLength = 32;
+-    private int cursorCounter;
+-    private boolean enableBackgroundDrawing = true;
++        protected String text = "";
++        protected int maxStringLength = 32;
++        protected int cursorCounter;
++        protected boolean enableBackgroundDrawing = true;
+ 
+-    /**
+-     * if true the textbox can lose focus by clicking elsewhere on the screen
+-     */
++        /**
++         * if true the textbox can lose focus by clicking elsewhere on the screen
++         */
+-    private boolean canLoseFocus = true;
++        protected boolean canLoseFocus = true;
+ 
+-    /**
+-     * If this value is true along with isEnabled, keyTyped will process the keys.
+-     */
++        /**
++         * If this value is true along with isEnabled, keyTyped will process the keys.
++         */
+-    private boolean isFocused;
++        protected boolean isFocused;
+ 
+-    /**
+-     * If this value is true along with isFocused, keyTyped will process the keys.
+-     */
++        /**
++         * If this value is true along with isFocused, keyTyped will process the keys.
++         */
+-    private boolean isEnabled = true;
++        protected boolean isEnabled = true;
+ 
+-    /**
+-     * The current character index that should be used as start of the rendered text.
+-     */
++        /**
++         * The current character index that should be used as start of the rendered text.
++         */
+-    private int lineScrollOffset;
+-    private int cursorPosition;
++        protected int lineScrollOffset;
++        protected int cursorPosition;
+ 
+-    /** other selection position, maybe the same as the cursor */
++        /** other selection position, maybe the same as the cursor */
+-    private int selectionEnd;
+-    private int enabledColor = 14737632;
+-    private int disabledColor = 7368816;
++        protected int selectionEnd;
++        protected int enabledColor = 14737632;
++        protected int disabledColor = 7368816;
+ 
+-    /** True if this textbox is visible */
++        /** True if this textbox is visible */
+-    private boolean visible = true;
+-    private GuiPageButtonList.GuiResponder guiResponder;
+-    private Predicate<String> validator = Predicates.<String>alwaysTrue();
++        protected boolean visible = true;
++        protected GuiPageButtonList.GuiResponder guiResponder;
++        protected Predicate<String> validator = Predicates.<String>alwaysTrue();
++    //
+ 
+     public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height)
+     {
+@@ -602,7 +604,8 @@
+     /**
+      * Draws the current selection and a vertical line cursor in the text box.
+      */
+-    private void drawCursorVertical(int startX, int startY, int endX, int endY)
++    //TODO: Client
++    protected void drawCursorVertical(int startX, int startY, int endX, int endY)
+     {
+         if (startX < endX)
+         {
+Index: ../../src/minecraft/net/minecraft/client/multiplayer/PlayerControllerMP.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/multiplayer/PlayerControllerMP.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/multiplayer/PlayerControllerMP.java	(date 1466372942000)
+@@ -1,5 +1,10 @@
+ package net.minecraft.client.multiplayer;
+ 
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.block.BlockBreakEvent;
++import de.paxii.clarinet.event.events.player.PlayerAttackEntityEvent;
++import de.paxii.clarinet.event.events.player.PlayerClickBlockEvent;
++import de.paxii.clarinet.event.events.player.PostPlayerAttackEntityEvent;
+ import io.netty.buffer.Unpooled;
+ import javax.annotation.Nullable;
+ import net.minecraft.block.Block;
+@@ -171,6 +176,11 @@
+             }
+             else
+             {
++                //TODO: Client
++                    BlockBreakEvent blockBreakEvent = new BlockBreakEvent(block, pos);
++                    EventManager.call(blockBreakEvent);
++                //
++
+                 world.playEvent(2001, pos, Block.getStateId(iblockstate));
+                 block.onBlockHarvested(world, pos, iblockstate, this.mc.thePlayer);
+                 boolean flag = world.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
+@@ -207,6 +217,15 @@
+      */
+     public boolean clickBlock(BlockPos loc, EnumFacing face)
+     {
++        //TODO: Client
++            PlayerClickBlockEvent clickBlockEvent = new PlayerClickBlockEvent(loc, face);
++            EventManager.call(clickBlockEvent);
++
++            if (clickBlockEvent.isCancelled()) {
++                return false;
++            }
++        //
++
+         if (this.currentGameType.isAdventure())
+         {
+             if (this.currentGameType == GameType.SPECTATOR)
+@@ -525,6 +544,17 @@
+      */
+     public void attackEntity(EntityPlayer playerIn, Entity targetEntity)
+     {
++        //TODO: Client
++            PlayerAttackEntityEvent attackEvent = new PlayerAttackEntityEvent(playerIn, targetEntity);
++            EventManager.call(attackEvent);
++
++            if (attackEvent.isCancelled()) {
++                return;
++            }
++
++            targetEntity = attackEvent.getTarget();
++        //
++
+         this.syncCurrentPlayItem();
+         this.connection.sendPacket(new CPacketUseEntity(targetEntity));
+ 
+@@ -533,6 +563,11 @@
+             playerIn.attackTargetEntityWithCurrentItem(targetEntity);
+             playerIn.resetCooldown();
+         }
++
++        //TODO: Client
++            PostPlayerAttackEntityEvent postAttackEvent = new PostPlayerAttackEntityEvent(playerIn, targetEntity);
++            EventManager.call(postAttackEvent);
++        //
+     }
+ 
+     /**
+Index: ../../src/minecraft/net/minecraft/client/multiplayer/WorldClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/multiplayer/WorldClient.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/multiplayer/WorldClient.java	(date 1466372942000)
+@@ -3,6 +3,9 @@
+ import com.google.common.collect.Sets;
+ import java.util.Random;
+ import java.util.Set;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.game.QuitServerEvent;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
+@@ -344,6 +347,10 @@
+      */
+     public void sendQuittingDisconnectingPacket()
+     {
++        //TODO: Client
++            EventManager.call(new QuitServerEvent());
++        //
++
+         this.connection.getNetworkManager().closeChannel(new TextComponentString("Quitting"));
+     }
+ 
+Index: ../../src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java	(date 1466372942000)
+@@ -4,6 +4,10 @@
+ import com.google.common.util.concurrent.FutureCallback;
+ import com.google.common.util.concurrent.Futures;
+ import com.mojang.authlib.GameProfile;
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.PacketPatcher;
++import de.paxii.clarinet.event.events.chat.ReceiveChatEvent;
++import de.paxii.clarinet.event.events.entity.EntityVelocityEvent;
+ import io.netty.buffer.Unpooled;
+ import java.io.File;
+ import java.io.IOException;
+@@ -542,6 +546,17 @@
+      */
+     public void handleEntityVelocity(SPacketEntityVelocity packetIn)
+     {
++        //TODO: Client
++            EntityVelocityEvent velocityEvent = new EntityVelocityEvent(packetIn);
++            EventManager.call(velocityEvent);
++
++            if (velocityEvent.isCancelled()) {
++                return;
++            }
++
++            packetIn = velocityEvent.getVelocityPacket();
++        //
++
+         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+         Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
+ 
+@@ -861,9 +876,23 @@
+ 
+     public void sendPacket(Packet<?> packetIn)
+     {
++        //TODO: Client
++            packetIn = PacketPatcher.getPatchedPacket(packetIn);
++
++            if (packetIn == null) {
++                return;
++            }
++        //
++
+         this.netManager.sendPacket(packetIn);
+     }
+ 
++    //TODO: Client
++        public void addToSendQueue(Packet<?> packetIn) {
++            this.sendPacket(packetIn);
++        }
++    //
++
+     public void handleCollectItem(SPacketCollectItem packetIn)
+     {
+         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+@@ -896,6 +925,20 @@
+      */
+     public void handleChat(SPacketChat packetIn)
+     {
++        //TODO: Client
++            ReceiveChatEvent chatEvent = new ReceiveChatEvent(packetIn.getChatComponent().getFormattedText());
++
++            EventManager.call(chatEvent);
++
++            if (chatEvent.isCancelled()) {
++                return;
++            }
++
++            if (!chatEvent.getChatMessage().equals(packetIn.getChatComponent().getFormattedText())) {
++                packetIn = new SPacketChat(new TextComponentTranslation(chatEvent.getChatMessage()), packetIn.getType());
++            }
++        //
++
+         PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+ 
+         if (packetIn.getType() == 2)
+Index: ../../src/minecraft/net/minecraft/client/renderer/entity/RenderManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/renderer/entity/RenderManager.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/renderer/entity/RenderManager.java	(date 1466372942000)
+@@ -3,6 +3,10 @@
+ import com.google.common.collect.Maps;
+ import java.util.Collections;
+ import java.util.Map;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.entity.PostRenderEntityEvent;
++import de.paxii.clarinet.event.events.entity.PreRenderEntityEvent;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.BlockBed;
+ import net.minecraft.block.state.IBlockState;
+@@ -368,6 +372,15 @@
+ 
+     public void doRenderEntity(Entity entityIn, double x, double y, double z, float yaw, float partialTicks, boolean p_188391_10_)
+     {
++        //TODO: Client
++            PreRenderEntityEvent preRenderEvent = new PreRenderEntityEvent(entityIn, x, y, z, partialTicks);
++
++            EventManager.call(preRenderEvent);
++
++            if (preRenderEvent.isCancelled())
++                return;
++        //
++
+         Render<Entity> render = null;
+ 
+         try
+@@ -410,6 +423,11 @@
+                     }
+                 }
+             }
++
++            //TODO: Client
++                PostRenderEntityEvent postRenderEvent = new PostRenderEntityEvent(entityIn, x, y, z, partialTicks);
++                EventManager.call(postRenderEvent);
++            //
+         }
+         catch (Throwable throwable3)
+         {
+Index: ../../src/minecraft/net/minecraft/client/renderer/EntityRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/renderer/EntityRenderer.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/renderer/EntityRenderer.java	(date 1466372942000)
+@@ -15,6 +15,11 @@
+ import java.util.List;
+ import java.util.Random;
+ import javax.imageio.ImageIO;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.game.IngameTickEvent;
++import de.paxii.clarinet.event.events.game.RenderTickEvent;
++import lombok.Getter;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.BlockBed;
+ import net.minecraft.block.material.Material;
+@@ -117,6 +122,9 @@
+     private int rendererUpdateCount;
+ 
+     /** Pointed entity */
++    //TODO: Client
++        @Getter
++    //
+     private Entity pointedEntity;
+     private MouseFilter mouseFilterXAxis = new MouseFilter();
+     private MouseFilter mouseFilterYAxis = new MouseFilter();
+@@ -1354,6 +1362,10 @@
+                     }
+                 }
+ 
++                //TODO: Client
++                    EventManager.call(new IngameTickEvent());
++                //
++
+                 this.mc.mcProfiler.endSection();
+             }
+ 
+@@ -1739,6 +1751,10 @@
+         {
+             this.mc.debugRenderer.func_190073_a(partialTicks, finishTimeNano);
+         }
++
++        //TODO: Client
++            EventManager.call(new RenderTickEvent(partialTicks));
++        //
+ 
+         if (!renderglobal.damagedBlocks.isEmpty())
+         {
+Index: ../../src/minecraft/net/minecraft/client/renderer/RenderGlobal.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/renderer/RenderGlobal.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/renderer/RenderGlobal.java	(date 1466372942000)
+@@ -5,6 +5,8 @@
+ import com.google.common.collect.Sets;
+ import com.google.gson.JsonSyntaxException;
+ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
++
++import java.awt.*;
+ import java.io.IOException;
+ import java.lang.reflect.Field;
+ import java.util.ArrayDeque;
+@@ -3522,4 +3524,42 @@
+             this.counter = p_initialize_3_;
+         }
+     }
++
++    //TODO: Client
++        public static void drawOutlinedBoundingBox(AxisAlignedBB axisAlignedBB, int color) {
++            Color decode = new Color(color);
++
++            RenderGlobal.drawOutlinedBoundingBox(axisAlignedBB, decode.getRed(), decode.getGreen(), decode.getBlue(), decode.getAlpha());
++        }
++
++        public static void drawOutlinedBoundingBox(AxisAlignedBB boundingBox, int red, int green, int blue, int alpha)
++        {
++            Tessellator tessellator = Tessellator.getInstance();
++            VertexBuffer vertexbuffer = tessellator.getBuffer();
++            vertexbuffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
++            vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            tessellator.draw();
++            vertexbuffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
++            vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            tessellator.draw();
++            vertexbuffer.begin(1, DefaultVertexFormats.POSITION_COLOR);
++            vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            vertexbuffer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).color(red, green, blue, alpha).endVertex();
++            tessellator.draw();
++        }
++    //
+ }
+Index: ../../src/minecraft/net/minecraft/client/renderer/VertexBuffer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/renderer/VertexBuffer.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/renderer/VertexBuffer.java	(date 1466372942000)
+@@ -9,6 +9,8 @@
+ import java.util.Arrays;
+ import java.util.BitSet;
+ import java.util.Comparator;
++
++import de.paxii.clarinet.module.render.ModuleXray;
+ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+ import net.minecraft.client.renderer.vertex.VertexFormat;
+ import net.minecraft.client.renderer.vertex.VertexFormatElement;
+@@ -421,27 +423,33 @@
+         int i = this.getColorIndex(p_178978_4_);
+         int j = -1;
+ 
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                j = ModuleXray.getXrayOpacity();
++            } else {
+-        if (!this.noColor)
+-        {
+-            j = this.rawIntBuffer.get(i);
++                if (!this.noColor)
++                {
++                    j = this.rawIntBuffer.get(i);
+ 
+-            if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
+-            {
+-                int k = (int)((float)(j & 255) * red);
+-                int l = (int)((float)(j >> 8 & 255) * green);
+-                int i1 = (int)((float)(j >> 16 & 255) * blue);
+-                j = j & -16777216;
+-                j = j | i1 << 16 | l << 8 | k;
+-            }
+-            else
+-            {
+-                int j1 = (int)((float)(j >> 24 & 255) * red);
+-                int k1 = (int)((float)(j >> 16 & 255) * green);
+-                int l1 = (int)((float)(j >> 8 & 255) * blue);
+-                j = j & 255;
+-                j = j | j1 << 24 | k1 << 16 | l1 << 8;
+-            }
+-        }
++                    if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
++                    {
++                        int k = (int)((float)(j & 255) * red);
++                        int l = (int)((float)(j >> 8 & 255) * green);
++                        int i1 = (int)((float)(j >> 16 & 255) * blue);
++                        j = j & -16777216;
++                        j = j | i1 << 16 | l << 8 | k;
++                    }
++                    else
++                    {
++                        int j1 = (int)((float)(j >> 24 & 255) * red);
++                        int k1 = (int)((float)(j >> 16 & 255) * green);
++                        int l1 = (int)((float)(j >> 8 & 255) * blue);
++                        j = j & 255;
++                        j = j | j1 << 24 | k1 << 16 | l1 << 8;
++                    }
++                }
++            }
++        //
+ 
+         this.rawIntBuffer.put(i, j);
+     }
+Index: ../../src/minecraft/net/minecraft/client/resources/ResourcePackListEntryServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/resources/ResourcePackListEntryServer.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/resources/ResourcePackListEntryServer.java	(date 1466372942000)
+@@ -25,7 +25,13 @@
+ 
+         try
+         {
++            //TODO: Client
++            if (p_i46594_2_.getPackImage() != null) {
+-            dynamictexture = new DynamicTexture(p_i46594_2_.getPackImage());
++                dynamictexture = new DynamicTexture(p_i46594_2_.getPackImage());
++            } else {
++                dynamictexture = TextureUtil.MISSING_TEXTURE;
++            }
++            //
+         }
+         catch (IOException var5)
+         {
+Index: ../../src/minecraft/net/minecraft/client/settings/KeyBinding.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/settings/KeyBinding.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/settings/KeyBinding.java	(date 1466372942000)
+@@ -4,6 +4,9 @@
+ import com.google.common.collect.Sets;
+ import java.util.List;
+ import java.util.Set;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.game.KeyPressedEvent;
+ import net.minecraft.client.resources.I18n;
+ import net.minecraft.util.IntHashMap;
+ import org.lwjgl.input.Keyboard;
+@@ -26,6 +29,10 @@
+     {
+         if (keyCode != 0)
+         {
++            //TODO: Client
++                EventManager.call(new KeyPressedEvent(keyCode));
++            //
++
+             KeyBinding keybinding = (KeyBinding)HASH.lookup(keyCode);
+ 
+             if (keybinding != null)
+Index: ../../src/minecraft/net/minecraft/client/Minecraft.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/client/Minecraft.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/client/Minecraft.java	(date 1466372942000)
+@@ -37,6 +37,13 @@
+ import java.util.concurrent.FutureTask;
+ import javax.annotation.Nullable;
+ import javax.imageio.ImageIO;
++
++import de.paxii.clarinet.Client;
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.game.StartGameEvent;
++import de.paxii.clarinet.event.events.gui.DisplayGuiScreenEvent;
++import lombok.Getter;
++import lombok.Setter;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
+@@ -236,6 +243,10 @@
+ 
+     /** True if the player is connected to a realms server */
+     private boolean connectedToRealms;
++    //TODO: Client
++        @Getter
++        @Setter
++    //
+     private final Timer timer = new Timer(20.0F);
+ 
+     /** Instance of PlayerUsageSnooper. */
+@@ -250,7 +261,10 @@
+     private Entity renderViewEntity;
+     public Entity pointedEntity;
+     public ParticleManager effectRenderer;
+-    private final Session session;
++    //TODO: Client
++        @Setter
++        private Session session;
++    //
+     private boolean isGamePaused;
+ 
+     /** The font renderer used for displaying and measuring text */
+@@ -279,6 +293,9 @@
+ 
+     /** Gui achievement */
+     public GuiAchievement guiAchievement;
++    //TODO: Client
++        @Getter
++    //
+     public GuiIngame ingameGUI;
+ 
+     /** Skip render world */
+@@ -308,6 +325,10 @@
+     /**
+      * When you place a block, it's set to 6, decremented once per tick, when it's 0, you can place another block.
+      */
++    //TODO: Client
++        @Getter
++        @Setter
++    //
+     private int rightClickDelayTimer;
+     private String serverName;
+     private int serverPort;
+@@ -591,6 +612,11 @@
+         this.checkGLError("Post startup");
+         this.ingameGUI = new GuiIngame(this);
+ 
++        //TODO: Client
++            new Client();
++            EventManager.call(new StartGameEvent());
++        //
++
+         if (this.serverName != null)
+         {
+             this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
+@@ -621,6 +647,10 @@
+         }
+ 
+         this.renderGlobal.makeEntityOutlineShader();
++
++        //TODO: Client
++            EventManager.call(new StartGameEvent());
++        //
+     }
+ 
+     private void registerMetadataSerializers()
+@@ -995,6 +1025,12 @@
+      */
+     public void displayGuiScreen(@Nullable GuiScreen guiScreenIn)
+     {
++        //TODO: Client
++            DisplayGuiScreenEvent guiScreenEvent = new DisplayGuiScreenEvent(guiScreenIn);
++            EventManager.call(guiScreenEvent);
++            guiScreenIn = guiScreenEvent.getGuiScreen();
++        //
++
+         if (this.currentScreen != null)
+         {
+             this.currentScreen.onGuiClosed();
+@@ -3279,7 +3315,11 @@
+                     }
+                     else if (i == this.gameSettings.keyBindScreenshot.getKeyCode())
+                     {
++                        //TODO: Client
++                        //Fix Screenshot bug when pressing '<' on german keyboards in chat
++                        if (Keyboard.getEventKey() != 0) {
+-                        this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
++                            this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
++                        }
+                     }
+                 }
+             }
+Index: ../../src/minecraft/net/minecraft/entity/Entity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/entity/Entity.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/entity/Entity.java	(date 1466372942000)
+@@ -10,6 +10,10 @@
+ import java.util.Set;
+ import java.util.UUID;
+ import javax.annotation.Nullable;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.entity.EntityMoveEvent;
++import de.paxii.clarinet.event.events.player.PlayerStepEvent;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.BlockFence;
+ import net.minecraft.block.BlockFenceGate;
+@@ -20,6 +24,7 @@
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.block.state.pattern.BlockPattern;
++import net.minecraft.client.entity.EntityPlayerSP;
+ import net.minecraft.command.CommandResultStats;
+ import net.minecraft.command.ICommandSender;
+ import net.minecraft.crash.CrashReport;
+@@ -701,6 +706,15 @@
+      */
+     public void moveEntity(double x, double y, double z)
+     {
++        //TODO: Client
++            EntityMoveEvent moveEvent = new EntityMoveEvent(x, y, z);
++            EventManager.call(moveEvent);
++
++            x = moveEvent.getX();
++            y = moveEvent.getY();
++            z = moveEvent.getZ();
++        //
++
+         if (this.noClip)
+         {
+             this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, y, z));
+@@ -825,6 +839,10 @@
+ 
+             if (this.stepHeight > 0.0F && i_ && (d3 != x || d5 != z))
+             {
++                //TODO: Client
++                    double oldY = this.boundingBox.minY;
++                //
++
+                 double d11 = x;
+                 double d7 = y;
+                 double d8 = z;
+@@ -923,6 +941,12 @@
+                     z = d8;
+                     this.setEntityBoundingBox(axisalignedbb1);
+                 }
++
++                //TODO: Client
++                    if (this instanceof EntityPlayerSP && oldY < this.boundingBox.minY) {
++                        EventManager.call(new PlayerStepEvent(this.boundingBox.minY - oldY));
++                    }
++                //
+             }
+ 
+             this.worldObj.theProfiler.endSection();
+Index: ../../src/minecraft/net/minecraft/entity/EntityLivingBase.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/entity/EntityLivingBase.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/entity/EntityLivingBase.java	(date 1466372942000)
+@@ -2996,4 +2996,11 @@
+     {
+         return true;
+     }
++
++    //TODO: Client
++        public boolean isUsingItem() {
++            return this.activeItemStack != null;
++        }
++    //
++
+ }
+Index: ../../src/minecraft/net/minecraft/network/play/client/CPacketPlayer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/network/play/client/CPacketPlayer.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/network/play/client/CPacketPlayer.java	(date 1466372942000)
+@@ -1,6 +1,9 @@
+ package net.minecraft.network.play.client;
+ 
+ import java.io.IOException;
++
++import lombok.Getter;
++import lombok.Setter;
+ import net.minecraft.network.Packet;
+ import net.minecraft.network.PacketBuffer;
+ import net.minecraft.network.play.INetHandlerPlayServer;
+@@ -8,11 +11,18 @@
+ public class CPacketPlayer implements Packet<INetHandlerPlayServer>
+ {
+     protected double x;
++    //TODO: Client
++        @Getter
++        @Setter
+-    protected double y;
++        protected double y;
++    //
+     protected double z;
+     protected float yaw;
+     protected float pitch;
++    //TODO: Client
++        @Setter
+-    protected boolean onGround;
++        protected boolean onGround;
++    //
+     protected boolean moving;
+     protected boolean rotating;
+ 
+Index: ../../src/minecraft/net/minecraft/network/play/server/SPacketEntityVelocity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/network/play/server/SPacketEntityVelocity.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/network/play/server/SPacketEntityVelocity.java	(date 1466372942000)
+@@ -1,6 +1,8 @@
+ package net.minecraft.network.play.server;
+ 
+ import java.io.IOException;
++
++import lombok.Setter;
+ import net.minecraft.entity.Entity;
+ import net.minecraft.network.Packet;
+ import net.minecraft.network.PacketBuffer;
+@@ -9,9 +11,14 @@
+ public class SPacketEntityVelocity implements Packet<INetHandlerPlayClient>
+ {
+     private int entityID;
++    //TODO: Client
++        @Setter
+-    private int motionX;
++        private int motionX;
++        @Setter
+-    private int motionY;
++        private int motionY;
++        @Setter
+-    private int motionZ;
++        private int motionZ;
++    //
+ 
+     public SPacketEntityVelocity()
+     {
+Index: ../../src/minecraft/net/minecraft/util/text/TextFormatting.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/util/text/TextFormatting.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/util/text/TextFormatting.java	(date 1466372942000)
+@@ -2,6 +2,8 @@
+ 
+ import com.google.common.collect.Lists;
+ import com.google.common.collect.Maps;
++import lombok.Getter;
++
+ import java.util.Collection;
+ import java.util.List;
+ import java.util.Map;
+@@ -45,6 +47,9 @@
+     private final String name;
+ 
+     /** The formatting code that produces this format. */
++    //TODO: Client
++        @Getter
++    //
+     private final char formattingCode;
+     private final boolean fancyStyling;
+ 
+Index: ../../src/minecraft/net/minecraft/world/World.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/world/World.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/world/World.java	(date 1466372942000)
+@@ -3965,4 +3965,17 @@
+     {
+         return this.lootTable;
+     }
++
++    //TODO: Client
++        public Block getBlock(int x, int y, int z) {
++            BlockPos blockPos = new BlockPos(x, y, z);
++
++            return this.getBlockState(blockPos).getBlock();
++        }
++
++        public List<AxisAlignedBB> getCollidingBoundingBoxes(Entity entityIn, AxisAlignedBB bb) {
++            return this.getCollisionBoxes(entityIn, bb);
++        }
++    //
++
+ }
+Index: ../../src/minecraft/net/minecraft/world/WorldProvider.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/world/WorldProvider.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/world/WorldProvider.java	(date 1466372942000)
+@@ -60,7 +60,8 @@
+     /**
+      * Creates the light to brightness table
+      */
+-    protected void generateLightBrightnessTable()
++    //TODO: Client
++    public void generateLightBrightnessTable()
+     {
+         float f = 0.0F;
+ 
+Index: ../../src/minecraft/net/minecraft/world/WorldProviderHell.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../../src/minecraft/net/minecraft/world/WorldProviderHell.java	(date 1466367912000)
++++ ../../src/minecraft/net/minecraft/world/WorldProviderHell.java	(date 1466372942000)
+@@ -30,7 +30,8 @@
+     /**
+      * Creates the light to brightness table
+      */
+-    protected void generateLightBrightnessTable()
++    //TODO: Client
++    public void generateLightBrightnessTable()
+     {
+         float f = 0.1F;
+ 
