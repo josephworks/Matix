@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by Lars on 07.02.2016.
  */
 public class ModuleStore {
-	private static String moduleUrl = Client.getClientURL() + "modules/files/%s/%s.jar";
+	private static String moduleUrl = Client.getClientURL() + "modules/files/%s/%s/%s.jar";
 	private static TreeMap<String, ModuleEntry> moduleList = new TreeMap<>();
 	@Getter
 	private static ArrayList<String> modulesToDelete = new ArrayList<>();
@@ -90,7 +90,7 @@ public class ModuleStore {
 
 			ModuleEntry moduleEntry = ModuleStore.moduleList.get(moduleName);
 			File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName + "-" + moduleEntry.getVersion()));
-			URL downloadUrl = new URL(String.format(moduleUrl, moduleName, moduleName + "-" + moduleEntry.getVersion()));
+			URL downloadUrl = new URL(String.format(moduleUrl, Client.getGameVersion(), moduleName, moduleName + "-" + moduleEntry.getVersion()));
 
 			if (moduleFile.exists()) {
 				if (!moduleFile.delete()) {
