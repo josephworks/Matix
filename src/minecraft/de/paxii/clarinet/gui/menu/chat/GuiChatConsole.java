@@ -23,7 +23,7 @@ public class GuiChatConsole extends GuiChat {
 			String prediction = "help";
 
 			if (commandName.length() > 0) {
-				if (commandName.contains(" ")) {
+				if (commandName.contains(" ") && !commandName.startsWith(" ")) {
 					String[] commandSplit = commandName.split(" ");
 					commandName = commandSplit[0].toLowerCase();
 				}
