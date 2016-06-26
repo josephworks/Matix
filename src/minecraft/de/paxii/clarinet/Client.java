@@ -7,6 +7,7 @@ import de.paxii.clarinet.gui.ingame.settings.PanelSettingsHandler;
 import de.paxii.clarinet.gui.menu.hooks.GuiMainMenuHook;
 import de.paxii.clarinet.gui.menu.login.GuiAltManager;
 import de.paxii.clarinet.module.ModuleManager;
+import de.paxii.clarinet.util.chat.font.FontManager;
 import de.paxii.clarinet.util.encryption.StringEncryption;
 import de.paxii.clarinet.util.module.file.FileManager;
 import de.paxii.clarinet.util.module.friends.FriendManager;
@@ -41,6 +42,7 @@ public class Client {
 	private FileManager fileManager;
 	private FriendManager friendManager;
 	private NotificationManager notificationManager;
+	private FontManager fontManager;
 
 	private ModuleStore moduleStore;
 
@@ -78,6 +80,7 @@ public class Client {
 		this.fileManager = new FileManager();
 		this.friendManager = new FriendManager();
 		this.notificationManager = new NotificationManager();
+		this.fontManager = new FontManager();
 
 		this.clientConsole = new ClientConsole();
 		this.clientClickableGui = new ClientClickableGui();
