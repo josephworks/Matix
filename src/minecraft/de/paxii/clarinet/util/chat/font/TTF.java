@@ -2,8 +2,9 @@ package de.paxii.clarinet.util.chat.font;
 
 /**
  * Created by Lars on 26.06.2016.
- *
+ * <p>
  * This uses an updated Version of NahrFont
+ *
  * @Credits Nahr
  */
 

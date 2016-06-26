@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class ThreadChain {
 	private ArrayList<Thread> threadList;
-	
+
 	public ThreadChain() {
 		this.threadList = new ArrayList<>();
 	}
