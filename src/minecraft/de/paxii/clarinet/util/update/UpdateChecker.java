@@ -96,7 +96,5 @@ public class UpdateChecker {
 
 			threadChain.next();
 		})).kickOff();
-
-		new Thread(ModuleStore::fetchModules).start();
 	}
 }

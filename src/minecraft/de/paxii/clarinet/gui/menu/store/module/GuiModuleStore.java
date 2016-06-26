@@ -7,6 +7,7 @@ import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.client.PostReloadClientEvent;
 import de.paxii.clarinet.util.module.store.ModuleStore;
 import de.paxii.clarinet.util.notifications.NotificationPriority;
+import de.paxii.clarinet.util.threads.ThreadChain;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiButton;
@@ -37,6 +38,16 @@ public class GuiModuleStore extends GuiScreen {
 		this.parentScreen = parentScreen;
 
 		Wrapper.getEventManager().register(this);
+
+		ThreadChain threadChain = new ThreadChain();
+
+		threadChain.chainThread(new Thread(() -> {
+			ModuleStore.fetchModules();
+
+			threadChain.next();
+		})).chainThread(new Thread(() -> {
+			GuiModuleStore.this.externalModuleList = new GuiExternalModuleList(this);
+		})).kickOff();
 	}
 
 	@Override
