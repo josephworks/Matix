@@ -53,7 +53,7 @@ public class GuiChatConsole extends GuiChat {
 				}
 			}
 
-			Wrapper.getFontRenderer().drawString("#" + prediction, 4, this.height - 12, 0xAAAAAA);
+			Wrapper.getFontRenderer().drawString(clientPrefix + prediction, 4, this.height - 12, 0xAAAAAA);
 		}
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
