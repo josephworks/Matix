@@ -8,8 +8,9 @@ import de.paxii.clarinet.gui.ingame.panel.GuiPanelManager;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
-import de.paxii.clarinet.util.settings.ClientSetting;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.Matix2HDTheme;
 import de.paxii.clarinet.util.settings.ClientSettings;
+import de.paxii.clarinet.util.settings.type.ClientSettingString;
 import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,18 +34,25 @@ public class ClientClickableGui extends GuiScreen {
 		this.panelManager = new GuiPanelManager();
 
 		Wrapper.getEventManager().register(this);
-
-		this.loadThemes();
 	}
 
 	@EventHandler
 	private void onModulesLoad(PostLoadModulesEvent event) {
+		this.loadThemes();
 		this.loadPanels();
 	}
 
 	public void loadThemes() {
 		this.panelThemes.add(new DefaultClientTheme());
-		this.setCurrentTheme(this.panelThemes.get(0));
+		this.panelThemes.add(new Matix2HDTheme());
+
+		IClientTheme clientTheme = this.getTheme(ClientSettings.getValue("client.guitheme", String.class));
+
+		if (clientTheme != null) {
+			this.setCurrentTheme(clientTheme);
+		} else {
+			this.setCurrentTheme(this.panelThemes.get(0));
+		}
 	}
 
 	public void setCurrentTheme(IClientTheme clientTheme) {
@@ -60,11 +68,7 @@ public class ClientClickableGui extends GuiScreen {
 		}
 
 		this.currentTheme = clientTheme;
-		ClientSettings
-				.getClientSettings()
-				.put("client.guitheme",
-						(new ClientSetting("client.guitheme", this
-								.getCurrentTheme().getName())));
+		ClientSettings.put(new ClientSettingString("client.guitheme", this.getCurrentTheme().getName()));
 	}
 
 	public void loadPanels() {
