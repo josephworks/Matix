@@ -76,19 +76,6 @@ public class DefaultClientTheme implements IClientTheme {
 			Wrapper.getFontRenderer().drawString(guiPanel.getPanelName(),
 					guiPanel.getPanelX() + 4, guiPanel.getPanelY() + 2,
 					this.currentColor.getTextColor());
-
-			int index = 17;
-
-			for (PanelElement panelElement : guiPanel.getPanelElements()) {
-				if (panelElement instanceof PanelButton) {
-					panelElement.setElementHeight(12);
-					panelElement.setElementYOffset(0);
-				}
-
-				panelElement.drawElement(guiPanel.getPanelX() + 5,
-						guiPanel.getPanelY() + index, mouseX, mouseY);
-				index += panelElement.getElementHeight();
-			}
 		} else {
 			GuiMethods.drawRoundedRect(guiPanel.getPanelX(),
 					guiPanel.getPanelY(),

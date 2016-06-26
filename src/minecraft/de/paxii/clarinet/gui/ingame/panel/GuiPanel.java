@@ -2,6 +2,7 @@ package de.paxii.clarinet.gui.ingame.panel;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -69,6 +70,20 @@ public class GuiPanel {
 		}
 
 		Wrapper.getClickableGui().getCurrentTheme().drawPanel(this, mouseX, mouseY);
+
+		if (this.isOpened()) {
+			int index = 17;
+
+			for (PanelElement panelElement : this.getPanelElements()) {
+				if (panelElement instanceof PanelButton) {
+					panelElement.setElementHeight(12);
+					panelElement.setElementYOffset(0);
+				}
+
+				panelElement.drawElement(this.getPanelX() + 5, this.getPanelY() + index, mouseX, mouseY);
+				index += panelElement.getElementHeight();
+			}
+		}
 	}
 
 	public void mouseClicked(int mouseX, int mouseY, int buttonClicked) {
