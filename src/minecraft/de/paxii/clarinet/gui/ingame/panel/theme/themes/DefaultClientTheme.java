@@ -4,7 +4,7 @@ import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
-import de.paxii.clarinet.gui.ingame.panel.theme.ClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;
 import de.paxii.clarinet.util.module.settings.ValueBase;
@@ -20,7 +20,7 @@ import org.lwjgl.opengl.GL11;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class DefaultClientTheme extends ClientTheme {
+public class DefaultClientTheme implements IClientTheme {
 	@Getter
 	private ArrayList<DefaultThemeColorObject> colorObjects;
 
@@ -179,7 +179,7 @@ public class DefaultClientTheme extends ClientTheme {
 						+ format.format(valueBase.getValue()), sliderX,
 				sliderY, this.currentColor.getTextColor());
 
-		super.drawSlider(valueBase, sliderX, sliderY, sliderWidth,
+		IClientTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth,
 				sliderHeight, dragX, shouldRound);
 	}
 

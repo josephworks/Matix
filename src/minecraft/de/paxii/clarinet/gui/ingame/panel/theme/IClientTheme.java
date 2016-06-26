@@ -16,5 +16,10 @@ public interface IClientTheme {
 
 	void drawColorButton(String colorName, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered);
 
-	void drawSlider(ValueBase valueBase, int sliderX, int sliderY, int sliderWidth, int sliderHeight, float dragX, boolean shouldRound);
+	default void drawSlider(ValueBase valueBase, int sliderX, int sliderY, int sliderWidth, int sliderHeight, float dragX, boolean shouldRound) {
+		float max = valueBase.getMax();
+		float min = valueBase.getMin();
+		float fraction = sliderWidth / (max - min);
+		valueBase.setValue(shouldRound ? (int) (dragX / fraction) + min : (dragX / fraction) + min);
+	}
 }
