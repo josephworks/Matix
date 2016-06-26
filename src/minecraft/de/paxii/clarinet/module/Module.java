@@ -4,7 +4,6 @@ import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSetting;
-import de.paxii.clarinet.util.settings.ClientSettings;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

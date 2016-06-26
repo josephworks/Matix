@@ -2,8 +2,6 @@ package de.paxii.clarinet.gui.ingame.panel.theme.themes;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
-import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
-import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
 import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;

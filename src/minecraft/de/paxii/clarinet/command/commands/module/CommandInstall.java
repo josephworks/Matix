@@ -3,10 +3,7 @@ package de.paxii.clarinet.command.commands.module;
 import de.paxii.clarinet.command.AClientCommand;
 import de.paxii.clarinet.command.CommandCategory;
 import de.paxii.clarinet.util.chat.Chat;
-import de.paxii.clarinet.util.module.store.ModuleEntry;
 import de.paxii.clarinet.util.module.store.ModuleStore;
-
-import java.util.Map;
 
 /**
  * Created by Lars on 07.02.2016.

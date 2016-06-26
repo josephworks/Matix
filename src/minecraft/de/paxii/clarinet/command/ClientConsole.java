@@ -10,7 +10,6 @@ import de.paxii.clarinet.gui.menu.chat.GuiChatConsole;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.settings.ClientSettings;
-import de.paxii.clarinet.util.settings.type.ClientSettingString;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiSleepMP;

@@ -1,6 +1,5 @@
 package de.paxii.clarinet.gui.menu.store.module;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;

@@ -1,6 +1,7 @@
 package de.paxii.clarinet.util.module.settings;
 
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;

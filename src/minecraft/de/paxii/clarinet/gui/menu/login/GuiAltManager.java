@@ -9,7 +9,6 @@ import de.paxii.clarinet.gui.menu.hooks.GuiMainMenuHook;
 import de.paxii.clarinet.util.alt.AltContainer;
 import de.paxii.clarinet.util.login.YggdrasilLoginBridge;
 import de.paxii.clarinet.util.settings.ClientSettings;
-import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 import lombok.Getter;
 import lombok.Setter;

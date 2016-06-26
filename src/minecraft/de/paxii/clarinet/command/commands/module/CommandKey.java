@@ -6,7 +6,6 @@ import de.paxii.clarinet.command.CommandCategory;
 import de.paxii.clarinet.gui.menu.controls.GuiKeybinds;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
-import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;

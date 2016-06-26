@@ -9,7 +9,6 @@ import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
-import de.paxii.clarinet.util.settings.type.ClientSettingString;
 import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 import lombok.Getter;
 import org.lwjgl.input.Keyboard;

@@ -1,7 +1,6 @@
 package de.paxii.clarinet.util.update;
 
 import de.paxii.clarinet.Client;
-import de.paxii.clarinet.util.module.store.ModuleStore;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.threads.ThreadChain;
 import de.paxii.clarinet.util.web.JsonFetcher;

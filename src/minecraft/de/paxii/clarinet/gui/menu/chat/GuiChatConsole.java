@@ -4,8 +4,6 @@ import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.command.AClientCommand;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.settings.ClientSettings;
-import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
-import de.paxii.clarinet.util.settings.type.ClientSettingString;
 import net.minecraft.client.gui.GuiChat;
 
 import java.util.Map;
