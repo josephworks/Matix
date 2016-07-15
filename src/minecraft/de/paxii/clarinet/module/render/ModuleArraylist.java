@@ -5,9 +5,8 @@ import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.game.IngameTickEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-
-import java.util.Map.Entry;
 
 public class ModuleArraylist extends Module {
 	public ModuleArraylist() {
@@ -30,21 +29,23 @@ public class ModuleArraylist extends Module {
 		}
 
 		ScaledResolution scaledResolution = Wrapper.getScaledResolution();
+		FontRenderer fontRenderer = Wrapper.getFontRenderer();
 		int indexY = 2;
-		for (Entry<String, Module> moduleEntry : Wrapper.getModuleManager()
-				.getModuleList().entrySet()) {
-			Module module = moduleEntry.getValue();
 
-			if (module.isEnabled() && module.isDisplayedInGui() && !module.getName().equals(this.getName())) {
-				Wrapper.getFontRenderer().drawStringWithShadow(
-						module.getName(),
-						(scaledResolution.getScaledWidth()
-								- Wrapper.getFontRenderer().getStringWidth(
-								module.getName())) - 2, indexY,
-						module.getCategory().getColor());
+		Module[] sortedModules = Wrapper.getModuleManager().getModuleList().values().stream()
+				.sorted((module, otherModule) -> Integer.compare(fontRenderer.getStringWidth(otherModule.getName()), fontRenderer.getStringWidth(module.getName())))
+				.filter((module) -> module.isEnabled() && module.isDisplayedInGui() && module != this)
+				.toArray((value) -> new Module[value]);
 
-				indexY += 10;
-			}
+		for (Module module : sortedModules) {
+			fontRenderer.drawStringWithShadow(
+					module.getName(),
+					(scaledResolution.getScaledWidth() - fontRenderer.getStringWidth(module.getName())) - 2,
+					indexY,
+					module.getCategory().getColor()
+			);
+
+			indexY += 10;
 		}
 	}
 
