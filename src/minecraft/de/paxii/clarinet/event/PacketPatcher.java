@@ -30,7 +30,6 @@ public class PacketPatcher {
 		if (isShouldFilter()) {
 			for (Class blockedPacket : filterList) {
 				if (packetIn.getClass() == blockedPacket) {
-					System.out.println("Found " + packetIn.getClass().getName() + ", Packet blocked.");
 					packetOut = null;
 
 					return packetOut;
@@ -47,7 +46,6 @@ public class PacketPatcher {
 			String bypassPrefix = "_PASS_";
 
 			if (tempPacket.getMessage().startsWith(bypassPrefix)) {
-
 				String chatMessage = tempPacket.getMessage().substring(bypassPrefix.length());
 				packetOut = new CPacketChatMessage(chatMessage);
 			} else {
