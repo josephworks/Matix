@@ -30,9 +30,7 @@ public class PacketPatcher {
 		if (isShouldFilter()) {
 			for (Class blockedPacket : filterList) {
 				if (packetIn.getClass() == blockedPacket) {
-					packetOut = null;
-
-					return packetOut;
+					return null;
 				}
 			}
 		}
