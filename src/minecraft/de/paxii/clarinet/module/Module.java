@@ -20,7 +20,7 @@ public class Module implements Comparable<Module> {
 	private int key;
 	@Getter
 	@Setter
-	private String syntax, description;
+	private String syntax = "", description = "";
 	@Getter
 	@Setter
 	private String helpUrl;
