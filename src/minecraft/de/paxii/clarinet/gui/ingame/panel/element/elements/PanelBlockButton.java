@@ -35,8 +35,6 @@ public class PanelBlockButton extends PanelElement {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int clickedButton) {
 		if (this.isMouseOverButton(mouseX, mouseY)) {
-			System.out.println("Clicked " + this.iBlockState.getBlock().getLocalizedName() + ", fullBlock: " + this.iBlockState.isFullBlock() + ", " + this.iBlockState.isTranslucent());
-
 			int blockID = Block.getIdFromBlock(this.iBlockState.getBlock());
 
 			if (ModuleXray.getBlockList().contains(blockID)) {
