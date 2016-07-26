@@ -37,7 +37,7 @@ public class CommandFriend extends AClientCommand {
 							colorString = colorString.substring(2);
 
 						friendColor = Integer.parseInt(colorString, 16);
-					} catch (Exception x) {
+					} catch (Exception ignored) {
 					}
 
 					if (friendColor != -1) {

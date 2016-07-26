@@ -12,7 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.input.Mouse;
 
 public class ModuleMiddleClickFriends extends Module {
-	private TimeManager timeManager;
+	private final TimeManager timeManager;
 
 	public ModuleMiddleClickFriends() {
 		super("MiddleClick", ModuleCategory.PLAYER, -1);

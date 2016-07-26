@@ -11,7 +11,7 @@ public class PanelColorButton extends PanelElement {
 		this.colorObject = colorObject;
 	}
 
-	private DefaultClientTheme.DefaultThemeColorObject colorObject;
+	private final DefaultClientTheme.DefaultThemeColorObject colorObject;
 
 	@Override
 	public void drawElement(int elementX, int elementY, int mouseX, int mouseY) {

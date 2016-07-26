@@ -5,7 +5,7 @@ import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.module.Module;
 
 public class PanelButton extends PanelElement {
-	private Module module;
+	private final Module module;
 
 	public PanelButton(Module module) {
 		super(90, 12);

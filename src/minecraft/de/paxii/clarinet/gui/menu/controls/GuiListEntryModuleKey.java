@@ -10,7 +10,7 @@ import org.lwjgl.input.Keyboard;
 public class GuiListEntryModuleKey implements GuiListExtended.IGuiListEntry {
 	@Getter
 	private Module module;
-	private GuiScreen parentScreen;
+	private final GuiScreen parentScreen;
 
 	private int x, y, width, height;
 
@@ -47,7 +47,7 @@ public class GuiListEntryModuleKey implements GuiListExtended.IGuiListEntry {
 			}
 		}
 
-		if (guiKeybinds.isShouldListen() && guiKeybinds.getPressedButton() != null && guiKeybinds.getPressedButton().getModule().getName() == this.getModule().getName()) {
+		if (guiKeybinds.isShouldListen() && guiKeybinds.getPressedButton() != null && guiKeybinds.getPressedButton().getModule().getName().equals(this.getModule().getName())) {
 			keyString = "Press a key";
 			Wrapper.getFontRenderer().drawString(keyString, x + listWidth - Wrapper.getFontRenderer().getStringWidth(keyString), y + 5, 0xF7E700);
 		} else {
@@ -70,11 +70,5 @@ public class GuiListEntryModuleKey implements GuiListExtended.IGuiListEntry {
 	}
 
 	@Override
-	public void mouseReleased(int mouseX, int mouseY, int var3, int var4, int var5,
-	                          int var6) {
-		if ((mouseX >= this.x && mouseX <= this.x + this.width) && (mouseY >= this.y && mouseY <= this.y + this.height)) {
-
-		}
-
-	}
+	public void mouseReleased(int mouseX, int mouseY, int var3, int var4, int var5, int var6) {}
 }

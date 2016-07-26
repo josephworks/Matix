@@ -2,7 +2,7 @@ package de.paxii.clarinet.event;
 
 import java.lang.reflect.Method;
 
-public class MethodData {
+class MethodData {
 	private final Object source;
 	private final Method target;
 	private final int priority;

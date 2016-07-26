@@ -12,7 +12,7 @@ public class Notification {
 	private NotificationPriority priority;
 	@Getter
 	private long time;
-	private long initialTime;
+	private final long initialTime;
 
 	public Notification(String text) {
 		this(text, NotificationPriority.NORMAL, 3000);

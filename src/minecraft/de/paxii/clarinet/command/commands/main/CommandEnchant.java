@@ -35,7 +35,7 @@ public class CommandEnchant extends AClientCommand {
 
 					try {
 						currentItem.addEnchantment(enchantment, 127);
-					} catch (Exception e) {
+					} catch (Exception ignored) {
 					}
 				}
 

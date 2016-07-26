@@ -19,7 +19,7 @@ public class ModuleStep extends Module {
 		this.setDescription("Allows you to step up full blocks.");
 	}
 
-	private AtomicBoolean canPacket = new AtomicBoolean();
+	private final AtomicBoolean canPacket = new AtomicBoolean();
 
 	@Override
 	public void onEnable() {

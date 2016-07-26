@@ -21,8 +21,8 @@ public class CommandSay extends AClientCommand {
 		if (args.length > 0) {
 			StringBuilder stringBuilder = new StringBuilder();
 
-			for (int i = 0; i < args.length; i++) {
-				stringBuilder.append(args[i]).append(" ");
+			for (String arg : args) {
+				stringBuilder.append(arg).append(" ");
 			}
 
 			String chatMessage = stringBuilder.toString().trim();

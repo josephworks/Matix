@@ -10,7 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 
 public class ModuleAntiFall extends Module {
-	private TimeManager timeManager;
+	private final TimeManager timeManager;
 	private BlockPos savedPosition;
 
 	public ModuleAntiFall() {
@@ -57,7 +57,7 @@ public class ModuleAntiFall extends Module {
 					(int) Wrapper.getPlayer().posX,
 					(int) Wrapper.getPlayer().posY - i,
 					(int) Wrapper.getPlayer().posZ);
-			if (block.getIdFromBlock(block) != 0) {
+			if (Block.getIdFromBlock(block) != 0) {
 				return true;
 			}
 		}

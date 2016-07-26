@@ -14,8 +14,8 @@ import net.minecraft.util.EnumHand;
 import java.util.Random;
 
 public class ModuleRotationDerp extends Module {
-	private TimeManager timeManager;
-	private Random random;
+	private final TimeManager timeManager;
+	private final Random random;
 
 	public ModuleRotationDerp() {
 		super("RotationDerp", ModuleCategory.PLAYER, -1);
@@ -38,7 +38,7 @@ public class ModuleRotationDerp extends Module {
 		if (Wrapper.getPlayer().getHeldItem(EnumHand.MAIN_HAND) != null) {
 			ItemStack it = Wrapper.getPlayer().getHeldItem(EnumHand.MAIN_HAND);
 
-			if (it.getItem() instanceof ItemBow) {
+			if (it != null && it.getItem() instanceof ItemBow) {
 				return;
 			}
 		}

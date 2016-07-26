@@ -16,7 +16,7 @@ public class ValueBase implements Comparable<ValueBase> {
 	@Setter
 	private boolean shouldRound;
 	@Getter
-	private static ArrayList<ValueBase> valueList = new ArrayList<ValueBase>();
+	private static ArrayList<ValueBase> valueList = new ArrayList<>();
 
 	public ValueBase(String name, float current, float min, float max) {
 		this(name, current, min, max, false);

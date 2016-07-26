@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * Created by Lars on 26.05.2016.
  */
 public class NotificationRenderer {
-	private NotificationManager notificationManager;
-	private ArrayList<Notification> oldNotifications;
+	private final NotificationManager notificationManager;
+	private final ArrayList<Notification> oldNotifications;
 
 	public NotificationRenderer(NotificationManager notificationManager) {
 		this.notificationManager = notificationManager;

@@ -11,16 +11,14 @@ import net.minecraft.client.gui.GuiTextField;
 import java.io.IOException;
 
 public class GuiDirectLogin extends GuiScreen {
-	private GuiScreen parentScreen;
+	private final GuiScreen parentScreen;
 
 	private GuiTextField userNameField;
 	private GuiPasswordField passwordField;
 
 	private String errorMessage;
 	private boolean displayError;
-	private TimeManager timeManager;
-
-	private AltObject altObject;
+	private final TimeManager timeManager;
 
 	public GuiDirectLogin(GuiScreen parentScreen) {
 		this.parentScreen = parentScreen;
@@ -101,9 +99,9 @@ public class GuiDirectLogin extends GuiScreen {
 			} else {
 				this.displayError = false;
 
-				this.altObject = new AltObject(userName.contains("@") ? "" : userName, userName.contains("@") ? userName : "", password);
+				AltObject altObject = new AltObject(userName.contains("@") ? "" : userName, userName.contains("@") ? userName : "", password);
 
-				if (YggdrasilLoginBridge.loginWithAlt(this.altObject) != null) {
+				if (YggdrasilLoginBridge.loginWithAlt(altObject) != null) {
 					Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
 				}
 			}
@@ -117,10 +115,5 @@ public class GuiDirectLogin extends GuiScreen {
 		this.passwordField.mouseClicked(mouseX, mouseY, mouseButton);
 
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-	}
-
-	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-		super.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 }

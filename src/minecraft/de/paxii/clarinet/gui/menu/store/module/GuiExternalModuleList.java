@@ -12,20 +12,23 @@ import java.util.Map;
  * Created by Lars on 07.02.2016.
  */
 public class GuiExternalModuleList extends GuiListExtended {
-	private GuiListExtended.IGuiListEntry[] keyEntries;
+	private final GuiListExtended.IGuiListEntry[] keyEntries;
 
 	public GuiExternalModuleList(GuiScreen parentScreen) {
-		super(Wrapper.getMinecraft(), Wrapper.getScaledResolution()
-				.getScaledWidth(), Wrapper.getScaledResolution()
-				.getScaledHeight(), 63, Wrapper.getScaledResolution()
-				.getScaledHeight() - 32, 20);
+		super(
+				Wrapper.getMinecraft(),
+				Wrapper.getScaledResolution().getScaledWidth(),
+				Wrapper.getScaledResolution().getScaledHeight(),
+				63,
+				Wrapper.getScaledResolution().getScaledHeight() - 32,
+				20
+		);
 		this.keyEntries = new GuiListExtended.IGuiListEntry[ModuleStore.listModules().size()];
 
 		int index = 0;
 
 		for (Map.Entry<String, ModuleEntry> moduleEntry : ModuleStore.listModules().entrySet()) {
 			this.keyEntries[index] = new GuiListEntryExternalModule(moduleEntry.getValue(), parentScreen);
-
 			index++;
 		}
 
@@ -33,8 +36,8 @@ public class GuiExternalModuleList extends GuiListExtended {
 	}
 
 	@Override
-	public IGuiListEntry getListEntry(int var1) {
-		return this.keyEntries[var1];
+	public IGuiListEntry getListEntry(int index) {
+		return this.keyEntries[index];
 	}
 
 	@Override

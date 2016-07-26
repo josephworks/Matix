@@ -35,7 +35,7 @@ public class ModuleArraylist extends Module {
 		Module[] sortedModules = Wrapper.getModuleManager().getModuleList().values().stream()
 				.sorted((module, otherModule) -> Integer.compare(fontRenderer.getStringWidth(otherModule.getName()), fontRenderer.getStringWidth(module.getName())))
 				.filter((module) -> module.isEnabled() && module.isDisplayedInGui() && module != this)
-				.toArray((value) -> new Module[value]);
+				.toArray(Module[]::new);
 
 		for (Module module : sortedModules) {
 			fontRenderer.drawStringWithShadow(

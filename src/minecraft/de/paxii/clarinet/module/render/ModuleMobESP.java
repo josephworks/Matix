@@ -56,8 +56,6 @@ public class ModuleMobESP extends Module {
 			GlStateManager.disableBlend();
 			GL11.glLineWidth(1.0F);
 
-			int boxColor = 0xFF00FF;
-
 			AxisAlignedBB var11 = entityIn.getEntityBoundingBox();
 			AxisAlignedBB var12 = new AxisAlignedBB(var11.minX - entityIn.posX
 					+ x - 0.2D, var11.minY - entityIn.posY + y, var11.minZ

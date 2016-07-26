@@ -26,7 +26,7 @@ public class ClientClickableGui extends GuiScreen {
 	@Getter
 	private ConcurrentArrayList<IClientTheme> panelThemes;
 
-	private GuiPanelManager panelManager;
+	private final GuiPanelManager panelManager;
 
 	public ClientClickableGui() {
 		this.guiPanels = new ConcurrentArrayList<>();
@@ -42,7 +42,7 @@ public class ClientClickableGui extends GuiScreen {
 		this.loadPanels();
 	}
 
-	public void loadThemes() {
+	private void loadThemes() {
 		this.panelThemes.add(new DefaultClientTheme());
 		this.panelThemes.add(new Matix2HDTheme());
 

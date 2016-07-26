@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiAltListEntry implements GuiListExtended.IGuiListEntry {
-	private GuiScreen parentScreen;
+	private final GuiScreen parentScreen;
 	@Getter
 	private AltObject alt;
 

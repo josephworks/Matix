@@ -51,7 +51,7 @@ public class GuiPanel {
 	public void addElements() {
 	}
 
-	public int calculateHeight() {
+	private int calculateHeight() {
 		int height = 20;
 
 		for (PanelElement panelElement : this.getPanelElements()) {

@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiScreen;
 public class GuiListEntryExternalModule implements GuiListExtended.IGuiListEntry {
 	@Getter
 	private ModuleEntry moduleEntry;
-	private GuiScreen parentScreen;
+	private final GuiScreen parentScreen;
 
 	private int x, y, width, height;
 
@@ -76,9 +76,5 @@ public class GuiListEntryExternalModule implements GuiListExtended.IGuiListEntry
 	}
 
 	@Override
-	public void mouseReleased(int mouseX, int mouseY, int var3, int var4, int var5, int var6) {
-		if ((mouseX >= this.x && mouseX <= this.x + this.width) && (mouseY >= this.y && mouseY <= this.y + this.height)) {
-
-		}
-	}
+	public void mouseReleased(int mouseX, int mouseY, int var3, int var4, int var5, int var6) {}
 }

@@ -52,11 +52,11 @@ public enum ChatColor {
 		}
 	}
 
-	private ChatColor(final String s, final int n, final char code, final int intCode) {
+	ChatColor(final String s, final int n, final char code, final int intCode) {
 		this(s, n, code, intCode, false);
 	}
 
-	private ChatColor(final String s, final int n, final char code, final int intCode, final boolean isFormat) {
+	ChatColor(final String s, final int n, final char code, final int intCode, final boolean isFormat) {
 		this.code = code;
 		this.intCode = intCode;
 		this.isFormat = isFormat;

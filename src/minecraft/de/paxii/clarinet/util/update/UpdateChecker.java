@@ -22,7 +22,7 @@ public class UpdateChecker {
 		this.checkForUpdates();
 	}
 
-	public void checkForUpdates() {
+	private void checkForUpdates() {
 		ThreadChain threadChain = new ThreadChain();
 
 		threadChain.chainThread(new Thread(() -> {
@@ -66,7 +66,7 @@ public class UpdateChecker {
 								}
 							}
 						}
-					} catch (IOException ioe) {
+					} catch (IOException ignored) {
 					}
 
 					Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;

@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import org.lwjgl.opengl.GL11;
 
 public class ModuleWorldEditESP extends Module {
-	private BlockPos[] blockPos = { null, null };
+	private final BlockPos[] blockPos = { null, null };
 
 	public ModuleWorldEditESP() {
 		super("WorldEditESP", ModuleCategory.RENDER, -1);
@@ -181,8 +181,7 @@ public class ModuleWorldEditESP extends Module {
 		double zz = ep.lastTickPosZ + (ep.posZ - ep.lastTickPosZ)
 				* Wrapper.getTimer().renderPartialTicks;
 
-		double x = 0.0D, y = 0.0D, z = 0.0D, x1 = 0.0D, y1 = 0.0D, z1 = 0.0D, x2 = 0.0D, y2 = 0.0D, z2 = 0.0D, widthX = 0.0D, bigY = 0.0D, smallY = 0.0D, heightY = 0.0D, widthZ = 0.0D;
-		boolean ba, bb, bc, duckFuck;
+		double x = 0.0D, y = 0.0D, z = 0.0D, x1 = 0.0D, y1 = 0.0D, z1 = 0.0D, x2 = 0.0D, y2 = 0.0D, z2 = 0.0D, widthX = 0.0D, heightY = 1.0D, widthZ = 0.0D;
 
 		if (block1 != null && block2 != null) {
 			x = getSmaller(block1.getX(), block2.getX()) - xx;
@@ -191,33 +190,12 @@ public class ModuleWorldEditESP extends Module {
 
 			widthX = getBigger(block1.getX(), block2.getX())
 					- getSmaller(block1.getX(), block2.getX());
-			bigY = getBigger(block1.getY(), block2.getY());
-			smallY = getSmaller(block1.getY(), block2.getY());
-			duckFuck = false;
-			if (bigY == (smallY + 1)) {
-				duckFuck = true;
-				smallY -= 1;
-			}
 
-			heightY = bigY - smallY;
-			if (heightY == 0)
-				heightY = 1;
 			widthZ = getBigger(block1.getZ(), block2.getZ())
 					- getSmaller(block1.getZ(), block2.getZ());
 
-			ba = widthX > x;
-			bb = heightY > y;
-			bc = widthZ > z;
-
 			widthZ += 1;
 			widthX += 1;
-
-			if (!duckFuck) {
-				if (heightY != 1 && heightY > 0)
-					heightY += 1;
-				if (heightY != -1 && heightY < 0)
-					heightY -= 1;
-			}
 		}
 
 		if (block1 != null) {
@@ -288,7 +266,7 @@ public class ModuleWorldEditESP extends Module {
 	private enum SelectionDir {
 		NORTH("NORTH"), SOUTH("SOUTH"), EAST("EAST"), WEST("WEST"), UP("UP"), DOWN("DOWN");
 
-		private String selectionName;
+		private final String selectionName;
 
 		SelectionDir(String selectionName) {
 			this.selectionName = selectionName;

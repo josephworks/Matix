@@ -6,7 +6,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 
 public class PlayerAttackEntityEvent extends EventCancellable {
-	private EntityPlayer sourceEntity;
+	private final EntityPlayer sourceEntity;
 	private Entity targetEntity;
 
 	public PlayerAttackEntityEvent(EntityPlayer sourceEntity, Entity targetEntity) {

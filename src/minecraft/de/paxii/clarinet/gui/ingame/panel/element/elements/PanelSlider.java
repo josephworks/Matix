@@ -26,7 +26,7 @@ public class PanelSlider extends PanelElement {
 		setValue(sliderValue.getValue());
 	}
 
-	public void dragSlider(int mouseX) {
+	private void dragSlider(int mouseX) {
 		dragX = mouseX - lastDragX;
 	}
 

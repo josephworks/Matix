@@ -17,12 +17,12 @@ import net.minecraft.util.EnumHand;
 import org.lwjgl.input.Keyboard;
 
 public class ModuleKillaura extends Module {
-	private AuraManager auraManager;
-	private EntityManager entityManager;
-	private TimeManager timeManager;
+	private final AuraManager auraManager;
+	private final EntityManager entityManager;
+	private final TimeManager timeManager;
 	private EntityLivingBase target;
 
-	private ValueBase valueRandomness;
+	private final ValueBase valueRandomness;
 
 	public ModuleKillaura() {
 		super("KillAura", ModuleCategory.COMBAT, Keyboard.KEY_F);

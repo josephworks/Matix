@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Lars on 05.06.2016.
  */
 public class ThreadChain {
-	private ArrayList<Thread> threadList;
+	private final ArrayList<Thread> threadList;
 
 	public ThreadChain() {
 		this.threadList = new ArrayList<>();

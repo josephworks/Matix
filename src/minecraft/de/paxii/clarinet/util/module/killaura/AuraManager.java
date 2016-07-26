@@ -17,25 +17,25 @@ import java.util.Map;
 import java.util.Random;
 
 public class AuraManager {
-	private Module module;
+	private final Module module;
 
-	private ValueBase valueRange;
-	private ValueBase valueDelay;
-	private ValueBase valueAngle;
+	private final ValueBase valueRange;
+	private final ValueBase valueDelay;
+	private final ValueBase valueAngle;
 
 	@Getter
 	@Setter
 	private boolean silent = true, mob = true, animal = false, player = true, legit = true, invisible = false, autoSpeed = false;
 
-	private TimeManager timeManager;
+	private final TimeManager timeManager;
 
-	private ArrayList<Float> pitchMap;
-	private ArrayList<Float> yawMap;
+	private final ArrayList<Float> pitchMap;
+	private final ArrayList<Float> yawMap;
 
 	private Map<Integer, Long> attackMap;
-	private CameraObject cameraObject;
+	private final CameraObject cameraObject;
 
-	private Random random;
+	private final Random random;
 
 	public AuraManager(Module module) {
 		this.module = module;

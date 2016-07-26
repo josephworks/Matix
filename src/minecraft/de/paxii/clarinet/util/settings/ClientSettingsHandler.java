@@ -17,9 +17,7 @@ public class ClientSettingsHandler {
 	public ClientSettingsHandler() {
 		Wrapper.getEventManager().register(this);
 
-		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-			EventManager.call(new StopGameEvent());
-		}));
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> EventManager.call(new StopGameEvent())));
 	}
 
 	@EventHandler

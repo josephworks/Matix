@@ -16,9 +16,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumHand;
 
 public class ModuleClickAimbot extends Module {
-	private AuraManager auraManager;
-	private TimeManager timeManager;
-	private EntityManager entityManager;
+	private final AuraManager auraManager;
+	private final TimeManager timeManager;
+	private final EntityManager entityManager;
 	private EntityLivingBase target;
 
 	public ModuleClickAimbot() {

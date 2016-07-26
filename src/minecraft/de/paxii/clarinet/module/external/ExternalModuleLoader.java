@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.ServiceLoader;
 
 public class ExternalModuleLoader {
-	private File moduleFolder;
+	private final File moduleFolder;
 
 	public ExternalModuleLoader() {
 		this.moduleFolder = new File((ClientSettings.getClientFolderPath().getValue() + "/modules"));
@@ -45,19 +45,19 @@ public class ExternalModuleLoader {
 		}).start();
 	}
 
-	public File[] getModuleJars() {
+	private File[] getModuleJars() {
 		ArrayList<File> moduleJars = new ArrayList<>();
 		moduleJars.addAll(Arrays.asList(this.moduleFolder.listFiles((f) -> f.getName().endsWith(".jar"))));
 		return moduleJars.toArray(new File[moduleJars.size()]);
 	}
 
-	public void loadModuleJars(File[] moduleJars) {
+	private void loadModuleJars(File[] moduleJars) {
 		for (File moduleFile : moduleJars) {
 			this.addToClassPath(moduleFile);
 		}
 	}
 
-	public Module[] loadExternalModules() {
+	private Module[] loadExternalModules() {
 		ArrayList<Module> moduleList = new ArrayList<>();
 
 		try {

@@ -53,7 +53,7 @@ public class GuiPasswordField extends GuiTextField {
 			}
 
 			if (var4.length() > 0 && var5 && var2 < var4.length()) {
-				var9 = this.fontRendererInstance.drawStringWithShadow(var4.substring(var2), var9, var8, var1);
+				this.fontRendererInstance.drawStringWithShadow(var4.substring(var2), var9, var8, var1);
 			}
 
 			if (var6) {

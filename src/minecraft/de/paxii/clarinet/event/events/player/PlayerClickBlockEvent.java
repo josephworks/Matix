@@ -6,8 +6,8 @@ import net.minecraft.util.math.BlockPos;
 
 
 public class PlayerClickBlockEvent extends EventCancellable {
-	private BlockPos blockPos;
-	private EnumFacing enumFacing;
+	private final BlockPos blockPos;
+	private final EnumFacing enumFacing;
 
 	public PlayerClickBlockEvent(BlockPos blockPos, EnumFacing enumFacing) {
 		this.blockPos = blockPos;

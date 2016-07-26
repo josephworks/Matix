@@ -570,10 +570,6 @@ public class GuiMethods extends Gui {
 		GL11.glRotatef(-180F, 0.0F, 0.0F, 1.0F);
 	}
 
-	public static int ConvertRGB(int r, int g, int b) {
-		return (0xFF << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8) | ((b & 0xFF));
-	}
-
 	public static void drawFlagTri(int i, int j, int k) {
 		float f = (float) (k >> 24 & 0xff) / 255F;
 		float f1 = (float) (k >> 16 & 0xff) / 255F;

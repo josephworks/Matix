@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.Random;
 
 public class TimeManager {
-	private Random utilRandom;
+	private final Random utilRandom;
 	private int currentRandomness;
 
 	@Getter

@@ -20,9 +20,9 @@ import java.io.*;
 import java.util.Collections;
 
 public class GuiAltManager extends GuiScreen {
-	private GuiScreen parentScreen;
-	private GuiMainMenuHook mainMenuHook;
-	private File altFile;
+	private final GuiScreen parentScreen;
+	private final GuiMainMenuHook mainMenuHook;
+	private final File altFile;
 	private GuiAltList guiAltList;
 	@Getter
 	@Setter

@@ -33,8 +33,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Created by Lars on 07.02.2016.
  */
 public class ModuleStore {
-	private static String moduleUrl = Client.getClientURL() + "modules/files/%s/%s/%s.jar";
-	private static TreeMap<String, ModuleEntry> moduleList = new TreeMap<>();
+	private static final String moduleUrl = Client.getClientURL() + "modules/files/%s/%s/%s.jar";
+	private static final TreeMap<String, ModuleEntry> moduleList = new TreeMap<>();
 	@Getter
 	private static ArrayList<String> modulesToDelete = new ArrayList<>();
 
@@ -44,7 +44,7 @@ public class ModuleStore {
 		this.removeModules();
 	}
 
-	public void removeModules() {
+	private void removeModules() {
 		File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
 
 		if (modulesToDelete.exists()) {

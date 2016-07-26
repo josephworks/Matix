@@ -10,7 +10,7 @@ import lombok.Getter;
 public class NotificationManager {
 	@Getter
 	private ConcurrentArrayList<Notification> notifications;
-	private NotificationRenderer notificationRenderer;
+	private final NotificationRenderer notificationRenderer;
 
 	public NotificationManager() {
 		this.notifications = new ConcurrentArrayList<>();

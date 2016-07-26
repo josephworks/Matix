@@ -10,9 +10,9 @@ import net.minecraft.client.gui.GuiScreen;
 import java.io.IOException;
 
 public class GuiKeybinds extends GuiScreen {
-	private GuiScreen parentScreen;
+	private final GuiScreen parentScreen;
 
-	private GuiKeybindsList keybindsList;
+	private final GuiKeybindsList keybindsList;
 
 	@Getter
 	@Setter

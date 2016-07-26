@@ -26,8 +26,8 @@ public class CommandToggle extends AClientCommand {
 			if (args.length == 1) {
 				moduleName = args[0];
 			} else {
-				for (int i = 0; i < args.length; i++) {
-					moduleName += args[i];
+				for (String arg : args) {
+					moduleName += arg;
 					moduleName += " ";
 				}
 			}

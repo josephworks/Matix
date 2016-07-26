@@ -7,6 +7,7 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 
 /**
  * Created by Lars on 06.03.2016.
@@ -25,8 +26,8 @@ public class ModuleElytra extends Module {
 
 	@EventHandler
 	public void onMovement(PlayerMoveEvent event) {
-		if (!event.getPlayer().onGround
-				&& event.getPlayer().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA
+		ItemStack chestItemstack = event.getPlayer().getItemStackFromSlot(EntityEquipmentSlot.CHEST);
+		if (!event.getPlayer().onGround && chestItemstack != null && chestItemstack.getItem() == Items.ELYTRA
 				&& Wrapper.getGameSettings().keyBindJump.isKeyDown()) {
 			event.setMotionY(event.getMotionY() + 0.05);
 		}

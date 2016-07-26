@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ModuleTriggerbot extends Module {
 	private RayTraceResult objectMouseOver;
-	private TimeManager timeManager;
+	private final TimeManager timeManager;
 
 	public ModuleTriggerbot() {
 		super("Triggerbot", ModuleCategory.COMBAT);
@@ -125,8 +125,7 @@ public class ModuleTriggerbot extends Module {
 
 			double d2 = d1;
 
-			for (int j = 0; j < list.size(); ++j) {
-				Entity entity1 = list.get(j);
+			for (Entity entity1 : list) {
 				AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz((double) entity1.getCollisionBorderSize());
 				RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 

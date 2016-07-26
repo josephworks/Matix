@@ -10,8 +10,8 @@ import java.io.UnsupportedEncodingException;
 public class StringEncryption {
 	private String encryptionKey;
 	private final String DEFAULT_ENCODING = "UTF-8";
-	private BASE64Encoder enc = new BASE64Encoder();
-	private BASE64Decoder dec = new BASE64Decoder();
+	private final BASE64Encoder enc = new BASE64Encoder();
+	private final BASE64Decoder dec = new BASE64Decoder();
 
 	public StringEncryption(String encryptionKey) {
 		this.encryptionKey = encryptionKey;
@@ -41,8 +41,7 @@ public class StringEncryption {
 
 	private String base64encode(String text) {
 		try {
-			String rez = enc.encode(text.getBytes(DEFAULT_ENCODING));
-			return rez;
+			return enc.encode(text.getBytes(DEFAULT_ENCODING));
 		} catch (UnsupportedEncodingException e) {
 			return null;
 		}
@@ -72,8 +71,6 @@ public class StringEncryption {
 				newmsg[i] = (char) (mesg[i] ^ keys[i % kl]);
 			}
 
-			mesg = null;
-			keys = null;
 			return new String(newmsg);
 		} catch (Exception e) {
 			return null;

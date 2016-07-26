@@ -25,7 +25,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ModuleBlockESP extends Module {
-	private ConcurrentHashMap<Integer, Integer> searchBlocks;
+	private final ConcurrentHashMap<Integer, Integer> searchBlocks;
 	private ConcurrentArrayList<SearchBlock> renderBlocks;
 	private BlockPos updatePosition;
 
@@ -187,7 +187,7 @@ public class ModuleBlockESP extends Module {
 		if (args.length > 0) {
 			if (args.length >= 2) {
 				String identifier = args[0];
-				int blockID = 0;
+				int blockID;
 				int blockColor = 0xFFFFFF;
 
 				try {

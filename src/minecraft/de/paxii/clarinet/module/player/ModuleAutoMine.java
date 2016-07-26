@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleAutoMine extends Module {
-	private ArrayList<Integer> blockList;
+	private final ArrayList<Integer> blockList;
 	private boolean clickFixed;
 	private Robot robot;
 
@@ -81,7 +81,7 @@ public class ModuleAutoMine extends Module {
 		if (args.length > 0) {
 			if (args.length >= 2) {
 				String identifier = args[0];
-				int blockID = 0;
+				int blockID;
 
 				try {
 					blockID = Integer.parseInt(args[1]);
@@ -164,7 +164,7 @@ public class ModuleAutoMine extends Module {
 	}
 
 
-	public float[] getAngles(final BlockPos blockPos) {
+	private float[] getAngles(final BlockPos blockPos) {
 		double difX = (blockPos.getX() + 0.5D) - Wrapper.getPlayer().posX, difY = (blockPos.getY() + 0.5D)
 				- (Wrapper.getPlayer().posY + Wrapper.getPlayer()
 				.getEyeHeight()), difZ = (blockPos.getZ() + 0.5D)

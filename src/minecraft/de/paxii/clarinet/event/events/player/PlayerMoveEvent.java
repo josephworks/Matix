@@ -2,11 +2,8 @@ package de.paxii.clarinet.event.events.player;
 
 import de.paxii.clarinet.event.events.type.EventCancellable;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import net.minecraft.client.entity.EntityPlayerSP;
 
-
-@EqualsAndHashCode(callSuper = false)
 @Data
 public class PlayerMoveEvent extends EventCancellable {
 	private EntityPlayerSP player;

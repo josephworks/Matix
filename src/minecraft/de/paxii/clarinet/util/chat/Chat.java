@@ -45,12 +45,12 @@ public class Chat {
 		}
 
 		Wrapper.getMinecraft().getIngameGUI().getChatGUI()
-				.printChatMessage(textComponent);
+		       .printChatMessage(textComponent);
 	}
 
 	public static void printChatComponent(ITextComponent textComponent) {
 		Wrapper.getMinecraft().getIngameGUI().getChatGUI()
-				.printChatMessage(textComponent);
+		       .printChatMessage(textComponent);
 	}
 
 	public static void printClientMessage(String chatMessage) {
@@ -71,7 +71,7 @@ public class Chat {
 		return null;
 	}
 
-	private static Style formatChatStyle(Style chatStyle, char formattingChar) {
+	private static void formatChatStyle(Style chatStyle, char formattingChar) {
 		switch (formattingChar) {
 			case 'k':
 				chatStyle.setObfuscated(true);
@@ -97,9 +97,8 @@ public class Chat {
 				chatStyle.setColor(TextFormatting.RESET);
 				break;
 			default:
-				chatStyle.setColor(Chat.getTextFormattingByValue(formattingChar));
+				TextFormatting textFormatting = Chat.getTextFormattingByValue(formattingChar);
+				chatStyle.setColor(textFormatting != null ? textFormatting : TextFormatting.RESET);
 		}
-
-		return chatStyle;
 	}
 }

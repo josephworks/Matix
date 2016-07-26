@@ -1,11 +1,11 @@
 package de.paxii.clarinet.util.chat.font;
 
-/**
- * Created by Lars on 26.06.2016.
- * <p>
- * This uses an updated Version of NahrFont
- *
- * @Credits Nahr
+/*
+  Created by Lars on 26.06.2016.
+  <p>
+  This uses an updated Version of NahrFont
+
+  @Credits Nahr
  */
 
 import de.paxii.clarinet.Wrapper;
@@ -29,13 +29,12 @@ public class TTF {
 	private Font theFont;
 	private Graphics2D theGraphics;
 	private FontMetrics theMetrics;
-	private float fontSize;
-	private int startChar;
-	private int endChar;
-	private float[] xPos;
-	private float[] yPos;
+	private final float fontSize;
+	private final int startChar;
+	private final int endChar;
+	private final float[] xPos;
+	private final float[] yPos;
 	private BufferedImage bufferedImage;
-	private DynamicTexture dynamicTexture;
 	private ResourceLocation resourceLocation;
 	private float extraSpacing = 0.0F;
 	private final Pattern patternControlCode = Pattern
@@ -73,7 +72,7 @@ public class TTF {
 				this.theFont = Font.createFont(0, (File) font).deriveFont(size);
 			else if ((font instanceof InputStream))
 				this.theFont = Font.createFont(0, (InputStream) font)
-						.deriveFont(size);
+				                   .deriveFont(size);
 			else if ((font instanceof String))
 				this.theFont = new Font((String) font, 0, Math.round(size));
 			else {
@@ -111,9 +110,7 @@ public class TTF {
 
 		this.resourceLocation = Wrapper
 				.getMinecraft().getTextureManager().getDynamicTextureLocation(
-						"font" + font.toString() + size,
-						this.dynamicTexture = new DynamicTexture(
-								this.bufferedImage));
+						"font" + font.toString() + size, new DynamicTexture(this.bufferedImage));
 	}
 
 	public void drawString(String text, int x, int y, int color) {
@@ -284,11 +281,8 @@ public class TTF {
 					}
 					break;
 				case ' ':
-					var6 = var5;
 				case '-':
-					var6 = var5;
 				case '_':
-					var6 = var5;
 				case ':':
 					var6 = var5;
 				default:
@@ -344,7 +338,7 @@ public class TTF {
 				|| (par0 == 'R');
 	}
 
-	public void drawTexturedModalRect(float x, float y, float textureX, float textureY, float width, float height) {
+	private void drawTexturedModalRect(float x, float y, float textureX, float textureY, float width, float height) {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -372,7 +366,7 @@ public class TTF {
 		return this.theFont;
 	}
 
-	public static enum FontType {
-		NORMAL, SHADOW_THICK, SHADOW_THIN, OUTLINE_THIN, EMBOSS_TOP, EMBOSS_BOTTOM;
+	public enum FontType {
+		NORMAL, SHADOW_THICK, SHADOW_THIN, OUTLINE_THIN, EMBOSS_TOP, EMBOSS_BOTTOM
 	}
 }

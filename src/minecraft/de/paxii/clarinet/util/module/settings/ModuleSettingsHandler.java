@@ -48,7 +48,7 @@ public class ModuleSettingsHandler {
 
 								module.setModuleSettings(moduleSettings.getModuleSettings());
 
-								/**
+								/*
 								 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
 								 * This converts settings stored as doubles to int if the value stays the same
 								 * Gson uses Doubles rather than Integers when guessing data types.

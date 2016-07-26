@@ -29,7 +29,7 @@ public class CommandHelp extends AClientCommand {
 	@Override
 	public void runCommand(String[] args) {
 		if (args.length == 0) {
-			TreeMap<String, Module> sortedModules = new TreeMap<String, Module>(Wrapper.getModuleManager().getModuleList());
+			TreeMap<String, Module> sortedModules = new TreeMap<>(Wrapper.getModuleManager().getModuleList());
 
 			Chat.printClientMessage("--------------------------------------------");
 			Chat.printClientMessage("Module commands:");
@@ -42,7 +42,7 @@ public class CommandHelp extends AClientCommand {
 				}
 			}
 
-			TreeMap<String, AClientCommand> sortedCommands = new TreeMap<String, AClientCommand>(Wrapper.getConsole().getCommandList());
+			TreeMap<String, AClientCommand> sortedCommands = new TreeMap<>(Wrapper.getConsole().getCommandList());
 
 			Chat.printClientMessage("--------------------------------------------");
 			Chat.printClientMessage("Commands:");

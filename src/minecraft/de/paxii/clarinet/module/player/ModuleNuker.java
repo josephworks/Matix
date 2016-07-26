@@ -12,7 +12,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 
 public class ModuleNuker extends Module {
-	private TimeManager timeManager;
+	private final TimeManager timeManager;
 
 	public ModuleNuker() {
 		super("Nuker", ModuleCategory.PLAYER);

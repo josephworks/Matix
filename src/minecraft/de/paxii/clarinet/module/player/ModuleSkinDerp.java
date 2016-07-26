@@ -10,7 +10,7 @@ import net.minecraft.entity.player.EnumPlayerModelParts;
 import java.util.Random;
 
 public class ModuleSkinDerp extends Module {
-	private Random random;
+	private final Random random;
 
 	public ModuleSkinDerp() {
 		super("SkinDerp", ModuleCategory.PLAYER);

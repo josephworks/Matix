@@ -10,7 +10,7 @@ import net.minecraft.client.gui.GuiTextField;
 import java.io.IOException;
 
 public class GuiAddAlt extends GuiScreen {
-	private GuiScreen parentScreen;
+	private final GuiScreen parentScreen;
 
 	private GuiTextField userNameField;
 	private GuiTextField emailField;
@@ -18,7 +18,7 @@ public class GuiAddAlt extends GuiScreen {
 
 	private String errorMessage;
 	private boolean displayError;
-	private TimeManager timeManager;
+	private final TimeManager timeManager;
 
 	public GuiAddAlt(GuiScreen parentScreen) {
 		this.parentScreen = parentScreen;
@@ -132,11 +132,5 @@ public class GuiAddAlt extends GuiScreen {
 		this.passwordField.mouseClicked(mouseX, mouseY, mouseButton);
 
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-	}
-
-	@Override
-	protected void mouseReleased(int mouseX, int mouseY, int mouseButton) {
-
-		super.mouseReleased(mouseX, mouseY, mouseButton);
 	}
 }

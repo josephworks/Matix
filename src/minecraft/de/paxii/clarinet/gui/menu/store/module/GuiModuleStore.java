@@ -18,7 +18,7 @@ import java.io.IOException;
  * Created by Lars on 07.02.2016.
  */
 public class GuiModuleStore extends GuiScreen {
-	private GuiScreen parentScreen;
+	private final GuiScreen parentScreen;
 
 	private GuiExternalModuleList externalModuleList;
 
@@ -44,9 +44,7 @@ public class GuiModuleStore extends GuiScreen {
 			ModuleStore.fetchModules();
 
 			threadChain.next();
-		})).chainThread(new Thread(() -> {
-			GuiModuleStore.this.externalModuleList = new GuiExternalModuleList(this);
-		})).kickOff();
+		})).chainThread(new Thread(() -> GuiModuleStore.this.externalModuleList = new GuiExternalModuleList(this))).kickOff();
 	}
 
 	@Override
