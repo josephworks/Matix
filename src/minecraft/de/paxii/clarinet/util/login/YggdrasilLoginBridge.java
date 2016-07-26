@@ -14,7 +14,6 @@ import java.util.UUID;
 
 public class YggdrasilLoginBridge {
 	public static Session loginWithPassword(String username, String password) {
-		Session session = null;
 		UserAuthentication auth = new YggdrasilUserAuthentication(
 				new YggdrasilAuthenticationService(Proxy.NO_PROXY, UUID
 						.randomUUID().toString()), Agent.MINECRAFT);
@@ -29,7 +28,7 @@ public class YggdrasilLoginBridge {
 
 			System.out.println(userName + "'s (UUID: '" + playerUUID.toString() + "') accessToken: " + accessToken);
 
-			session = new Session(userName, playerUUID.toString(), accessToken,
+			Session session = new Session(userName, playerUUID.toString(), accessToken,
 					username.contains("@") ? "mojang" : "legacy");
 
 			Wrapper.getMinecraft().setSession(session);
