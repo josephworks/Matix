@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.Scanner;
 
 /**
  * Created by Lars on 05.06.2016.
@@ -15,16 +16,16 @@ public class JsonFetcher {
 
 	public static <T> T fetchData(String endPoint, Type type) {
 		try {
-			BufferedReader br = new BufferedReader(new InputStreamReader(new URL(endPoint).openStream()));
-			String contents = "", line;
+			Scanner scanner = new Scanner(new InputStreamReader(new URL(endPoint).openStream()));
+			StringBuilder stringBuilder = new StringBuilder();
 
-			while ((line = br.readLine()) != null) {
-				contents += line;
+			while (scanner.hasNextLine()) {
+				stringBuilder.append(scanner.nextLine());
 			}
 
-			br.close();
+			scanner.close();
 
-			return gson.fromJson(contents, type);
+			return gson.fromJson(stringBuilder.toString(), type);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
