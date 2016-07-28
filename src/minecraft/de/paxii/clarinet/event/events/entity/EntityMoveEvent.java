@@ -1,17 +1,20 @@
 package de.paxii.clarinet.event.events.entity;
 
 import de.paxii.clarinet.event.events.Event;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import net.minecraft.entity.Entity;
 
+@Data
 public class EntityMoveEvent implements Event {
-	@Getter
-	@Setter
+	private Entity entity;
 	private double x, y, z;
+	private boolean noClip;
 
-	public EntityMoveEvent(double x, double y, double z) {
+	public EntityMoveEvent(Entity entity, double x, double y, double z, boolean noClip) {
+		this.entity = entity;
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.noClip = noClip;
 	}
 }
