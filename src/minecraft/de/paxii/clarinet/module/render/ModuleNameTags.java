@@ -4,6 +4,7 @@ import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.chat.ChatColor;
+import de.paxii.clarinet.util.module.settings.ValueBase;
 import lombok.Getter;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
@@ -18,13 +19,16 @@ import org.lwjgl.opengl.GL11;
  * Created by Lars on 19.04.2016.
  */
 public class ModuleNameTags extends Module {
+	private static ModuleNameTags instance;
 	@Getter
 	private static boolean isActive;
 
 	public ModuleNameTags() {
 		super("NameTags", ModuleCategory.RENDER);
 
+		ModuleNameTags.instance = this;
 		this.setDescription("Renders bigger nametags alongside the health of other players");
+		this.getModuleValues().put("scale", new ValueBase("NameTag Scale", 3.0F, 1.0F, 10.0F));
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public class ModuleNameTags extends Module {
 
 	public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking)
 	{
-		final double scale = Wrapper.getPlayer().getDistanceToEntity(entity) / 3;
+		final double scale = Wrapper.getPlayer().getDistanceToEntity(entity) / instance.getModuleValues().get("scale").getValue();
 		yOffset -= scale / 2;
 
 		if (entity instanceof EntityOtherPlayerMP) {
