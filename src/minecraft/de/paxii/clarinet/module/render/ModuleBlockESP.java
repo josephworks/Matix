@@ -267,7 +267,9 @@ public class ModuleBlockESP extends Module {
 
 	@Override
 	public void onShutdown() {
-		this.searchBlocks.forEach((blockID, blockColor) -> this.getModuleSettings().put(String.valueOf(blockID), new ClientSettingInteger(String.valueOf(blockID), blockColor)));
+		for (Entry<Integer, Integer> searchBlock : this.searchBlocks.entrySet()) {
+			this.getModuleSettings().put(String.valueOf(searchBlock.getKey()), new ClientSettingInteger(String.valueOf(searchBlock.getKey()), searchBlock.getValue()));
+		}
 	}
 
 	private class SearchBlock {

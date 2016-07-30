@@ -114,7 +114,10 @@ public class ModuleXray extends Module {
 						blockList.add(blockID);
 
 						Chat.printClientMessage("Block " + blockID + " has been added.");
-						Wrapper.getMinecraft().renderGlobal.loadRenderers();
+
+						if (this.isEnabled()) {
+							Wrapper.getMinecraft().renderGlobal.loadRenderers();
+						}
 					} else {
 						Chat.printClientMessage("Block " + blockID + " has already been added!");
 					}
@@ -124,7 +127,10 @@ public class ModuleXray extends Module {
 							this.removeBlock(blockID);
 
 							Chat.printClientMessage("Block " + blockID + " has been removed.");
-							Wrapper.getMinecraft().renderGlobal.loadRenderers();
+
+							if (this.isEnabled()) {
+								Wrapper.getMinecraft().renderGlobal.loadRenderers();
+							}
 						} else {
 							Chat.printClientMessage("Block " + blockID + " hasn't been added yet!");
 						}
@@ -143,7 +149,10 @@ public class ModuleXray extends Module {
 				} else if (args[0].equalsIgnoreCase("clear")) {
 					blockList.clear();
 					Chat.printClientMessage("Xray list cleared.");
-					Wrapper.getMinecraft().renderGlobal.loadRenderers();
+
+					if (this.isEnabled()) {
+						Wrapper.getMinecraft().renderGlobal.loadRenderers();
+					}
 				} else if (args[0].equalsIgnoreCase("gui")) {
 					GuiPanel guiPanel = Wrapper.getClickableGui().getGuiPanel("Xray Blocks");
 					guiPanel.setVisible(!guiPanel.isVisible());
@@ -179,6 +188,8 @@ public class ModuleXray extends Module {
 
 	@Override
 	public void onShutdown() {
-		blockList.forEach((blockID) -> this.getModuleSettings().put(String.valueOf(blockID), new ClientSettingInteger(String.valueOf(blockID), blockID)));
+		for (int blockID : blockList) {
+			this.getModuleSettings().put(String.valueOf(blockID), new ClientSettingInteger(String.valueOf(blockID), blockID));
+		}
 	}
 }
