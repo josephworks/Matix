@@ -59,18 +59,20 @@ public class DefaultClientTheme implements IClientTheme {
 					guiPanel.getPanelX() + guiPanel.getPanelWidth(),
 					guiPanel.getPanelY() + guiPanel.getTitleHeight(),
 					this.currentColor.getPanelTitle(), this.currentColor.getPanelTitle());
-			GuiMethods.drawRoundedRect(
-					guiPanel.getPanelX() + guiPanel.getPanelWidth() - 11,
-					guiPanel.getPanelY() + 2,
-					guiPanel.getPanelX() + guiPanel.getPanelWidth() - 2,
-					guiPanel.getPanelY() + guiPanel.getTitleHeight() - 2,
-					guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ?
-							this.currentColor.getButtonDisabledBackgroundHovered() :
-							this.currentColor.getButtonDisabledBackground(),
-					guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ?
-							this.currentColor.getButtonDisabledBackgroundHovered() :
-							this.currentColor.getButtonDisabledBackground()
-			);
+			if (guiPanel.isCollapsible()) {
+				GuiMethods.drawRoundedRect(
+						guiPanel.getPanelX() + guiPanel.getPanelWidth() - 11,
+						guiPanel.getPanelY() + 2,
+						guiPanel.getPanelX() + guiPanel.getPanelWidth() - 2,
+						guiPanel.getPanelY() + guiPanel.getTitleHeight() - 2,
+						guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ?
+								this.currentColor.getButtonDisabledBackgroundHovered() :
+								this.currentColor.getButtonDisabledBackground(),
+						guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ?
+								this.currentColor.getButtonDisabledBackgroundHovered() :
+								this.currentColor.getButtonDisabledBackground()
+				);
+			}
 			Wrapper.getFontRenderer().drawString(guiPanel.getPanelName(),
 					guiPanel.getPanelX() + 4, guiPanel.getPanelY() + 2,
 					this.currentColor.getTextColor());
@@ -80,14 +82,16 @@ public class DefaultClientTheme implements IClientTheme {
 					guiPanel.getPanelX() + guiPanel.getPanelWidth(),
 					guiPanel.getPanelY() + guiPanel.getTitleHeight(),
 					this.currentColor.getPanelTitle(), this.currentColor.getPanelTitle());
-			GuiMethods.drawRoundedRect(
-					guiPanel.getPanelX() + guiPanel.getPanelWidth() - 11,
-					guiPanel.getPanelY() + 2,
-					guiPanel.getPanelX() + guiPanel.getPanelWidth() - 2,
-					guiPanel.getPanelY() + guiPanel.getTitleHeight() - 2,
-					guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ? this.currentColor.getButtonDisabledBackgroundHovered() : this.currentColor.getButtonDisabledBackground(),
-					guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ? this.currentColor.getButtonDisabledBackgroundHovered() : this.currentColor.getButtonDisabledBackground()
-			);
+			if (guiPanel.isCollapsible()) {
+				GuiMethods.drawRoundedRect(
+						guiPanel.getPanelX() + guiPanel.getPanelWidth() - 11,
+						guiPanel.getPanelY() + 2,
+						guiPanel.getPanelX() + guiPanel.getPanelWidth() - 2,
+						guiPanel.getPanelY() + guiPanel.getTitleHeight() - 2,
+						guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ? this.currentColor.getButtonDisabledBackgroundHovered() : this.currentColor.getButtonDisabledBackground(),
+						guiPanel.isMouseOverCollapseButton(mouseX, mouseY) ? this.currentColor.getButtonDisabledBackgroundHovered() : this.currentColor.getButtonDisabledBackground()
+				);
+			}
 			Wrapper.getFontRenderer().drawString(guiPanel.getPanelName(),
 					guiPanel.getPanelX() + 4, guiPanel.getPanelY() + 2,
 					this.currentColor.getTextColor());
@@ -95,15 +99,28 @@ public class DefaultClientTheme implements IClientTheme {
 	}
 
 	@Override
-	public void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered) {
+	public void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings) {
 		int buttonColor = module.isEnabled() ? (buttonHovered ? this.currentColor.getButtonEnabledBackgroundHovered()
 				: this.currentColor.getButtonEnabledBackground())
 				: (buttonHovered ? this.currentColor.getButtonDisabledBackgroundHovered()
 				: this.currentColor.getButtonDisabledBackground());
-		GuiMethods.drawRoundedRect(buttonX, buttonY, buttonX + buttonWidth,
-				buttonY + buttonHeight - 1, buttonColor, buttonColor);
-		Wrapper.getFontRenderer().drawString(module.getName(), buttonX + 5,
-				buttonY + 2, this.currentColor.getTextColor());
+		GuiMethods.drawRoundedRect(buttonX, buttonY, buttonX + buttonWidth, buttonY + buttonHeight - 1, buttonColor, buttonColor);
+		if (hasSettings) {
+			GuiMethods.drawRightTri(buttonX + buttonWidth - 3, buttonY + (buttonHeight / 2), 3, 0xFFFFFFFF);
+		}
+		Wrapper.getFontRenderer().drawString(module.getName(), buttonX + 5, buttonY + 2, this.currentColor.getTextColor());
+	}
+
+	@Override
+	public void drawCheckBox(String caption, boolean checked, int elementX, int elementY, int elementWidth, int elementHeight, boolean elementHovered) {
+		int buttonColor = checked ? (elementHovered ? this.currentColor.getButtonEnabledBackgroundHovered()
+				: this.currentColor.getButtonEnabledBackground())
+				: (elementHovered ? this.currentColor.getButtonDisabledBackgroundHovered()
+				: this.currentColor.getButtonDisabledBackground());
+		GuiMethods.drawRoundedRect(elementX, elementY, elementX + elementWidth,
+				elementY + elementHeight - 1, buttonColor, buttonColor);
+		Wrapper.getFontRenderer().drawString(caption, elementX + 5,
+				elementY + 2, this.currentColor.getTextColor());
 	}
 
 	@Override

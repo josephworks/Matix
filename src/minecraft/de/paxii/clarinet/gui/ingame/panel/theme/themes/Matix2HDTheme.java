@@ -56,19 +56,21 @@ public class Matix2HDTheme implements IClientTheme {
 				backgroundStart,
 				backgroundEnd
 		);
-		GuiMethods.drawRoundedRect(
-				guiPanel.getPanelX() + guiPanel.getPanelWidth() - 11,
-				guiPanel.getPanelY() + 2,
-				guiPanel.getPanelX() + guiPanel.getPanelWidth() - 2,
-				guiPanel.getPanelY() + guiPanel.getTitleHeight() - 2,
-				enabledButton,
-				enabledButton
-		);
+		if (guiPanel.isCollapsible()) {
+			GuiMethods.drawRoundedRect(
+					guiPanel.getPanelX() + guiPanel.getPanelWidth() - 11,
+					guiPanel.getPanelY() + 2,
+					guiPanel.getPanelX() + guiPanel.getPanelWidth() - 2,
+					guiPanel.getPanelY() + guiPanel.getTitleHeight() - 2,
+					enabledButton,
+					enabledButton
+			);
+		}
 		FontManager.getDefaultFont().drawString(guiPanel.getPanelName(), guiPanel.getPanelX() + 4, guiPanel.getPanelY() - 2, 0xFFFFFFFF);
 	}
 
 	@Override
-	public void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered) {
+	public void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings) {
 		int buttonColor = 0x55000000;
 		int textColor = 0xffffffff;
 
@@ -85,7 +87,31 @@ public class Matix2HDTheme implements IClientTheme {
 		}
 
 		GuiMethods.drawRect(buttonX, buttonY, buttonX + buttonWidth, buttonY + buttonHeight - 1, buttonColor);
+		if (hasSettings) {
+			GuiMethods.drawRightTri(buttonX + buttonWidth - 3, buttonY + (buttonHeight / 2), 3, 0xFFFFFFFF);
+		}
 		FontManager.getDefaultFont().drawString(module.getName(), buttonX + 3, buttonY - 2, textColor);
+	}
+
+	@Override
+	public void drawCheckBox(String caption, boolean checked, int elementX, int elementY, int elementWidth, int elementHeight, boolean elementHovered) {
+		int buttonColor = 0x55000000;
+		int textColor = 0xffffffff;
+
+		if (checked) {
+			buttonColor = 0xff609E3C;
+
+			if (elementHovered) {
+				buttonColor = 0xffAE8C31;
+			}
+		} else {
+			if (elementHovered) {
+				buttonColor = 0x33000000;
+			}
+		}
+
+		GuiMethods.drawRect(elementX, elementY, elementX + elementWidth, elementY + elementHeight - 1, buttonColor);
+		FontManager.getDefaultFont().drawString(caption, elementX + 3, elementY - 2, textColor);
 	}
 
 	@Override
