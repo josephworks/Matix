@@ -122,6 +122,17 @@ public class Module implements Comparable<Module> {
 		return type.cast(this.moduleSettings.get(settingName));
 	}
 
+	public <T> T setValue(String settingName, T value) {
+		if (!this.getModuleSettings().containsKey(settingName)) {
+			this.getModuleSettings().put(settingName, new ClientSetting<>(settingName, value));
+		}
+
+		ClientSetting<T> clientSetting = this.getModuleSettings().get(settingName);
+		clientSetting.setValue(value);
+
+		return value;
+	}
+
 	public <T> T getValue(String settingName, Class<T> type) {
 		return type.cast(this.moduleSettings.get(settingName).getValue());
 	}
@@ -132,6 +143,10 @@ public class Module implements Comparable<Module> {
 		}
 
 		return defaultValue;
+	}
+
+	public ValueBase getValueBase(String valueName) {
+		return this.getModuleValues().get(valueName);
 	}
 
 	@Override

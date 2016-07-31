@@ -171,7 +171,7 @@ public class ModuleTriggerbot extends Module {
 			if (args[0].equalsIgnoreCase("autospeed")) {
 				try {
 					boolean autoSpeed = Boolean.parseBoolean(args[1]);
-					this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", autoSpeed));
+					this.setValue("autoDelay", autoSpeed);
 
 					Chat.printClientMessage("TriggerBot auto speed mode has been set to " + autoSpeed + ".");
 				} catch (Exception e) {

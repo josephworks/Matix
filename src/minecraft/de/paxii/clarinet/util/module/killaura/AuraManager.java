@@ -229,13 +229,13 @@ public class AuraManager {
 	}
 
 	public void onShutdown() {
-		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("Animals", this.isAnimal()));
-		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("Mobs", this.isMob()));
-		this.module.getModuleSettings().put("player", new ClientSettingBoolean("Players", this.isPlayer()));
-		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", this.isSilent()));
-		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", this.isLegit()));
-		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", this.isInvisible()));
-		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", this.isAutoSpeed()));
+		this.module.setValue("animal", this.isAnimal());
+		this.module.setValue("mob", this.isMob());
+		this.module.setValue("player", this.isPlayer());
+		this.module.setValue("silent", this.isSilent());
+		this.module.setValue("legit", this.isLegit());
+		this.module.setValue("invisible", this.isInvisible());
+		this.module.setValue("autoDelay", this.isAutoSpeed());
 	}
 }
 
