@@ -12,6 +12,15 @@ public class ClientSetting<T> {
 		this.value = value;
 	}
 
+	public void setValue(T value) {
+		if (value != this.value || !this.value.equals(value)) {
+			this.onUpdate(value, this.value);
+		}
+		this.value = value;
+	}
+
+	public void onUpdate(T newValue, T oldValue) {}
+
 	@Deprecated
 	public String getSettingName() {
 		return name;
