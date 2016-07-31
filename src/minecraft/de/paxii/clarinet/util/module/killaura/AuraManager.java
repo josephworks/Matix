@@ -63,13 +63,48 @@ public class AuraManager {
 		this.module.getModuleValues().put("valueDelay", this.valueDelay);
 		this.module.getModuleValues().put("valueAngle", this.valueAngle);
 
-		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("animal", this.isAnimal()));
-		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("mob", this.isMob()));
-		this.module.getModuleSettings().put("player", new ClientSettingBoolean("player", this.isPlayer()));
-		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("silent", this.isSilent()));
-		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("legit", this.isLegit()));
-		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("invisible", this.isInvisible()));
-		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("autoDelay", this.isAutoSpeed()));
+		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("Animals", this.isAnimal()) {
+			@Override
+			public void onUpdate(Boolean newValue, Boolean oldValue) {
+				AuraManager.this.setAnimal(newValue);
+			}
+		});
+		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("Mobs", this.isMob()) {
+			@Override
+			public void onUpdate(Boolean newValue, Boolean oldValue) {
+				AuraManager.this.setMob(newValue);
+			}
+		});
+		this.module.getModuleSettings().put("player", new ClientSettingBoolean("Players", this.isPlayer()) {
+			@Override
+			public void onUpdate(Boolean newValue, Boolean oldValue) {
+				AuraManager.this.setPlayer(newValue);
+			}
+		});
+		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", this.isSilent()) {
+			@Override
+			public void onUpdate(Boolean newValue, Boolean oldValue) {
+				AuraManager.this.setSilent(newValue);
+			}
+		});
+		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", this.isLegit()) {
+			@Override
+			public void onUpdate(Boolean newValue, Boolean oldValue) {
+				AuraManager.this.setLegit(newValue);
+			}
+		});
+		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", this.isInvisible()) {
+			@Override
+			public void onUpdate(Boolean newValue, Boolean oldValue) {
+				AuraManager.this.setInvisible(newValue);
+			}
+		});
+		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", this.isAutoSpeed()) {
+			@Override
+			public void onUpdate(Boolean newValue, Boolean oldValue) {
+				AuraManager.this.setAutoSpeed(newValue);
+			}
+		});
 
 		for (float f = -10.0F; f <= 10.0F; f += 2.0F) {
 			this.yawMap.add(f);
@@ -194,13 +229,13 @@ public class AuraManager {
 	}
 
 	public void onShutdown() {
-		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("animal", this.isAnimal()));
-		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("mob", this.isMob()));
-		this.module.getModuleSettings().put("player", new ClientSettingBoolean("player", this.isPlayer()));
-		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("silent", this.isSilent()));
-		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("legit", this.isLegit()));
-		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("invisible", this.isInvisible()));
-		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("autoDelay", this.isAutoSpeed()));
+		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("Animals", this.isAnimal()));
+		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("Mobs", this.isMob()));
+		this.module.getModuleSettings().put("player", new ClientSettingBoolean("Players", this.isPlayer()));
+		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", this.isSilent()));
+		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", this.isLegit()));
+		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", this.isInvisible()));
+		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", this.isAutoSpeed()));
 	}
 }
 

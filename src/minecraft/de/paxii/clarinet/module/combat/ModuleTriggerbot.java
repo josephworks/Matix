@@ -38,8 +38,8 @@ public class ModuleTriggerbot extends Module {
 		this.getModuleValues().put("clickSpeed", new ValueBase("Triggerbot Speed", 8.2F, 1F, 20F));
 		this.getModuleValues().put("clickRange", new ValueBase("Triggerbot Range", 4.5F, 1F, 6.6F));
 		this.getModuleValues().put("randomness", new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true));
-		this.getModuleSettings().put("triggerKey", new ClientSettingInteger("triggerKey", 56));
-		this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("autoDelay", false));
+		this.getModuleSettings().put("triggerKey", new ClientSettingInteger("Trigger Key", 56));
+		this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
 
 		this.timeManager = new TimeManager();
 		this.timeManager.setRandom(true);
@@ -171,7 +171,7 @@ public class ModuleTriggerbot extends Module {
 			if (args[0].equalsIgnoreCase("autospeed")) {
 				try {
 					boolean autoSpeed = Boolean.parseBoolean(args[1]);
-					this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("autoDelay", autoSpeed));
+					this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", autoSpeed));
 
 					Chat.printClientMessage("TriggerBot auto speed mode has been set to " + autoSpeed + ".");
 				} catch (Exception e) {
