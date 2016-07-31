@@ -50,7 +50,9 @@ public class ModuleSettingsHandler {
 							if (Wrapper.getModuleManager().doesModuleExist(moduleSettings.getModuleName())) {
 								Module module = Wrapper.getModuleManager().getModule(moduleSettings.getModuleName());
 
-								module.setModuleSettings(moduleSettings.getModuleSettings());
+								if (moduleSettings.getModuleSettings().size() > 0) {
+									module.setModuleSettings(moduleSettings.getModuleSettings());
+								}
 
 								/*
 								 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
