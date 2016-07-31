@@ -5,8 +5,12 @@ import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.module.Module;
+import de.paxii.clarinet.util.settings.ClientSetting;
 import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class PanelButton extends PanelElement {
 	private final GuiPanel guiPanel;
@@ -24,7 +28,9 @@ public class PanelButton extends PanelElement {
 		this.moduleSettings = new GuiPanelModuleSettings(this.module, 0, 0) {
 			@Override
 			public void addElements() {
-				PanelButton.this.module.getModuleSettings().forEach((settingName, setting) -> {
+				ArrayList<ClientSetting> settings = new ArrayList<>(PanelButton.this.module.getModuleSettings().values());
+				settings.sort(null);
+				settings.forEach(setting -> {
 					if (setting.getValue().getClass().getName().equals("java.lang.Boolean")) {
 						try {
 							this.getPanelElements().add(
