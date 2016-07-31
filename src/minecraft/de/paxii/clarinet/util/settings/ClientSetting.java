@@ -3,7 +3,7 @@ package de.paxii.clarinet.util.settings;
 import lombok.Data;
 
 @Data
-public class ClientSetting<T> {
+public class ClientSetting<T> implements Comparable<ClientSetting> {
 	private String name;
 	private T value;
 
@@ -39,5 +39,10 @@ public class ClientSetting<T> {
 	@Deprecated
 	public void setSettingValue(T settingValue) {
 		this.value = settingValue;
+	}
+
+	@Override
+	public int compareTo(ClientSetting otherSetting) {
+		return this.getName().compareTo(otherSetting.getName());
 	}
 }
