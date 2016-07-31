@@ -53,17 +53,17 @@ public class GuiPanelManager {
 			}
 		}
 
-		clickableGui.getGuiPanels().add(new GuiPanel("Settings", xIndex, yIndex, 120, 200) {
-			@Override
-			public void addElements() {
-				Collections.sort(ValueBase.getValueList());
-
-				ValueBase.getValueList().forEach((valueBase) ->
-						this.getPanelElements().add(new PanelSlider(valueBase, valueBase.isShouldRound())));
-			}
-		});
-
-		xIndex += clickableGui.getGuiPanel("Settings").getPanelWidth() + 10;
+//		clickableGui.getGuiPanels().add(new GuiPanel("Settings", xIndex, yIndex, 120, 200) {
+//			@Override
+//			public void addElements() {
+//				Collections.sort(ValueBase.getValueList());
+//
+//				ValueBase.getValueList().forEach((valueBase) ->
+//						this.getPanelElements().add(new PanelSlider(valueBase, valueBase.isShouldRound())));
+//			}
+//		});
+//
+//		xIndex += clickableGui.getGuiPanel("Settings").getPanelWidth() + 10;
 
 		if (clickableGui.getCurrentTheme().getName().equals("Default")) {
 			clickableGui.getGuiPanels().add(new GuiPanel("Gui Color", xIndex, yIndex, 100, 200) {
