@@ -590,26 +590,27 @@ public class GuiMethods extends Gui {
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 
-	public static void drawRightTri(int i, int j, int k) {
-		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
-		float f = (float) (k >> 24 & 0xff) / 255F;
-		float f1 = (float) (k >> 16 & 0xff) / 255F;
-		float f2 = (float) (k >> 8 & 0xff) / 255F;
-		float f3 = (float) (k & 0xff) / 255F;
+	public static void drawRightTri(int x, int y, int size, int color) {
+		float f = (float) (color >> 24 & 0xff) / 255F;
+		float f1 = (float) (color >> 16 & 0xff) / 255F;
+		float f2 = (float) (color >> 8 & 0xff) / 255F;
+		float f3 = (float) (color & 0xff) / 255F;
+		GL11.glPushMatrix();
 		GL11.glColor4f(f1, f2, f3, 255);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_LINE_SMOOTH);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GL11.glBegin(GL11.GL_TRIANGLES);
-		GL11.glVertex2d(i, j + 2);
-		GL11.glVertex2d(i, j - 2);
-		GL11.glVertex2d(i - 2, j);
+		GL11.glVertex2d(x, y);
+		GL11.glVertex2d(x - size, y - size);
+		GL11.glVertex2d(x - size, y + size);
 		GL11.glEnd();
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glRotatef(-180F, 0.0F, 0.0F, 1.0F);
+		GL11.glPopMatrix();
 	}
 
 	public void color(int c) {
