@@ -4,8 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
-import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
-import de.paxii.clarinet.event.events.game.StartGameEvent;
+import de.paxii.clarinet.event.events.client.PostLoadPanelsEvent;
 import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
@@ -26,7 +25,7 @@ public class PanelSettingsHandler {
 
 
 	@EventHandler
-	public void onStartGame(PostLoadModulesEvent event) {
+	public void onPanelsLoaded(PostLoadPanelsEvent event) {
 		try {
 			Gson gson = new Gson();
 			File settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/panels.json");
