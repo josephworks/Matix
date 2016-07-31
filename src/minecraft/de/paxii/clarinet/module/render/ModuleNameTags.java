@@ -5,6 +5,7 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.chat.ChatColor;
 import de.paxii.clarinet.util.module.settings.ValueBase;
+import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 import lombok.Getter;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
@@ -28,6 +29,8 @@ public class ModuleNameTags extends Module {
 
 		ModuleNameTags.instance = this;
 		this.setDescription("Renders bigger nametags alongside the health of other players");
+
+		this.getModuleSettings().put("displayHealth", new ClientSettingBoolean("Health", true));
 		this.getModuleValues().put("scale", new ValueBase("NameTag Scale", 3.0F, 1.0F, 10.0F));
 	}
 
@@ -36,13 +39,12 @@ public class ModuleNameTags extends Module {
 		ModuleNameTags.isActive = true;
 	}
 
-	public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking)
-	{
+	public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking) {
 		final double scale = Wrapper.getPlayer().getDistanceToEntity(entity) / instance.getModuleValues().get("scale").getValue();
 		yOffset -= scale / 2;
 
-		if (entity instanceof EntityOtherPlayerMP) {
-			int health = ((int) ((EntityOtherPlayerMP)entity).getHealth());
+		if (entity instanceof EntityOtherPlayerMP && instance.getValueOrDefault("scale", Boolean.class, true)) {
+			int health = ((int) ((EntityOtherPlayerMP) entity).getHealth());
 			nameTag += " | HP: " + (health >= 10 ? ChatColor.GREEN : ChatColor.RED) + health;
 		}
 
@@ -50,7 +52,7 @@ public class ModuleNameTags extends Module {
 		GlStateManager.translate(posX, posY, posZ);
 		GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
 		GlStateManager.rotate(-playerViewY, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotate((float)(thirdPersonView ? -1 : 1) * playerViewX, 1.0F, 0.0F, 0.0F);
+		GlStateManager.rotate((float) (thirdPersonView ? -1 : 1) * playerViewX, 1.0F, 0.0F, 0.0F);
 		GlStateManager.scale(-0.025F, -0.025F, 0.025F);
 		GlStateManager.disableLighting();
 		GlStateManager.depthMask(false);
@@ -63,10 +65,10 @@ public class ModuleNameTags extends Module {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		vertexbuffer.pos((double)(-i - 1), (double)(-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
-		vertexbuffer.pos((double)(-i - 1), (double)(8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
-		vertexbuffer.pos((double)(i + 1), (double)(8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
-		vertexbuffer.pos((double)(i + 1), (double)(-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
+		vertexbuffer.pos((double) (-i - 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
+		vertexbuffer.pos((double) (-i - 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
+		vertexbuffer.pos((double) (i + 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
+		vertexbuffer.pos((double) (i + 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
 
 		GL11.glScaled(scale, scale, scale);
 		tessellator.draw();
