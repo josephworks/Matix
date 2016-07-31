@@ -38,7 +38,7 @@ public class GuiPanelManager {
 				public void addElements() {
 					sortedKeys.forEach((moduleName, module) -> {
 						if (module.isDisplayedInGui()) {
-							this.getPanelElements().add(new PanelButton(module));
+							this.getPanelElements().add(new PanelButton(module, this));
 						}
 					});
 				}
