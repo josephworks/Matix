@@ -1,0 +1,199 @@
+Index: minecraft/client/entity/EntityPlayerSP.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/client/entity/EntityPlayerSP.java	(date 1466941076000)
++++ minecraft/client/entity/EntityPlayerSP.java	(date 1469739671000)
+@@ -6,6 +6,7 @@
+ import de.paxii.clarinet.Wrapper;
+ import de.paxii.clarinet.event.EventManager;
+ import de.paxii.clarinet.event.events.player.PlayerMoveEvent;
++import de.paxii.clarinet.event.events.player.PlayerUpdateWalkingEvent;
+ import de.paxii.clarinet.event.events.player.PostMotionUpdateEvent;
+ import de.paxii.clarinet.event.events.player.PreMotionUpdateEvent;
+ import net.minecraft.block.state.IBlockState;
+@@ -322,6 +323,13 @@
+             ++this.positionUpdateTicks;
+             boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
+             boolean flag3 = d3 != 0.0D || d4 != 0.0D;
++
++            // TODO: Client
++                PlayerUpdateWalkingEvent updateWalkingEvent = EventManager.call(new PlayerUpdateWalkingEvent());
++
++                if (updateWalkingEvent.isCancelled()) {} else
++            //
++
+ 
+             if (this.isRiding())
+             {
+Index: minecraft/client/gui/FontRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/client/gui/FontRenderer.java	(date 1466935847000)
++++ minecraft/client/gui/FontRenderer.java	(date 1466941076000)
+@@ -11,6 +11,8 @@
+ import java.util.Locale;
+ import java.util.Properties;
+ import java.util.Random;
++
++import lombok.Getter;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.renderer.GlStateManager;
+ import net.minecraft.client.renderer.Tessellator;
+@@ -48,6 +50,7 @@
+      * Array of RGB triplets defining the 16 standard chat colors followed by 16 darker version of the same colors for
+      * drop shadows.
+      */
++    @Getter
+     private final int[] colorCode = new int[32];
+     private ResourceLocation locationFontTexture;
+ 
+Index: minecraft/client/renderer/entity/Render.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/client/renderer/entity/Render.java	(date 1466542325000)
++++ minecraft/client/renderer/entity/Render.java	(date 1469909424000)
+@@ -1,5 +1,6 @@
+ package net.minecraft.client.renderer.entity;
+ 
++import de.paxii.clarinet.module.render.ModuleNameTags;
+ import net.minecraft.block.state.IBlockState;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.gui.FontRenderer;
+@@ -375,7 +376,14 @@
+             boolean flag1 = this.renderManager.options.thirdPersonView == 2;
+             float f2 = entityIn.height + 0.5F - (flag ? 0.25F : 0.0F);
+             int i = "deadmau5".equals(str) ? -10 : 0;
++
++            // TODO: Client
++                if (ModuleNameTags.isActive()) {
++                    ModuleNameTags.drawHealthTags(entityIn, this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
++                } else {
+-            EntityRenderer.func_189692_a(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
++                    EntityRenderer.func_189692_a(this.getFontRendererFromRenderManager(), str, (float)x, (float)y + f2, (float)z, i, f, f1, flag1, flag);
++                }
++            //
+         }
+     }
+ 
+Index: minecraft/client/resources/ResourcePackListEntryServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/client/resources/ResourcePackListEntryServer.java	(date 1466537942000)
++++ minecraft/client/resources/ResourcePackListEntryServer.java	(date 1466542325000)
+@@ -25,13 +25,7 @@
+ 
+         try
+         {
+-            //TODO: Client
+-            if (p_i46594_2_.getPackImage() != null) {
+-                dynamictexture = new DynamicTexture(p_i46594_2_.getPackImage());
++            dynamictexture = new DynamicTexture(p_i46594_2_.getPackImage());
+-            } else {
+-                dynamictexture = TextureUtil.MISSING_TEXTURE;
+-            }
+-            //
+         }
+         catch (IOException var5)
+         {
+Index: minecraft/client/Minecraft.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/client/Minecraft.java	(date 1466797675000)
++++ minecraft/client/Minecraft.java	(date 1466935847000)
+@@ -247,7 +247,7 @@
+         @Getter
+         @Setter
+     //
+-    private final Timer timer = new Timer(20.0F);
++    private Timer timer = new Timer(20.0F);
+ 
+     /** Instance of PlayerUsageSnooper. */
+     private final Snooper usageSnooper = new Snooper("client", this, MinecraftServer.getCurrentTimeMillis());
+Index: minecraft/entity/Entity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/entity/Entity.java	(date 1469739671000)
++++ minecraft/entity/Entity.java	(date 1469739692000)
+@@ -707,12 +707,13 @@
+     public void moveEntity(double x, double y, double z)
+     {
+         //TODO: Client
+-            EntityMoveEvent moveEvent = new EntityMoveEvent(x, y, z);
++            EntityMoveEvent moveEvent = new EntityMoveEvent(this, x, y, z, this.noClip);
+             EventManager.call(moveEvent);
+ 
+             x = moveEvent.getX();
+             y = moveEvent.getY();
+             z = moveEvent.getZ();
++            this.noClip = moveEvent.isNoClip();
+         //
+ 
+         if (this.noClip)
+Index: minecraft/world/ChunkCache.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/world/ChunkCache.java	(date 1466623283000)
++++ minecraft/world/ChunkCache.java	(date 1466797675000)
+@@ -144,7 +144,16 @@
+             {
+                 int i = (pos.getX() >> 4) - this.chunkX;
+                 int j = (pos.getZ() >> 4) - this.chunkZ;
++                //TODO: Client
++                // Fix IndexOutOfBoundsException
++                if (i < this.chunkArray.length && i >= 0) {
++                    if (j < this.chunkArray[i].length && j >= 0) {
+-                return this.chunkArray[i][j].getLightFor(type, pos);
++                        return this.chunkArray[i][j].getLightFor(type, pos);
++                    }
++                }
++
++                return type.defaultLightValue;
++                //
+             }
+         }
+         else
+Index: minecraft/world/World.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- minecraft/world/World.java	(date 1469909424000)
++++ minecraft/world/World.java	(date 1469962513000)
+@@ -11,6 +11,10 @@
+ import java.util.Random;
+ import java.util.UUID;
+ import javax.annotation.Nullable;
++
++import de.paxii.clarinet.Wrapper;
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.game.LoadWorldEvent;
+ import net.minecraft.block.Block;
+ import net.minecraft.block.BlockLiquid;
+ import net.minecraft.block.material.Material;
+@@ -1150,6 +1154,12 @@
+      */
+     public boolean spawnEntityInWorld(Entity entityIn)
+     {
++        //TODO: Client
++            if (entityIn == Wrapper.getPlayer()) {
++                EventManager.call(new LoadWorldEvent(this));
++            }
++        //
++
+         int i = MathHelper.floor_double(entityIn.posX / 16.0D);
+         int j = MathHelper.floor_double(entityIn.posZ / 16.0D);
+         boolean flag = entityIn.forceSpawn;
