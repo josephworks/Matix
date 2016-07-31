@@ -12,17 +12,20 @@ public class ModuleSettingsObject {
 	@Getter
 	private int moduleKey;
 	@Getter
+	private boolean enabled;
+	@Getter
 	private HashMap<String, ClientSetting> moduleSettings;
 	@Getter
 	private HashMap<String, ValueBaseSettingsObject> moduleValues;
 
 	public ModuleSettingsObject(Module module) {
-		this(module.getName(), module.getKey(), module.getModuleSettings(), module.getModuleValues());
+		this(module.getName(), module.getKey(), module.isEnabled(), module.getModuleSettings(), module.getModuleValues());
 	}
 
-	public ModuleSettingsObject(String moduleName, int moduleKey, HashMap<String, ClientSetting> moduleSettings, HashMap<String, ValueBase> moduleValues) {
+	public ModuleSettingsObject(String moduleName, int moduleKey, boolean enabled, HashMap<String, ClientSetting> moduleSettings, HashMap<String, ValueBase> moduleValues) {
 		this.moduleName = moduleName;
 		this.moduleKey = moduleKey;
+		this.enabled = enabled;
 		this.moduleSettings = moduleSettings;
 		this.moduleValues = new HashMap<>();
 

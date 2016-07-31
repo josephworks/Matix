@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
+import de.paxii.clarinet.event.events.game.LoadWorldEvent;
 import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.settings.ClientSettings;
@@ -17,7 +18,10 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 
 public class ModuleSettingsHandler {
+	private ArrayList<Module> enabledModules;
+
 	public ModuleSettingsHandler() {
+		this.enabledModules = new ArrayList<>();
 		Wrapper.getEventManager().register(this);
 	}
 
@@ -79,6 +83,10 @@ public class ModuleSettingsHandler {
 
 								module.setKey(moduleSettings.getModuleKey());
 								module.onStartup();
+
+								if (moduleSettings.isEnabled()) {
+									this.enabledModules.add(module);
+								}
 							}
 						});
 					}
@@ -87,6 +95,12 @@ public class ModuleSettingsHandler {
 				e.printStackTrace();
 			}
 		}).start();
+	}
+
+	@EventHandler
+	private void onLoadWorld(LoadWorldEvent event) {
+		this.enabledModules.forEach((module) -> module.setEnabled(true));
+		this.enabledModules.clear();
 	}
 
 	@EventHandler
