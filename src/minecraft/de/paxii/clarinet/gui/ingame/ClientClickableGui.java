@@ -120,12 +120,16 @@ public class ClientClickableGui extends GuiScreen {
 					guiPanel.mouseClicked(mouseX, mouseY, buttonClicked);
 				}
 
-				this.getGuiPanels().remove(guiPanel);
-				this.getGuiPanels().add(guiPanel);
+				this.moveOverAll(guiPanel);
 			}
 		}
 
 		super.mouseClicked(mouseX, mouseY, buttonClicked);
+	}
+
+	public void moveOverAll(GuiPanel guiPanel) {
+		this.getGuiPanels().remove(guiPanel);
+		this.getGuiPanels().add(guiPanel);
 	}
 
 	@Override

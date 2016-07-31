@@ -1,6 +1,7 @@
 package de.paxii.clarinet.gui.ingame.panel;
 
 import de.paxii.clarinet.Wrapper;
+import de.paxii.clarinet.gui.ingame.panel.element.AbstractPanelValueElement;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class GuiPanel {
 	private int dragX, dragY;
 	@Getter
 	@Setter
-	private boolean dragging, opened, pinned, visible = true, scrollable;
+	private boolean dragging, draggable = true, opened, collapsible = true, pinned, visible = true, scrollable;
 	@Getter
 	ArrayList<PanelElement> panelElements;
 
@@ -87,13 +88,13 @@ public class GuiPanel {
 	}
 
 	public void mouseClicked(int mouseX, int mouseY, int buttonClicked) {
-		if (this.isMouseOverCollapseButton(mouseX, mouseY) && buttonClicked == 0) {
+		if (this.isMouseOverCollapseButton(mouseX, mouseY) && buttonClicked == 0 && this.isCollapsible()) {
 			this.setOpened(!this.isOpened());
 
 			return;
 		}
 
-		if (this.isMouseOverTitle(mouseX, mouseY) && buttonClicked == 0) {
+		if (this.isMouseOverTitle(mouseX, mouseY) && buttonClicked == 0 && this.isDraggable()) {
 			this.setDragging(true);
 			this.dragX = this.getPanelX() - mouseX;
 			this.dragY = this.getPanelY() - mouseY;
@@ -104,6 +105,18 @@ public class GuiPanel {
 				panelElement.mouseClicked(mouseX, mouseY, buttonClicked);
 			}
 		}
+	}
+
+	public void setOpened(boolean opened) {
+		this.opened = opened;
+
+		this.getPanelElements().stream().filter(pE -> pE instanceof PanelButton).forEach(pE -> {
+			PanelButton panelButton = (PanelButton) pE;
+
+			if (panelButton.getModuleSettings() != null) {
+				panelButton.getModuleSettings().setVisible(false);
+			}
+		});
 	}
 
 	public boolean isMouseOverPanel(int mouseX, int mouseY) {

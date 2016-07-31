@@ -8,13 +8,15 @@ public class PanelElement {
 	@Setter
 	private int elementX, elementY, elementWidth, elementHeight, elementYOffset;
 
+	public PanelElement() {
+	}
+
 	public PanelElement(int elementWidth, int elementHeight) {
 		this.elementWidth = elementWidth;
 		this.elementHeight = elementHeight;
 	}
 
-	public PanelElement(int elementX, int elementY, int elementWidth,
-	                    int elementHeight) {
+	public PanelElement(int elementX, int elementY, int elementWidth, int elementHeight) {
 		this.elementX = elementX;
 		this.elementY = elementY;
 		this.elementWidth = elementWidth;
