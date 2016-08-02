@@ -7,6 +7,7 @@ import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
 import de.paxii.clarinet.event.events.game.KeyPressedEvent;
 import de.paxii.clarinet.module.external.ExternalModuleLoader;
 import de.paxii.clarinet.util.module.store.ModuleStore;
+import de.paxii.clarinet.util.settings.ClientSettings;
 import lombok.Getter;
 import org.reflections.Reflections;
 
@@ -121,15 +122,17 @@ public class ModuleManager {
 
 	@EventHandler
 	private void handleKeyPress(KeyPressedEvent event) {
-		for (Entry<String, Integer> entry : this.keybindList.entrySet()) {
-			String moduleName = entry.getKey();
-			int moduleKey = entry.getValue();
+		if (!ClientSettings.getValue("client.hidden", Boolean.class)) {
+			for (Entry<String, Integer> entry : this.keybindList.entrySet()) {
+				String moduleName = entry.getKey();
+				int moduleKey = entry.getValue();
 
-			if (moduleKey == event.getKey()) {
-				Module module = getModule(moduleName);
+				if (moduleKey == event.getKey()) {
+					Module module = getModule(moduleName);
 
-				if (module != null) {
-					module.toggle();
+					if (module != null) {
+						module.toggle();
+					}
 				}
 			}
 		}
