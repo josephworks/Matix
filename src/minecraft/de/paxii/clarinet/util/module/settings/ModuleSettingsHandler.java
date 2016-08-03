@@ -8,6 +8,7 @@ import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
 import de.paxii.clarinet.event.events.game.LoadWorldEvent;
 import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.module.Module;
+import de.paxii.clarinet.util.settings.ClientSetting;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import java.io.BufferedReader;
@@ -50,10 +51,6 @@ public class ModuleSettingsHandler {
 							if (Wrapper.getModuleManager().doesModuleExist(moduleSettings.getModuleName())) {
 								Module module = Wrapper.getModuleManager().getModule(moduleSettings.getModuleName());
 
-								if (moduleSettings.getModuleSettings().size() > 0) {
-									module.setModuleSettings(moduleSettings.getModuleSettings());
-								}
-
 								/*
 								 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
 								 * This converts settings stored as doubles to int if the value stays the same
@@ -69,6 +66,10 @@ public class ModuleSettingsHandler {
 										}
 									}
 								});
+
+								for (Entry<String, ClientSetting> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
+									module.setValue(settingsEntry.getKey(), settingsEntry.getValue().getValue());
+								}
 
 								moduleSettings.getModuleValues().forEach((k, v) -> {
 									if (ValueBase.doesValueExist(v.getName())) {
