@@ -2,6 +2,7 @@ package de.paxii.clarinet.util.module.settings;
 
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.settings.ClientSetting;
+import de.paxii.clarinet.util.settings.ClientSettingSettingsObject;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ public class ModuleSettingsObject {
 	@Getter
 	private boolean enabled;
 	@Getter
-	private HashMap<String, ClientSetting> moduleSettings;
+	private HashMap<String, ClientSettingSettingsObject> moduleSettings;
 	@Getter
 	private HashMap<String, ValueBaseSettingsObject> moduleValues;
 
@@ -26,9 +27,10 @@ public class ModuleSettingsObject {
 		this.moduleName = moduleName;
 		this.moduleKey = moduleKey;
 		this.enabled = enabled;
-		this.moduleSettings = moduleSettings;
+		this.moduleSettings = new HashMap<>();
 		this.moduleValues = new HashMap<>();
 
+		moduleSettings.forEach((settingsName, setting) -> this.moduleSettings.put(settingsName, new ClientSettingSettingsObject(setting.getName(), setting.getValue())));
 		moduleValues.forEach((valueName, valueBase) -> this.moduleValues.put(valueName, new ValueBaseSettingsObject(valueBase)));
 	}
 }

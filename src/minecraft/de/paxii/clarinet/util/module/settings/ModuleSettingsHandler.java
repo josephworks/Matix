@@ -8,7 +8,7 @@ import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
 import de.paxii.clarinet.event.events.game.LoadWorldEvent;
 import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.module.Module;
-import de.paxii.clarinet.util.settings.ClientSetting;
+import de.paxii.clarinet.util.settings.ClientSettingSettingsObject;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import java.io.BufferedReader;
@@ -67,7 +67,7 @@ public class ModuleSettingsHandler {
 									}
 								});
 
-								for (Entry<String, ClientSetting> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
+								for (Entry<String, ClientSettingSettingsObject> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
 									module.setValue(settingsEntry.getKey(), settingsEntry.getValue().getValue());
 								}
 
@@ -119,7 +119,6 @@ public class ModuleSettingsHandler {
 
 				for (Entry<String, Module> moduleEntry : Wrapper.getModuleManager().getModuleList().entrySet()) {
 					Module module = moduleEntry.getValue();
-
 					module.onShutdown();
 
 					moduleSettingsContainer.getModuleSettings().add(new ModuleSettingsObject(module));
