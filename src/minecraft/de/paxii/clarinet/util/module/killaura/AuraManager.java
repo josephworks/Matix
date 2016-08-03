@@ -23,10 +23,6 @@ public class AuraManager {
 	private final ValueBase valueDelay;
 	private final ValueBase valueAngle;
 
-	@Getter
-	@Setter
-	private boolean silent = true, mob = true, animal = false, player = true, legit = true, invisible = false, autoSpeed = false;
-
 	private final TimeManager timeManager;
 
 	private final ArrayList<Float> pitchMap;
@@ -63,48 +59,13 @@ public class AuraManager {
 		this.module.getModuleValues().put("valueDelay", this.valueDelay);
 		this.module.getModuleValues().put("valueAngle", this.valueAngle);
 
-		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("Animals", this.isAnimal()) {
-			@Override
-			public void onUpdate(Boolean newValue, Boolean oldValue) {
-				AuraManager.this.setAnimal(newValue);
-			}
-		});
-		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("Mobs", this.isMob()) {
-			@Override
-			public void onUpdate(Boolean newValue, Boolean oldValue) {
-				AuraManager.this.setMob(newValue);
-			}
-		});
-		this.module.getModuleSettings().put("player", new ClientSettingBoolean("Players", this.isPlayer()) {
-			@Override
-			public void onUpdate(Boolean newValue, Boolean oldValue) {
-				AuraManager.this.setPlayer(newValue);
-			}
-		});
-		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", this.isSilent()) {
-			@Override
-			public void onUpdate(Boolean newValue, Boolean oldValue) {
-				AuraManager.this.setSilent(newValue);
-			}
-		});
-		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", this.isLegit()) {
-			@Override
-			public void onUpdate(Boolean newValue, Boolean oldValue) {
-				AuraManager.this.setLegit(newValue);
-			}
-		});
-		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", this.isInvisible()) {
-			@Override
-			public void onUpdate(Boolean newValue, Boolean oldValue) {
-				AuraManager.this.setInvisible(newValue);
-			}
-		});
-		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", this.isAutoSpeed()) {
-			@Override
-			public void onUpdate(Boolean newValue, Boolean oldValue) {
-				AuraManager.this.setAutoSpeed(newValue);
-			}
-		});
+		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("Animals", false));
+		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("Mobs", true));
+		this.module.getModuleSettings().put("player", new ClientSettingBoolean("Players", true));
+		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", true));
+		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", true));
+		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", false));
+		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
 
 		for (float f = -10.0F; f <= 10.0F; f += 2.0F) {
 			this.yawMap.add(f);
@@ -187,6 +148,62 @@ public class AuraManager {
 		return yawMap.get(randomIndex);
 	}
 
+	public boolean isSilent() {
+		return this.module.getValue("silent", Boolean.class);
+	}
+
+	public void setSilent(boolean silent) {
+		this.module.setValue("silent", silent);
+	}
+
+	public boolean isMob() {
+		return this.module.getValue("mob", Boolean.class);
+	}
+
+	public void setMob(boolean mob) {
+		this.module.setValue("silent", mob);
+	}
+
+	public boolean isAnimal() {
+		return this.module.getValue("animal", Boolean.class);
+	}
+
+	public void setAnimal(boolean animal) {
+		this.module.setValue("animal", animal);
+	}
+
+	public boolean isPlayer() {
+		return this.module.getValue("player", Boolean.class);
+	}
+
+	public void setPlayer(boolean player) {
+		this.module.setValue("player", player);
+	}
+
+	public boolean isLegit() {
+		return this.module.getValue("legit", Boolean.class);
+	}
+
+	public void setLegit(boolean legit) {
+		this.module.setValue("legit", legit);
+	}
+
+	public boolean isInvisible() {
+		return this.module.getValue("invisible", Boolean.class);
+	}
+
+	public void setInvisible(boolean invisible) {
+		this.module.setValue("invisible", invisible);
+	}
+
+	public boolean isAutoSpeed() {
+		return this.module.getValue("autoDelay", Boolean.class);
+	}
+
+	public void setAutoSpeed(boolean autoSpeed) {
+		this.module.setValue("autoDelay", autoSpeed);
+	}
+
 	public void setAngles(EntityLivingBase entityLiving, EntityManager entityManager) {
 		float yaw = entityManager.getAngles(entityLiving)[0];
 		float pitch = entityManager.getAngles(entityLiving)[1];
@@ -216,26 +233,6 @@ public class AuraManager {
 
 	private void setPitch(float pitch) {
 		Wrapper.getPlayer().rotationPitch = pitch;
-	}
-
-	public void onStartUp() {
-		this.setAnimal(this.module.getValueOrDefault("animal", Boolean.class, true));
-		this.setMob(this.module.getValueOrDefault("mob", Boolean.class, true));
-		this.setPlayer(this.module.getValueOrDefault("player", Boolean.class, true));
-		this.setSilent(this.module.getValueOrDefault("silent", Boolean.class, true));
-		this.setLegit(this.module.getValueOrDefault("legit", Boolean.class, true));
-		this.setInvisible(this.module.getValueOrDefault("invisible", Boolean.class, false));
-		this.setAutoSpeed(this.module.getValueOrDefault("autoDelay", Boolean.class, false));
-	}
-
-	public void onShutdown() {
-		this.module.setValue("animal", this.isAnimal());
-		this.module.setValue("mob", this.isMob());
-		this.module.setValue("player", this.isPlayer());
-		this.module.setValue("silent", this.isSilent());
-		this.module.setValue("legit", this.isLegit());
-		this.module.setValue("invisible", this.isInvisible());
-		this.module.setValue("autoDelay", this.isAutoSpeed());
 	}
 }
 

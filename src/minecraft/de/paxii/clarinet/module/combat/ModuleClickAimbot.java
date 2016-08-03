@@ -34,11 +34,6 @@ public class ModuleClickAimbot extends Module {
 	}
 
 	@Override
-	public void onStartup() {
-		this.auraManager.onStartUp();
-	}
-
-	@Override
 	public void onEnable() {
 		Wrapper.getEventManager().register(this);
 	}
@@ -187,10 +182,5 @@ public class ModuleClickAimbot extends Module {
 	@Override
 	public void onDisable() {
 		Wrapper.getEventManager().unregister(this);
-	}
-
-	@Override
-	public void onShutdown() {
-		this.auraManager.onShutdown();
 	}
 }
