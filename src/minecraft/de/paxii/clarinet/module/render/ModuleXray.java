@@ -188,6 +188,7 @@ public class ModuleXray extends Module {
 
 	@Override
 	public void onShutdown() {
+		this.getModuleSettings().clear();
 		for (int blockID : blockList) {
 			this.getModuleSettings().put(String.valueOf(blockID), new ClientSettingInteger(String.valueOf(blockID), blockID));
 		}

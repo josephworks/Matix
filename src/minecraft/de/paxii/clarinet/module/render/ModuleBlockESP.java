@@ -168,7 +168,7 @@ public class ModuleBlockESP extends Module {
 							BlockPos blockPos = new BlockPos(blockX, y, blockZ);
 
 							Block block = Wrapper.getWorld()
-									.getBlockState(blockPos).getBlock();
+							                     .getBlockState(blockPos).getBlock();
 
 							int blockID = Block.getIdFromBlock(block);
 
@@ -267,6 +267,7 @@ public class ModuleBlockESP extends Module {
 
 	@Override
 	public void onShutdown() {
+		this.getModuleSettings().clear();
 		for (Entry<Integer, Integer> searchBlock : this.searchBlocks.entrySet()) {
 			this.getModuleSettings().put(String.valueOf(searchBlock.getKey()), new ClientSettingInteger(String.valueOf(searchBlock.getKey()), searchBlock.getValue()));
 		}
