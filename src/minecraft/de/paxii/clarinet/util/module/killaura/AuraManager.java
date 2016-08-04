@@ -43,8 +43,8 @@ public class AuraManager {
 
 		this.timeManager = new TimeManager();
 
-		this.valueRange = new ValueBase(module.getName() + " Range", 4.1F, 1, 6);
-		this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15) {
+		this.valueRange = new ValueBase(module.getName() + " Range", 4.1F, 1, 6, "Range");
+		this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15, "Speed") {
 			@Override
 			public void onUpdate(float oldValue, float newValue) {
 				if (AuraManager.this.isAutoSpeed()) {
@@ -53,7 +53,7 @@ public class AuraManager {
 				}
 			}
 		};
-		this.valueAngle = new ValueBase(module.getName() + " Angle", 80.0F, 1.0F, 180.0F);
+		this.valueAngle = new ValueBase(module.getName() + " Angle", 80.0F, 1.0F, 180.0F, "Angle");
 
 		this.module.getModuleValues().put("valueRange", this.valueRange);
 		this.module.getModuleValues().put("valueDelay", this.valueDelay);

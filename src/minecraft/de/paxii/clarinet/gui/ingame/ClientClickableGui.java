@@ -43,8 +43,8 @@ public class ClientClickableGui extends GuiScreen {
 	}
 
 	private void loadThemes() {
-		this.panelThemes.add(new DefaultClientTheme());
 		this.panelThemes.add(new Matix2HDTheme());
+		this.panelThemes.add(new DefaultClientTheme());
 
 		IClientTheme clientTheme = this.getTheme(ClientSettings.getValue("client.guitheme", String.class));
 

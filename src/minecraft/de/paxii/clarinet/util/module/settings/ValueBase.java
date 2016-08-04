@@ -11,7 +11,7 @@ public class ValueBase implements Comparable<ValueBase> {
 	private float min, max, value;
 	@Getter
 	@Setter
-	private String name;
+	private String name, displayName;
 	@Getter
 	@Setter
 	private boolean shouldRound;
@@ -22,17 +22,29 @@ public class ValueBase implements Comparable<ValueBase> {
 		this(name, current, min, max, false);
 	}
 
-	public ValueBase(String name, float current, float min, float max,
-	                 boolean shouldRound) {
+	public ValueBase(String name, float current, float min, float max, String displayName) {
+		this(name, current, min, max, false, displayName);
+	}
+
+	public ValueBase(String name, float current, float min, float max, boolean shouldRound) {
+		this(name, current, min, max, shouldRound, null);
+	}
+
+	public ValueBase(String name, float current, float min, float max, boolean shouldRound, String displayName) {
 		this.name = name;
 		this.value = current;
 		this.min = min;
 		this.max = max;
 		this.shouldRound = shouldRound;
+		this.displayName = displayName;
 
 		if (!doesValueExist(getName())) {
 			valueList.add(this);
 		}
+	}
+
+	public String getDisplayName() {
+		return this.displayName != null ? this.displayName : this.name;
 	}
 
 	public void onUpdate(float oldValue, float newValue) {

@@ -12,7 +12,7 @@ public class ModuleFastPlace extends Module {
 		super("Fastplace", ModuleCategory.PLAYER, -1);
 
 		this.getModuleValues().put("clickSpeed",
-				new ValueBase("FastPlace Delay", 0.0F, 0.0F, 4.0F, false));
+				new ValueBase("FastPlace Delay", 0.0F, 0.0F, 4.0F, false, "Delay"));
 	}
 
 	public void onEnable() {

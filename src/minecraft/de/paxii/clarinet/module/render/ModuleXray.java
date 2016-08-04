@@ -30,7 +30,7 @@ public class ModuleXray extends Module {
 	public ModuleXray() {
 		super("Xray", ModuleCategory.RENDER, Keyboard.KEY_X);
 
-		this.getModuleValues().put("opacity", new ValueBase("Xray Opacity", 30.0F, 0.0F, 100.0F, true) {
+		this.getModuleValues().put("opacity", new ValueBase("Xray Opacity", 30.0F, 0.0F, 100.0F, true, "Opacity") {
 			@Override
 			public void onUpdate(float oldValue, float newValue) {
 				int opacity = (int) (newValue * 255 / 100);

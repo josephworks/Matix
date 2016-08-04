@@ -14,7 +14,7 @@ public class ModuleFly extends Module {
 
 		this.setDescription("Allows you to fly.");
 
-		this.getModuleValues().put("flySpeed", new ValueBase("Fly Speed", 0.5F, 0.1F, 5.0F));
+		this.getModuleValues().put("flySpeed", new ValueBase("Fly Speed", 0.5F, 0.1F, 5.0F, "Speed"));
 	}
 
 	@Override

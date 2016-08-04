@@ -2,6 +2,7 @@ package de.paxii.clarinet.gui.ingame.panel.theme.themes;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
+import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;
@@ -46,6 +47,8 @@ public class Matix2HDTheme implements IClientTheme {
 		} else if (guiPanel.getPanelName().equalsIgnoreCase("world")) {
 			backgroundStart = 0xff074770;
 			backgroundEnd = 0x99074770;
+		} else if (guiPanel instanceof GuiPanelModuleSettings) {
+			backgroundEnd = backgroundStart;
 		}
 
 		GuiMethods.drawGradientRect(
@@ -151,7 +154,7 @@ public class Matix2HDTheme implements IClientTheme {
 		);
 
 		FontManager.getDefaultFont().drawString(
-				valueBase.getName() + ": " + format.format(valueBase.getValue()),
+				valueBase.getDisplayName() + ": " + format.format(valueBase.getValue()),
 				sliderX,
 				sliderY - 2,
 				0xFFFFFFFF

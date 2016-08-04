@@ -35,9 +35,9 @@ public class ModuleTriggerbot extends Module {
 		this.setDescription("Automatically hits entities when you hover over them while holding the trigger key (default is left alt)");
 		this.setSyntax("triggerbot autospeed <true/false>");
 
-		this.getModuleValues().put("clickSpeed", new ValueBase("Triggerbot Speed", 8.2F, 1F, 20F));
-		this.getModuleValues().put("clickRange", new ValueBase("Triggerbot Range", 4.5F, 1F, 6.6F));
-		this.getModuleValues().put("randomness", new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true));
+		this.getModuleValues().put("clickSpeed", new ValueBase("Triggerbot Speed", 8.2F, 1F, 20F, "Speed"));
+		this.getModuleValues().put("clickRange", new ValueBase("Triggerbot Range", 4.5F, 1F, 6.6F, "Range"));
+		this.getModuleValues().put("randomness", new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true, "Randomness"));
 		this.getModuleSettings().put("triggerKey", new ClientSettingInteger("Trigger Key", 56));
 		this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
 

@@ -42,7 +42,7 @@ public class ModuleNameTags extends Module {
 
 		this.getModuleSettings().put("displayHealth", new ClientSettingBoolean("Health", true));
 		this.getModuleSettings().put("displayArmor", new ClientSettingBoolean("Armor", false));
-		this.getModuleValues().put("scale", new ValueBase("NameTag Scale", 3.0F, 1.0F, 10.0F));
+		this.getModuleValues().put("scale", new ValueBase("NameTag Scale", 3.0F, 1.0F, 10.0F, "Scale"));
 	}
 
 	@Override

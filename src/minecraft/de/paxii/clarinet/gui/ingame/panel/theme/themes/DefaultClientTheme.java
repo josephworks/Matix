@@ -177,7 +177,7 @@ public class DefaultClientTheme implements IClientTheme {
 				this.currentColor.buttonDisabledBackgroundHovered);
 
 		Wrapper.getFontRenderer().drawString(
-				valueBase.getName() + ": "
+				valueBase.getDisplayName() + ": "
 						+ format.format(valueBase.getValue()), sliderX,
 				sliderY, this.currentColor.getTextColor());
 

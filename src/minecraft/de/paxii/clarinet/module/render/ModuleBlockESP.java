@@ -32,7 +32,7 @@ public class ModuleBlockESP extends Module {
 	public ModuleBlockESP() {
 		super("BlockESP", ModuleCategory.RENDER);
 
-		this.getModuleValues().put("renderDistance", new ValueBase("Block ESP Distance", 50, 1, 500, true) {
+		this.getModuleValues().put("renderDistance", new ValueBase("Block ESP Distance", 50, 1, 500, true, "Distance") {
 			@Override
 			public void onUpdate(float oldValue, float newValue) {
 				ModuleBlockESP.this.renderBlocks.clear();

@@ -13,7 +13,7 @@ public class ModuleVelocity extends Module {
 
 		this.setDescription("Changes the amount of knockback you take.");
 
-		this.getModuleValues().put("velocityValue", new ValueBase("Velocity (%)", 50.0F, 0.0F, 100.0F, true));
+		this.getModuleValues().put("velocityValue", new ValueBase("Velocity (%)", 50.0F, 0.0F, 100.0F, true, "Knockback (%)"));
 	}
 
 	@Override

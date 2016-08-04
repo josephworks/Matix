@@ -35,7 +35,7 @@ public class ModuleKillaura extends Module {
 		this.timeManager.setRandom(true);
 		this.entityManager = new EntityManager(this.auraManager,
 				Wrapper.getFriendManager());
-		this.valueRandomness = new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true);
+		this.valueRandomness = new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true, "Randomness");
 
 		this.getModuleValues().put("randomness", valueRandomness);
 	}
