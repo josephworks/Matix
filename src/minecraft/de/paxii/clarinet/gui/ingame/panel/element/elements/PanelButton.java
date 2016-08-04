@@ -5,12 +5,11 @@ import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.module.Module;
+import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSetting;
-import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class PanelButton extends PanelElement {
 	private final GuiPanel guiPanel;
@@ -18,12 +17,15 @@ public class PanelButton extends PanelElement {
 	private final Module module;
 	@Getter
 	private GuiPanelModuleSettings moduleSettings;
+	private TimeManager timeManager;
+	private boolean wasHovered;
 
 	public PanelButton(Module module, GuiPanel guiPanel) {
 		super(90, 12);
 
 		this.guiPanel = guiPanel;
 		this.module = module;
+		this.timeManager = new TimeManager();
 
 		this.moduleSettings = new GuiPanelModuleSettings(this.module, 0, 0) {
 			@Override
@@ -62,6 +64,22 @@ public class PanelButton extends PanelElement {
 	public void drawElement(int elementX, int elementY, int mouseX, int mouseY) {
 		boolean buttonHovered = this.isMouseOverButton(mouseX, mouseY);
 		boolean hasSettings = this.moduleSettings.getPanelElements().size() > 0;
+		boolean displayHelp = false;
+
+		this.timeManager.updateTimer();
+
+		if (buttonHovered) {
+			if (!this.wasHovered) {
+				this.timeManager.updateLast();
+				this.wasHovered = true;
+			}
+		} else {
+			this.wasHovered = false;
+		}
+
+		if (this.timeManager.sleep(1000L) && this.wasHovered) {
+			displayHelp = true;
+		}
 
 		this.moduleSettings.setPanelX(elementX + this.getElementWidth() + 5);
 		this.moduleSettings.setPanelY(elementY);
@@ -69,7 +87,7 @@ public class PanelButton extends PanelElement {
 		Wrapper.getClickableGui()
 		       .getCurrentTheme()
 		       .drawButton(module, elementX, elementY, this.getElementWidth(),
-				       this.getElementHeight(), buttonHovered, hasSettings);
+				       this.getElementHeight(), buttonHovered, hasSettings, displayHelp);
 
 		super.drawElement(elementX, elementY, mouseX, mouseY);
 	}

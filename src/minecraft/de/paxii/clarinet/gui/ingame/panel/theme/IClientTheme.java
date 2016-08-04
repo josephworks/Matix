@@ -10,7 +10,7 @@ public interface IClientTheme {
 
 	void drawPanel(GuiPanel guiPanel, int mouseX, int mouseY);
 
-	void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings);
+	void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings, boolean displayHelp);
 
 	void drawCheckBox(String caption, boolean checked, int elementX, int elementY, int elementWidth, int elementHeight, boolean elementHovered);
 

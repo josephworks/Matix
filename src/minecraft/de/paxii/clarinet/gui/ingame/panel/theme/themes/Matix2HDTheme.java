@@ -13,6 +13,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import java.text.DecimalFormat;
@@ -73,7 +75,7 @@ public class Matix2HDTheme implements IClientTheme {
 	}
 
 	@Override
-	public void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings) {
+	public void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings, boolean displayHelp) {
 		int buttonColor = 0x55000000;
 		int textColor = 0xffffffff;
 
@@ -94,6 +96,22 @@ public class Matix2HDTheme implements IClientTheme {
 			GuiMethods.drawRightTri(buttonX + buttonWidth - 3, buttonY + (buttonHeight / 2), 3, 0xFFFFFFFF);
 		}
 		FontManager.getDefaultFont().drawString(module.getName(), buttonX + 3, buttonY - 2, textColor);
+
+		if (displayHelp && module.getDescription().length() > 0) {
+			GL11.glPushMatrix();
+			GL11.glTranslatef(0.0F, 0.0F, 255.0F);
+			int posX = Mouse.getX() / 2 + 10;
+			int posY = (Display.getHeight() - Mouse.getY()) / 2;
+			GuiMethods.drawRect(
+					posX - 3,
+					posY,
+					posX + (int) FontManager.getDefaultFont().getStringWidth(module.getDescription()) + 3,
+					posY + (int) FontManager.getDefaultFont().getStringHeight(module.getDescription()) + 3,
+					0xff585959
+			);
+			FontManager.getDefaultFont().drawString(module.getDescription(), posX, posY - 2, 0xFFFFFFFF);
+			GL11.glPopMatrix();
+		}
 	}
 
 	@Override
@@ -137,7 +155,6 @@ public class Matix2HDTheme implements IClientTheme {
 
 	@Override
 	public void drawColorButton(String colorName, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered) {
-
 	}
 
 	@Override
