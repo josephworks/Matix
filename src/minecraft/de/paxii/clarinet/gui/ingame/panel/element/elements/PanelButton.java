@@ -1,13 +1,16 @@
 package de.paxii.clarinet.gui.ingame.panel.element.elements;
 
 import de.paxii.clarinet.Wrapper;
+import de.paxii.clarinet.event.events.player.PlayerSendChatMessageEvent;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSetting;
+import de.paxii.clarinet.util.settings.ClientSettings;
 import lombok.Getter;
+import net.minecraft.network.play.client.CPacketChatMessage;
 
 import java.util.ArrayList;
 
@@ -109,6 +112,10 @@ public class PanelButton extends PanelElement {
 				} else {
 					this.moduleSettings.setVisible(false);
 				}
+			} else if (clickedButton == 2) {
+				Wrapper.getConsole().onChatMessage(new PlayerSendChatMessageEvent(new CPacketChatMessage(
+						ClientSettings.getValue("client.prefix", String.class) + "help " + this.getModule().getName().toLowerCase()
+				)));
 			}
 		}
 	}
