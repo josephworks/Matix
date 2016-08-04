@@ -42,6 +42,7 @@ public class ModuleNameTags extends Module {
 
 		this.getModuleSettings().put("displayHealth", new ClientSettingBoolean("Health", true));
 		this.getModuleSettings().put("displayArmor", new ClientSettingBoolean("Armor", false));
+		this.getModuleSettings().put("opacity", new ClientSettingBoolean("Opacity", true));
 		this.getModuleValues().put("scale", new ValueBase("NameTag Scale", 3.0F, 1.0F, 10.0F, "Scale"));
 	}
 
@@ -52,6 +53,7 @@ public class ModuleNameTags extends Module {
 
 	public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking) {
 		final double scale = Wrapper.getPlayer().getDistanceToEntity(entity) / instance.getModuleValues().get("scale").getValue();
+		final float alpha = instance.getValueOrDefault("opacity", Boolean.class, true) ? 0.25F : 1.00F;
 		yOffset -= scale / 2;
 
 		if (entity instanceof EntityOtherPlayerMP && instance.getValueOrDefault("displayHealth", Boolean.class, true)) {
@@ -76,10 +78,10 @@ public class ModuleNameTags extends Module {
 		Tessellator tessellator = Tessellator.getInstance();
 		VertexBuffer vertexbuffer = tessellator.getBuffer();
 		vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-		vertexbuffer.pos((double) (-i - 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
-		vertexbuffer.pos((double) (-i - 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
-		vertexbuffer.pos((double) (i + 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
-		vertexbuffer.pos((double) (i + 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, 1.00F).endVertex();
+		vertexbuffer.pos((double) (-i - 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+		vertexbuffer.pos((double) (-i - 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+		vertexbuffer.pos((double) (i + 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+		vertexbuffer.pos((double) (i + 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
 
 		GL11.glScaled(scale, scale, scale);
 		tessellator.draw();
