@@ -52,7 +52,8 @@ public class ModuleNameTags extends Module {
 	}
 
 	public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking) {
-		final double scale = Wrapper.getPlayer().getDistanceToEntity(entity) / instance.getModuleValues().get("scale").getValue();
+		final float distance =Wrapper.getPlayer().getDistanceToEntity(entity);
+		final double scale = distance > 10.0F ?  distance / instance.getModuleValues().get("scale").getValue() : 1.0F;
 		final float alpha = instance.getValueOrDefault("opacity", Boolean.class, true) ? 0.25F : 1.00F;
 		yOffset -= scale / 2;
 
@@ -90,7 +91,7 @@ public class ModuleNameTags extends Module {
 		fontRenderer.drawString(nameTag, -fontRenderer.getStringWidth(nameTag) / 2, yOffset, 0xFFFFFFFF);
 		GlStateManager.enableDepth();
 
-		GlStateManager.depthMask(false);
+		GlStateManager.depthMask(true);
 		GlStateManager.enableLighting();
 		GlStateManager.disableBlend();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
