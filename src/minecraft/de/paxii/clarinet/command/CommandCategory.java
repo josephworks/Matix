@@ -1,21 +1,23 @@
 package de.paxii.clarinet.command;
 
+import lombok.Getter;
+
 public enum CommandCategory {
-	MAIN,
-	MODULE;
+	MAIN("Main"),
+	MODULE("Module");
+
+	@Getter
+	private String name;
+
+	CommandCategory(String name) {
+		this.name = name;
+	}
 
 	public String getCategoryName() {
-		switch (this) {
-			case MAIN:
-				return "Main";
-			case MODULE:
-				return "Module";
-		}
-
-		return null;
+		return this.name;
 	}
 
 	public String toString() {
-		return this.getCategoryName();
+		return this.name;
 	}
 }
