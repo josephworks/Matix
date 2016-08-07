@@ -6,6 +6,7 @@ import de.paxii.clarinet.event.events.player.PlayerMoveEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
+import de.paxii.clarinet.util.module.settings.ValueBase;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 
@@ -16,9 +17,10 @@ public class ModuleAntiFall extends Module {
 	public ModuleAntiFall() {
 		super("AntiFall", ModuleCategory.MOVEMENT, -1);
 
-		this.setDescription("Prevents you from falling more than 3 blocks. Requires NoCheatPlus.");
-
 		this.timeManager = new TimeManager();
+
+		this.setDescription("Prevents you from falling more than 3 blocks. Requires NoCheatPlus.");
+		this.getModuleValues().put("fallDistance", new ValueBase("AntiFall Distance", 2.0F, 1.0F, 10.0F, "Distance"));
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class ModuleAntiFall extends Module {
 
 	@EventHandler
 	public void onPlayerMovement(PlayerMoveEvent event) {
-		if (event.getPlayer().fallDistance > 2
+		if (event.getPlayer().fallDistance >= this.getValueBase("fallDistance").getValue()
 				&& !event.getPlayer().onGround
 				&& !event.getPlayer().isSneaking() && !isOverBlock()) {
 			event.setMotionY(0.0D);
