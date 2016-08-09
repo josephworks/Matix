@@ -47,50 +47,52 @@ public class ModuleSettingsHandler {
 					if (file.length() > 0) {
 						ModuleSettingsContainer moduleSettingsContainer = gson.fromJson(file, ModuleSettingsContainer.class);
 
-						moduleSettingsContainer.getModuleSettings().forEach(moduleSettings -> {
-							if (Wrapper.getModuleManager().doesModuleExist(moduleSettings.getModuleName())) {
-								Module module = Wrapper.getModuleManager().getModule(moduleSettings.getModuleName());
-
-								/*
+						Wrapper.getModuleManager().getModuleList().values().forEach((module) -> {
+							for (ModuleSettingsObject moduleSettings : moduleSettingsContainer.getModuleSettings()) {
+								if (moduleSettings.getModuleName().equals(module.getName())) {
+																	/*
 								 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
 								 * This converts settings stored as doubles to int if the value stays the same
 								 * Gson uses Doubles rather than Integers when guessing data types.
 								 */
-								moduleSettings.getModuleSettings().forEach((key, value) -> {
-									if (value.getValue() instanceof Double) {
-										double doubleValue = (double) value.getValue();
+									moduleSettings.getModuleSettings().forEach((key, value) -> {
+										if (value.getValue() instanceof Double) {
+											double doubleValue = (double) value.getValue();
 
-										int intValue = (int) ((long) doubleValue);
-										if (doubleValue == intValue) {
-											value.setValue(intValue);
+											int intValue = (int) ((long) doubleValue);
+											if (doubleValue == intValue) {
+												value.setValue(intValue);
+											}
 										}
+									});
+
+									for (Entry<String, ClientSettingSettingsObject> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
+										module.setValue(settingsEntry.getKey(), settingsEntry.getValue().getValue());
 									}
-								});
 
-								for (Entry<String, ClientSettingSettingsObject> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
-									module.setValue(settingsEntry.getKey(), settingsEntry.getValue().getValue());
-								}
+									moduleSettings.getModuleValues().forEach((k, v) -> {
+										if (ValueBase.doesValueExist(v.getName())) {
+											ValueBase vb = ValueBase.getValueBase(v.getName());
 
-								moduleSettings.getModuleValues().forEach((k, v) -> {
-									if (ValueBase.doesValueExist(v.getName())) {
-										ValueBase vb = ValueBase.getValueBase(v.getName());
-
-										if (vb != null) {
-											vb.setValue(v.getValue());
-											vb.setMin(v.getMin());
-											vb.setMax(v.getMax());
-											vb.setName(v.getName());
+											if (vb != null) {
+												vb.setValue(v.getValue());
+												vb.setMin(v.getMin());
+												vb.setMax(v.getMax());
+												vb.setName(v.getName());
+											}
 										}
+									});
+
+									module.setKey(moduleSettings.getModuleKey());
+
+									if (moduleSettings.isEnabled()) {
+										this.enabledModules.add(module);
 									}
-								});
-
-								module.setKey(moduleSettings.getModuleKey());
-								module.onStartup();
-
-								if (moduleSettings.isEnabled()) {
-									this.enabledModules.add(module);
+									break;
 								}
 							}
+
+							module.onStartup();
 						});
 					}
 				}
