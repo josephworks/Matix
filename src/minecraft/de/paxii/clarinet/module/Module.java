@@ -2,50 +2,34 @@ package de.paxii.clarinet.module;
 
 import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
+import de.paxii.clarinet.event.events.Event;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSetting;
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;
 
+@Data
 public class Module implements Comparable<Module> {
-	@Getter
-	private String name;
-	@Getter
-	@Setter
+	private final String name;
 	private ModuleCategory category;
-	@Getter
 	private int key;
-	@Getter
-	@Setter
 	private String syntax = "", description = "";
-	@Getter
-	@Setter
 	private String helpUrl;
-	@Getter
-	@Setter
 	private boolean command;
-	@Getter
 	private boolean enabled;
-	@Getter
-	@Setter
+	@Setter(value = AccessLevel.PROTECTED)
+	private boolean registered;
 	private boolean displayedInGui;
-	@Getter
-	@Setter
 	private boolean plugin;
-	@Getter
 	@Setter(value = AccessLevel.PROTECTED)
 	private int buildVersion;
-	@Getter
 	@Setter(value = AccessLevel.PROTECTED)
 	private String version;
-	@Getter
-	@Setter
 	private HashMap<String, ValueBase> moduleValues;
-	@Getter
-	@Setter
 	private HashMap<String, ClientSetting> moduleSettings;
 
 	public Module(String name, ModuleCategory category) {
@@ -74,9 +58,15 @@ public class Module implements Comparable<Module> {
 		this.enabled = enabled;
 
 		if (isEnabled()) {
+			if (this.isRegistered()) {
+				this.register();
+			}
 			this.onEnable();
 		} else {
 			this.onDisable();
+			if (this.isRegistered()) {
+				this.unregister();
+			}
 		}
 
 		this.onToggle();
@@ -147,6 +137,22 @@ public class Module implements Comparable<Module> {
 
 	public ValueBase getValueBase(String valueName) {
 		return this.getModuleValues().get(valueName);
+	}
+
+	protected void register() {
+		Wrapper.getEventManager().register(this);
+	}
+
+	protected void register(Class<? extends Event> eventClass) {
+		Wrapper.getEventManager().register(this, eventClass);
+	}
+
+	protected void unregister() {
+		Wrapper.getEventManager().unregister(this);
+	}
+
+	protected void unregister(Class<? extends Event> eventClass) {
+		Wrapper.getEventManager().unregister(this, eventClass);
 	}
 
 	@Override
