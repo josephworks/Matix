@@ -11,14 +11,10 @@ public class ModuleVelocity extends Module {
 	public ModuleVelocity() {
 		super("Velocity", ModuleCategory.COMBAT, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Changes the amount of knockback you take.");
 
 		this.getModuleValues().put("velocityValue", new ValueBase("Velocity (%)", 50.0F, 0.0F, 100.0F, true, "Knockback (%)"));
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -35,10 +31,5 @@ public class ModuleVelocity extends Module {
 
 	private float calculateReduction() {
 		return (this.getModuleValues().get("velocityValue").getValue() / 100.0F);
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

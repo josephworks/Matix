@@ -11,12 +11,8 @@ public class ModuleNofall extends Module {
 	public ModuleNofall() {
 		super("Nofall", ModuleCategory.WORLD);
 
+		this.setRegistered(true);
 		this.setDescription("Disables fall damage.");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -26,10 +22,5 @@ public class ModuleNofall extends Module {
 			curPacket.setOnGround(true);
 			e.setPacket(curPacket);
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

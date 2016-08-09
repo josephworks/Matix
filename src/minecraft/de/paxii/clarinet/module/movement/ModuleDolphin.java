@@ -11,12 +11,8 @@ public class ModuleDolphin extends Module {
 	public ModuleDolphin() {
 		super("Dolphin", ModuleCategory.MOVEMENT, Keyboard.KEY_J);
 
+		this.setRegistered(true);
 		this.setDescription("Automatically swims for you.");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -25,15 +21,7 @@ public class ModuleDolphin extends Module {
 				&& Wrapper.getPlayer().isInWater()) {
 			if (!Wrapper.getPlayer().isCollidedHorizontally) {
 				Wrapper.getPlayer().motionY = 0.04D;
-			} else {
-				//Wrapper.getPlayer().jump();
-				Wrapper.getPlayer().motionY += 0.0D;
 			}
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

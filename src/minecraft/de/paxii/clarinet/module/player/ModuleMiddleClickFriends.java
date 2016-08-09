@@ -2,7 +2,6 @@ package de.paxii.clarinet.module.player;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
-import de.paxii.clarinet.event.events.game.IngameTickEvent;
 import de.paxii.clarinet.event.events.game.KeyPressedEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
@@ -10,7 +9,6 @@ import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.input.Mouse;
 
 public class ModuleMiddleClickFriends extends Module {
 	private final TimeManager timeManager;
@@ -18,14 +16,10 @@ public class ModuleMiddleClickFriends extends Module {
 	public ModuleMiddleClickFriends() {
 		super("MiddleClick", ModuleCategory.PLAYER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Adds friends when you click the middle mouse button while aiming at them.");
 
 		this.timeManager = new TimeManager();
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -47,10 +41,5 @@ public class ModuleMiddleClickFriends extends Module {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

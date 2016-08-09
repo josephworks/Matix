@@ -10,12 +10,8 @@ public class ModuleSafeWalk extends Module {
 	public ModuleSafeWalk() {
 		super("Safewalk", ModuleCategory.MOVEMENT);
 
+		this.setRegistered(true);
 		this.setDescription("Prevents you from falling off of edges. (like you're sneaking)");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -92,10 +88,5 @@ public class ModuleSafeWalk extends Module {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

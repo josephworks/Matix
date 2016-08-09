@@ -32,15 +32,14 @@ public class ModuleAutoMine extends Module {
 		this.blockList.add(56);
 
 		this.setDisplayedInGui(false);
-		this.setCommand(false);
+		this.setCommand(true);
+		this.setRegistered(true);
 		this.setDescription("Automatically mines specific blocks in a given distance.");
 		this.setSyntax("automine <add/remove/list> <blockid>");
 	}
 
 	@Override
 	public void onEnable() {
-		Wrapper.getEventManager().register(this);
-
 		Chat.printClientMessage("If the Bot does not start Mining, press your Attack Button once!");
 	}
 
@@ -132,8 +131,6 @@ public class ModuleAutoMine extends Module {
 
 	@Override
 	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
-
 		this.clickFixed = false;
 	}
 

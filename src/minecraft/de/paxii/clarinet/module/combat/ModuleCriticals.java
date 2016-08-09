@@ -15,12 +15,8 @@ public class ModuleCriticals extends Module {
 	public ModuleCriticals() {
 		super("Criticals", ModuleCategory.COMBAT);
 
+		this.setRegistered(true);
 		this.setDescription("Forces criticals on entity attack.");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -31,10 +27,5 @@ public class ModuleCriticals extends Module {
 			event.getSource().motionY = jumpDistance;
 			event.getSource().fallDistance = jumpDistance;
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

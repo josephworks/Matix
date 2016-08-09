@@ -12,12 +12,8 @@ public class ModuleVanillaFly extends Module {
 	public ModuleVanillaFly() {
 		super("VanillaFly", ModuleCategory.MOVEMENT, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Delays the \"Kicked for flying\" - Vanilla AntiFly.");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -40,11 +36,5 @@ public class ModuleVanillaFly extends Module {
 		this.savedX = event.getPlayer().posX;
 		this.savedY = event.getPlayer().posY;
 		this.savedZ = event.getPlayer().posZ;
-	}
-
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

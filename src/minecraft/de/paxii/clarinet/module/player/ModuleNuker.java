@@ -17,14 +17,10 @@ public class ModuleNuker extends Module {
 	public ModuleNuker() {
 		super("Nuker", ModuleCategory.PLAYER);
 
+		this.setRegistered(true);
 		this.setDescription("Breaks blocks around you when holding the attack button. Requires Creative.");
 
 		this.timeManager = new TimeManager();
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -55,10 +51,5 @@ public class ModuleNuker extends Module {
 				}
 			}
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

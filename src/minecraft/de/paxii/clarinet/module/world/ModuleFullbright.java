@@ -12,12 +12,8 @@ public class ModuleFullbright extends Module {
 	public ModuleFullbright() {
 		super("Fullbright", ModuleCategory.WORLD, Keyboard.KEY_B);
 
+		this.setRegistered(true);
 		this.setDescription("Renders the world with full brightness.");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -31,6 +27,5 @@ public class ModuleFullbright extends Module {
 	@Override
 	public void onDisable() {
 		Wrapper.getWorld().provider.generateLightBrightnessTable();
-		Wrapper.getEventManager().unregister(this);
 	}
 }

@@ -20,22 +20,13 @@ public class ModuleProjectiles extends Module {
 	public ModuleProjectiles() {
 		super("Projectiles", ModuleCategory.RENDER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Predicts where projectiles will land. (probably not going to be correct)");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
 	public void onRenderTick(RenderTickEvent event) {
 		draw();
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 
 	private void draw() {

@@ -21,11 +21,8 @@ public class ModuleWorldEditESP extends Module {
 	public ModuleWorldEditESP() {
 		super("WorldEditESP", ModuleCategory.RENDER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Draws a box around your current worldedit selection.");
-	}
-
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -257,10 +254,6 @@ public class ModuleWorldEditESP extends Module {
 			return par1;
 		else
 			return par2;
-	}
-
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 
 	private enum SelectionDir {

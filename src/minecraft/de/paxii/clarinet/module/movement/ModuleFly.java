@@ -13,13 +13,8 @@ public class ModuleFly extends Module {
 		super("Fly", ModuleCategory.MOVEMENT, Keyboard.KEY_R);
 
 		this.setDescription("Allows you to fly.");
-
+		this.setRegistered(true);
 		this.getModuleValues().put("flySpeed", new ValueBase("Fly Speed", 0.5F, 0.1F, 5.0F, "Speed"));
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -40,10 +35,5 @@ public class ModuleFly extends Module {
 		} else if (Wrapper.getGameSettings().keyBindSneak.isKeyDown()) {
 			Wrapper.getPlayer().motionY -= flightSpeed / 1.2;
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

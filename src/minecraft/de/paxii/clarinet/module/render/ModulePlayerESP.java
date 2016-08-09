@@ -17,11 +17,8 @@ public class ModulePlayerESP extends Module {
 	public ModulePlayerESP() {
 		super("PlayerESP", ModuleCategory.RENDER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Draws a box around players.");
-	}
-
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -32,10 +29,6 @@ public class ModulePlayerESP extends Module {
 			this.renderPlayerESP(entity, event.getX(), event.getY(),
 					event.getZ(), event.getRenderPartialTicks());
 		}
-	}
-
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 
 	private void renderPlayerESP(Entity entityIn, double x, double y, double z,

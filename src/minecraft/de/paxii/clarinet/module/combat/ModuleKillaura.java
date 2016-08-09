@@ -27,6 +27,7 @@ public class ModuleKillaura extends Module {
 	public ModuleKillaura() {
 		super("KillAura", ModuleCategory.COMBAT, Keyboard.KEY_F);
 		this.setCommand(true);
+		this.setRegistered(true);
 		this.setSyntax("killaura set <speed/range/animals/mobs/players/silent/legit/autospeed> <digit/true/false>");
 		this.setDescription("Automatically hits entities around you.");
 
@@ -38,11 +39,6 @@ public class ModuleKillaura extends Module {
 		this.valueRandomness = new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true, "Randomness");
 
 		this.getModuleValues().put("randomness", valueRandomness);
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -182,11 +178,5 @@ public class ModuleKillaura extends Module {
 		} else {
 			Chat.printClientMessage("Too few arguments!");
 		}
-	}
-
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

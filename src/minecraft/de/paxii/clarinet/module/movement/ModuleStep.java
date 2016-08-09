@@ -16,15 +16,11 @@ public class ModuleStep extends Module {
 	public ModuleStep() {
 		super("Step", ModuleCategory.MOVEMENT, Keyboard.KEY_K);
 
+		this.setRegistered(true);
 		this.setDescription("Allows you to step up full blocks.");
 	}
 
 	private final AtomicBoolean canPacket = new AtomicBoolean();
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
-	}
 
 	@EventHandler
 	public void onTick(IngameTickEvent event) {
@@ -47,7 +43,6 @@ public class ModuleStep extends Module {
 
 	@Override
 	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 		Wrapper.getPlayer().stepHeight = 0.5F;
 	}
 }

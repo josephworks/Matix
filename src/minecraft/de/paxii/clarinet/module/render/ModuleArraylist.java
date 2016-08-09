@@ -12,14 +12,10 @@ public class ModuleArraylist extends Module {
 	public ModuleArraylist() {
 		super("Arraylist", ModuleCategory.RENDER);
 
+		this.setRegistered(true);
 		this.setDescription("Renders a list of enabled modules on your screen.");
 
 		this.setEnabled(true);
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -47,10 +43,5 @@ public class ModuleArraylist extends Module {
 
 			indexY += 10;
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

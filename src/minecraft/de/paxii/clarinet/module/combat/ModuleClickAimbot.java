@@ -24,6 +24,7 @@ public class ModuleClickAimbot extends Module {
 	public ModuleClickAimbot() {
 		super("ClickAimbot", ModuleCategory.COMBAT, -1);
 		this.setCommand(true);
+		this.setRegistered(true);
 		this.setSyntax("clickaimbot set <speed/range/animals/mobs/players/silent/legit/autospeed> <digit/true/false>");
 		this.setDescription("Aims and hits entities if you hold your attack button.");
 
@@ -31,11 +32,6 @@ public class ModuleClickAimbot extends Module {
 		this.timeManager = new TimeManager();
 		this.entityManager = new EntityManager(this.auraManager,
 				Wrapper.getFriendManager());
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -177,10 +173,5 @@ public class ModuleClickAimbot extends Module {
 		} else {
 			Chat.printClientMessage("Too few arguments!");
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

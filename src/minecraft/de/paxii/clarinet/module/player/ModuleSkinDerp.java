@@ -15,14 +15,10 @@ public class ModuleSkinDerp extends Module {
 	public ModuleSkinDerp() {
 		super("SkinDerp", ModuleCategory.PLAYER);
 
+		this.setRegistered(true);
 		this.setDescription("Rapidly enables and disables layers of your skin.");
 
 		random = new Random();
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -36,7 +32,6 @@ public class ModuleSkinDerp extends Module {
 
 	@Override
 	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 		for (EnumPlayerModelParts modelPart : EnumPlayerModelParts.values()) {
 			Wrapper.getMinecraft().gameSettings.setModelPartEnabled(modelPart, true);
 		}

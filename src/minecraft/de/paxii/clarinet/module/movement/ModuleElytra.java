@@ -15,13 +15,9 @@ import net.minecraft.item.ItemStack;
 public class ModuleElytra extends Module {
 	public ModuleElytra() {
 		super("Elytra", ModuleCategory.MOVEMENT);
+		this.setRegistered(true);
 
 		this.setDescription("Allows you to do an upwards motion with an elytra when holding the jump button.");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -31,10 +27,5 @@ public class ModuleElytra extends Module {
 				&& Wrapper.getGameSettings().keyBindJump.isKeyDown()) {
 			event.setMotionY(event.getMotionY() + 0.05);
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

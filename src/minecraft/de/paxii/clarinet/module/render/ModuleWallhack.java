@@ -13,12 +13,8 @@ public class ModuleWallhack extends Module {
 	public ModuleWallhack() {
 		super("Wallhack", ModuleCategory.RENDER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Renders entities through walls.");
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -35,10 +31,5 @@ public class ModuleWallhack extends Module {
 		GlStateManager.depthMask(true);
 		GL11.glDepthMask(true);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

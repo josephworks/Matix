@@ -11,12 +11,9 @@ public class ModuleFastPlace extends Module {
 	public ModuleFastPlace() {
 		super("Fastplace", ModuleCategory.PLAYER, -1);
 
+		this.setRegistered(true);
 		this.getModuleValues().put("clickSpeed",
 				new ValueBase("FastPlace Delay", 0.0F, 0.0F, 4.0F, false, "Delay"));
-	}
-
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -28,8 +25,8 @@ public class ModuleFastPlace extends Module {
 		}
 	}
 
+	@Override
 	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 		Wrapper.getMinecraft().setRightClickDelayTimer(4);
 	}
 }

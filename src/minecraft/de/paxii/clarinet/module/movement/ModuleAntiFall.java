@@ -17,15 +17,11 @@ public class ModuleAntiFall extends Module {
 	public ModuleAntiFall() {
 		super("AntiFall", ModuleCategory.MOVEMENT, -1);
 
-		this.timeManager = new TimeManager();
-
+		this.setRegistered(true);
 		this.setDescription("Prevents you from falling more than 3 blocks. Requires NoCheatPlus.");
 		this.getModuleValues().put("fallDistance", new ValueBase("AntiFall Distance", 2.0F, 1.0F, 10.0F, "Distance"));
-	}
 
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
+		this.timeManager = new TimeManager();
 	}
 
 	@EventHandler
@@ -65,10 +61,5 @@ public class ModuleAntiFall extends Module {
 		}
 
 		return false;
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

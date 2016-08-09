@@ -44,6 +44,7 @@ public class ModuleBlockESP extends Module {
 		this.renderBlocks = new ConcurrentArrayList<>();
 
 		this.setCommand(true);
+		this.setRegistered(true);
 		this.setDescription("Draws a Box around Blocks");
 		this.setSyntax("blockesp <add/remove/list> <blockID> <color (0xFFFFFF)>");
 	}
@@ -60,11 +61,6 @@ public class ModuleBlockESP extends Module {
 				e.printStackTrace();
 			}
 		});
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -259,8 +255,6 @@ public class ModuleBlockESP extends Module {
 
 	@Override
 	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
-
 		this.renderBlocks.clear();
 		this.updatePosition = null;
 	}

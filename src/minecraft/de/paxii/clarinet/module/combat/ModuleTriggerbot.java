@@ -32,6 +32,7 @@ public class ModuleTriggerbot extends Module {
 		super("Triggerbot", ModuleCategory.COMBAT);
 
 		this.setCommand(true);
+		this.setRegistered(true);
 		this.setDescription("Automatically hits entities when you hover over them while holding the trigger key (default is left alt)");
 		this.setSyntax("triggerbot autospeed <true/false>");
 
@@ -43,10 +44,6 @@ public class ModuleTriggerbot extends Module {
 
 		this.timeManager = new TimeManager();
 		this.timeManager.setRandom(true);
-	}
-
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -87,10 +84,6 @@ public class ModuleTriggerbot extends Module {
 				&& Wrapper.getPlayer().canEntityBeSeen(entity)
 				&& !Wrapper.getFriendManager().isFriend(
 				entity.getName());
-	}
-
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 
 	private void getMouseOver(float partialTicks) {

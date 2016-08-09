@@ -14,11 +14,8 @@ public class ModuleAutoFish extends Module {
 	public ModuleAutoFish() {
 		super("AutoFish", ModuleCategory.PLAYER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Autmatically fishes for you.");
-	}
-
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -29,7 +26,7 @@ public class ModuleAutoFish extends Module {
 			EntityFishHook fishHook = (EntityFishHook) e;
 
 			if (fishHook.angler.getEntityId() == Wrapper.getPlayer()
-					.getEntityId()) {
+			                                            .getEntityId()) {
 				if (event.getVelocityPacket().getMotionX() == 0
 						&& event.getVelocityPacket().getMotionY() != 0
 						&& event.getVelocityPacket().getMotionZ() == 0) {
@@ -37,10 +34,6 @@ public class ModuleAutoFish extends Module {
 				}
 			}
 		}
-	}
-
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }
 

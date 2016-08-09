@@ -20,15 +20,11 @@ public class ModuleRotationDerp extends Module {
 	public ModuleRotationDerp() {
 		super("RotationDerp", ModuleCategory.PLAYER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Spins your head. Only visible server-side.");
 
 		this.timeManager = new TimeManager();
 		this.random = new Random();
-	}
-
-	@Override
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -51,10 +47,5 @@ public class ModuleRotationDerp extends Module {
 
 			timeManager.updateLast();
 		}
-	}
-
-	@Override
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }

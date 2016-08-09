@@ -24,11 +24,8 @@ public class ModuleAutoTool extends Module {
 	public ModuleAutoTool() {
 		super("AutoTool", ModuleCategory.PLAYER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Automatically uses the best tool currently in the hotbar.");
-	}
-
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -40,10 +37,6 @@ public class ModuleAutoTool extends Module {
 	@EventHandler
 	public void onAttackEntity(PlayerAttackEntityEvent event) {
 		bestSword(event.getTarget());
-	}
-
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 
 	private void autoTool(int i, int j, int k) {

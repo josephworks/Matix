@@ -44,6 +44,7 @@ public class ModuleXray extends Module {
 		});
 
 		this.setCommand(true);
+		this.setRegistered(true);
 		this.setDescription("Allows you to see Blocks through walls.");
 		this.setSyntax("xray <add/remove/list/gui> <blockID>");
 	}
@@ -73,8 +74,6 @@ public class ModuleXray extends Module {
 
 	@Override
 	public void onEnable() {
-		Wrapper.getEventManager().register(this);
-
 		if (Wrapper.getGameSettings().ambientOcclusion == 0) {
 			Wrapper.getGameSettings().ambientOcclusion = 1;
 			this.editedAmbientOcclusion = true;
@@ -179,7 +178,6 @@ public class ModuleXray extends Module {
 	@Override
 	public void onDisable() {
 		Wrapper.getWorld().provider.generateLightBrightnessTable();
-		Wrapper.getEventManager().unregister(this);
 
 		if (this.editedAmbientOcclusion) {
 			Wrapper.getGameSettings().ambientOcclusion = 0;

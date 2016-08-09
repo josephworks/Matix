@@ -18,11 +18,8 @@ public class ModuleMobESP extends Module {
 	public ModuleMobESP() {
 		super("MobESP", ModuleCategory.RENDER, -1);
 
+		this.setRegistered(true);
 		this.setDescription("Draws a purple box around mobs and animals.");
-	}
-
-	public void onEnable() {
-		Wrapper.getEventManager().register(this);
 	}
 
 	@EventHandler
@@ -79,9 +76,5 @@ public class ModuleMobESP extends Module {
 			GL11.glPopMatrix();
 		}
 
-	}
-
-	public void onDisable() {
-		Wrapper.getEventManager().unregister(this);
 	}
 }
