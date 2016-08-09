@@ -102,7 +102,11 @@ public class ModuleSettingsHandler {
 
 	@EventHandler
 	private void onLoadWorld(LoadWorldEvent event) {
-		this.enabledModules.forEach((module) -> module.setEnabled(true));
+		this.enabledModules.forEach((module) -> {
+			if (!module.isEnabled()) {
+				module.setEnabled(true);
+			}
+		});
 		this.enabledModules.clear();
 	}
 
