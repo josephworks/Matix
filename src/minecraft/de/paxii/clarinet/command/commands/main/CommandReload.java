@@ -46,8 +46,10 @@ public class CommandReload extends AClientCommand {
 			if (oldModules.size() != Wrapper.getModuleManager().getModuleList().size()) {
 				somethingNew = true;
 				Wrapper.getModuleManager().getModuleList().forEach((k, m) -> {
-					if (!oldModules.contains(k))
+					if (!oldModules.contains(k)) {
+						m.onStartup();
 						Chat.printClientMessage("New Module: " + k);
+					}
 				});
 			}
 
