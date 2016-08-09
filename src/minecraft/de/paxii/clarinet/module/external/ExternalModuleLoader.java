@@ -60,11 +60,14 @@ public class ExternalModuleLoader {
 	private Module[] loadExternalModules() {
 		ArrayList<Module> moduleList = new ArrayList<>();
 
-		try {
-			Iterator<Module> it = ServiceLoader.load(Module.class).iterator();
-			it.forEachRemaining(moduleList::add);
-		} catch (Exception x) {
-			x.printStackTrace();
+		Iterator<Module> it = ServiceLoader.load(Module.class).iterator();
+
+		while (it.hasNext()) {
+			try {
+				moduleList.add(it.next());
+			} catch (Exception x) {
+				x.printStackTrace();
+			}
 		}
 
 		return moduleList.toArray(new Module[moduleList.size()]);
