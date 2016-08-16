@@ -54,7 +54,7 @@ public class TimeManager {
 
 	private void createNewRandomDelay() {
 		if (this.isRandom()) {
-			this.currentRandomness = this.utilRandom.nextInt(this.randomness);
+			this.currentRandomness = this.utilRandom.nextInt(this.randomness == 0 ? 200 : this.randomness);
 		}
 	}
 }
