@@ -143,6 +143,30 @@ public class DefaultClientTheme implements IClientTheme {
 	}
 
 	@Override
+	public void drawDropdown(String currentValue, String[] values, int elementX, int elementY, int elementWidth, int elementHeight, int defaultElementHeight, boolean opened, boolean buttonHovered) {
+		GuiMethods.drawBorderedRect(elementX, elementY, elementX + elementWidth, elementY + elementHeight, 1, 0x66000000, 0x33000000);
+		if (opened) {
+			GuiMethods.drawUpTri(elementX + elementWidth - 5, elementY + 5, 3, 0xFF000000);
+		} else {
+			GuiMethods.drawDownTri(elementX + elementWidth - 5, elementY + 8, 3, 0xFF000000);
+		}
+		Wrapper.getFontRenderer().drawString(currentValue, elementX + 5, elementY + 3, 0xFFFFFFFF);
+
+		if (opened) {
+			int indexY = elementY + defaultElementHeight;
+
+			for (String value : values) {
+				int lowerY = indexY + defaultElementHeight;
+
+				GuiMethods.drawBorderedRect(elementX, indexY - 1, elementX + elementWidth, indexY + defaultElementHeight, 1, 0xFF000000, 0);
+				Wrapper.getFontRenderer().drawString(value, elementX + 5, indexY + (defaultElementHeight / 2) - 4, currentValue.equals(value) ? 0xFF0000 : 0xFFFFFF);
+
+				indexY = lowerY;
+			}
+		}
+	}
+
+	@Override
 	public void drawBlockButton(IBlockState iBlockState, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered) {
 		int blockID = Block.getIdFromBlock(iBlockState.getBlock());
 		boolean isEnabled = ModuleXray.getBlockList().contains(blockID);
