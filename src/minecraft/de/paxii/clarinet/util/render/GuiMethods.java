@@ -636,6 +636,7 @@ public class GuiMethods extends Gui {
 		GL11.glVertex2d(i + 2, j - 2);
 		GL11.glVertex2d(i - 2, j - 2);
 		GL11.glEnd();
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
