@@ -56,6 +56,10 @@ public class JsonFetcher {
 		return JsonFetcher.request(endPoint, "POST", body, type, requestProperties);
 	}
 
+	public static <T> T post(String endPoint, HashMap<String, String> body, Class<T> type, HashMap<String, String> requestProperties) {
+		return JsonFetcher.request(endPoint, "POST", gson.toJson(body), type, requestProperties);
+	}
+
 	/**
 	 * @param endPoint URL to send the request to
 	 * @param type     Type to cast the data to

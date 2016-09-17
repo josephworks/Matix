@@ -32,6 +32,7 @@ public class YggdrasilLoginBridge {
 					username.contains("@") ? "mojang" : "legacy");
 
 			Wrapper.getMinecraft().setSession(session);
+			Wrapper.getClient().getMcLeaksManager().setUsingMcLeaks(false);
 
 			return session;
 		} catch (AuthenticationException e) {

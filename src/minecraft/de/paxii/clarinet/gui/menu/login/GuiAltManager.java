@@ -82,6 +82,8 @@ public class GuiAltManager extends GuiScreen {
 				this.height - 50, 100, 20, "Login"));
 		this.buttonList.add(new GuiButton(4, this.width / 2 + 60,
 				this.height - 50, 100, 20, "Direct"));
+		this.buttonList.add(new GuiButton(5, this.width / 2 - 160,
+				this.height - 50, 100, 20, "MCLeaks.net"));
 	}
 
 	@Override
@@ -125,11 +127,13 @@ public class GuiAltManager extends GuiScreen {
 		} else if (button.id == 2) {
 			Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
 		} else if (button.id == 3) {
-			if (this.pressedSlot != null)
-				YggdrasilLoginBridge.loginWithAlt(this.getPressedSlot()
-						.getAlt());
+			if (this.pressedSlot != null) {
+				YggdrasilLoginBridge.loginWithAlt(this.getPressedSlot().getAlt());
+			}
 		} else if (button.id == 4) {
 			Wrapper.getMinecraft().displayGuiScreen(new GuiDirectLogin(this));
+		} else if (button.id == 5) {
+			Wrapper.getMinecraft().displayGuiScreen(new GuiMcLeaksLogin(this));
 		}
 	}
 
