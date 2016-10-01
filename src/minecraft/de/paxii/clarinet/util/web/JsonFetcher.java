@@ -75,13 +75,13 @@ public class JsonFetcher {
 			HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
 			urlConnection.setRequestMethod(method);
-			urlConnection.setRequestProperty("Accept", "application/json,text/plain");
+			urlConnection.setRequestProperty("Accept", "application/json,text/plain,text/html");
 			urlConnection.setRequestProperty("User-Agent", UUID.randomUUID().toString());
 			properties.forEach(urlConnection::setRequestProperty);
 
 			urlConnection.setDoOutput(true);
 
-			if (body.length() > 0 && !method.equals("GET") || !method.equals("DELETE")) {
+			if (body.length() > 0 && (!method.equals("GET") || !method.equals("DELETE"))) {
 				DataOutputStream dataOutputStream = new DataOutputStream(urlConnection.getOutputStream());
 				dataOutputStream.writeBytes(body);
 				dataOutputStream.flush();
