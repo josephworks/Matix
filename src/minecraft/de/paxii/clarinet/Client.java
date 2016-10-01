@@ -9,6 +9,7 @@ import de.paxii.clarinet.gui.menu.login.GuiAltManager;
 import de.paxii.clarinet.module.ModuleManager;
 import de.paxii.clarinet.util.chat.font.FontManager;
 import de.paxii.clarinet.util.encryption.StringEncryption;
+import de.paxii.clarinet.util.login.mcleaks.MCLeaksManager;
 import de.paxii.clarinet.util.module.file.FileManager;
 import de.paxii.clarinet.util.module.friends.FriendManager;
 import de.paxii.clarinet.util.module.friends.FriendSettingsHandler;
@@ -29,11 +30,11 @@ public class Client {
 	@Getter
 	private static final String clientName = "Matix";
 	@Getter
-	private static final String clientVersion = "1.6.4B";
+	private static final String clientVersion = "1.6.5.1B";
 	@Getter
 	private static final String gameVersion = "1.10";
 	@Getter
-	private static final int clientBuild = 16400;
+	private static final int clientBuild = 16501;
 	@Getter
 	private static final String clientURL = "http://paxii.de/Matix/";
 
@@ -43,6 +44,7 @@ public class Client {
 	private FriendManager friendManager;
 	private NotificationManager notificationManager;
 	private FontManager fontManager;
+	private MCLeaksManager mcLeaksManager;
 
 	private ModuleStore moduleStore;
 
@@ -81,6 +83,7 @@ public class Client {
 		this.friendManager = new FriendManager();
 		this.notificationManager = new NotificationManager();
 		this.fontManager = new FontManager();
+		this.mcLeaksManager = new MCLeaksManager();
 
 		this.clientConsole = new ClientConsole();
 		this.clientClickableGui = new ClientClickableGui();
