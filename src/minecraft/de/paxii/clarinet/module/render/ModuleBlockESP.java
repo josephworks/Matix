@@ -197,8 +197,11 @@ public class ModuleBlockESP extends Module {
 					if (args.length >= 3) {
 						try {
 							String colorString = args[2];
-							if (colorString.startsWith("0x"))
-								blockColor = Integer.parseInt(colorString.substring(2), 16);
+							if (colorString.startsWith("0x")) {
+								colorString = colorString.substring(2);
+							}
+
+							blockColor = Integer.parseInt(colorString, 16);
 						} catch (Exception e) {
 							e.printStackTrace();
 							Chat.printClientMessage("Invalid Block Color!");
