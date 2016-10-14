@@ -5,8 +5,6 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,10 +45,9 @@ public class AuraManager {
 		this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15, "Speed") {
 			@Override
 			public void onUpdate(float oldValue, float newValue) {
-				if (AuraManager.this.isAutoSpeed()) {
-					AuraManager.this.setAutoSpeed(false);
-					Chat.printClientMessage(String.format("Disabled auto speed for %s.", module.getName()));
-				}
+				Chat.printClientMessage(
+						String.format("Auto Speed is currently enabled for %s. Speed is not taken into account.", module.getName())
+				);
 			}
 		};
 		this.valueAngle = new ValueBase(module.getName() + " Angle", 80.0F, 1.0F, 180.0F, "Angle");
@@ -197,7 +194,7 @@ public class AuraManager {
 	}
 
 	public boolean isAutoSpeed() {
-		return this.module.getValue("autoDelay", Boolean.class);
+		return this.module.getValueOrDefault("autoDelay", Boolean.class, false);
 	}
 
 	public void setAutoSpeed(boolean autoSpeed) {
