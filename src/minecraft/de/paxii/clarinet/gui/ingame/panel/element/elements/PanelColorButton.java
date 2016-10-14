@@ -18,9 +18,9 @@ public class PanelColorButton extends PanelElement {
 		boolean buttonHovered = this.isMouseOverButton(mouseX, mouseY);
 
 		Wrapper.getClickableGui()
-				.getCurrentTheme()
-				.drawColorButton(this.colorObject.getColorName(), elementX, elementY, this.getElementWidth(),
-						this.getElementHeight(), buttonHovered);
+		       .getCurrentTheme()
+		       .drawColorButton(this.colorObject.getColorName(), elementX, elementY, this.getElementWidth(),
+				       this.getElementHeight(), buttonHovered);
 
 		super.drawElement(elementX, elementY, mouseX, mouseY);
 	}

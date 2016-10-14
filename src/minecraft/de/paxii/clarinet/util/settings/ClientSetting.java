@@ -19,7 +19,8 @@ public class ClientSetting<T> implements Comparable<ClientSetting> {
 		this.value = value;
 	}
 
-	public void onUpdate(T newValue, T oldValue) {}
+	public void onUpdate(T newValue, T oldValue) {
+	}
 
 	@Deprecated
 	public String getSettingName() {

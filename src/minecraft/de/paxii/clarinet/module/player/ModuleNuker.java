@@ -39,9 +39,9 @@ public class ModuleNuker extends Module {
 						if (Wrapper.getWorld() != null && Block.getIdFromBlock(
 								Wrapper.getWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ())) != 0) {
 							Wrapper.getSendQueue()
-									.addToSendQueue(new CPacketPlayerDigging(
-											CPacketPlayerDigging.Action.START_DESTROY_BLOCK, blockPos,
-											Wrapper.getPlayer().getHorizontalFacing()));
+							       .addToSendQueue(new CPacketPlayerDigging(
+									       CPacketPlayerDigging.Action.START_DESTROY_BLOCK, blockPos,
+									       Wrapper.getPlayer().getHorizontalFacing()));
 							Wrapper.getSendQueue().addToSendQueue(
 									new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK,
 											blockPos, Wrapper.getPlayer().getHorizontalFacing()));

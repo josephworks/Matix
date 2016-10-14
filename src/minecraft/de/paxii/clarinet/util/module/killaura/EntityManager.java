@@ -155,11 +155,11 @@ public class EntityManager {
 	}
 
 	public float[] getAngles(final EntityLivingBase entityLiving) {
-		double difX = entityLiving.posX - Wrapper.getPlayer().posX, difY = (entityLiving.posY + entityLiving
-				.getEyeHeight())
-				- (Wrapper.getPlayer().posY + Wrapper.getPlayer()
-				.getEyeHeight()), difZ = entityLiving.posZ
-				- Wrapper.getPlayer().posZ;
+		double difX =
+				entityLiving.posX - Wrapper.getPlayer().posX,
+				difY = (entityLiving.posY + entityLiving.getEyeHeight())
+						- (Wrapper.getPlayer().posY + Wrapper.getPlayer().getEyeHeight()),
+				difZ = entityLiving.posZ - Wrapper.getPlayer().posZ;
 		double helper = Math.sqrt(difX * difX + difZ * difZ);
 		float yaw = (float) (Math.atan2(difZ, difX) * 180 / Math.PI) - 90;
 		float pitch = (float) -(Math.atan2(difY, helper) * 180 / Math.PI);

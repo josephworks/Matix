@@ -614,7 +614,6 @@ public class GuiMethods extends Gui {
 	}
 
 
-
 	public static void drawUpTri(int x, int y, int size, int color) {
 		float f = (float) (color >> 24 & 0xff) / 255F;
 		float f1 = (float) (color >> 16 & 0xff) / 255F;
@@ -639,7 +638,6 @@ public class GuiMethods extends Gui {
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
 	}
-
 
 
 	public static void drawDownTri(int x, int y, int size, int color) {

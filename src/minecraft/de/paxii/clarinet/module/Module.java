@@ -7,7 +7,6 @@ import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSetting;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 
 import java.util.HashMap;

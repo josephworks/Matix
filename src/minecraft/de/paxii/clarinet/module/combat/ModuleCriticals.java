@@ -1,6 +1,5 @@
 package de.paxii.clarinet.module.combat;
 
-import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.player.PlayerAttackEntityEvent;
 import de.paxii.clarinet.module.Module;

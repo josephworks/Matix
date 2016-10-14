@@ -4,7 +4,10 @@ import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventManager;
 import de.paxii.clarinet.event.events.client.PostLoadPanelsEvent;
 import de.paxii.clarinet.gui.ingame.ClientClickableGui;
-import de.paxii.clarinet.gui.ingame.panel.element.elements.*;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelBlockButton;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelBlockRow;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelColorButton;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
@@ -13,7 +16,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.ScaledResolution;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**

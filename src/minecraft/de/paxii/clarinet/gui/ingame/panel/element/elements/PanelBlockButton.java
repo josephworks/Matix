@@ -25,9 +25,9 @@ public class PanelBlockButton extends PanelElement {
 		boolean buttonHovered = this.isMouseOverButton(mouseX, mouseY);
 
 		Wrapper.getClickableGui()
-				.getCurrentTheme()
-				.drawBlockButton(this.iBlockState, elementX, elementY, this.getElementWidth(),
-						this.getElementHeight(), buttonHovered);
+		       .getCurrentTheme()
+		       .drawBlockButton(this.iBlockState, elementX, elementY, this.getElementWidth(),
+				       this.getElementHeight(), buttonHovered);
 
 		super.drawElement(elementX, elementY, mouseX, mouseY);
 	}

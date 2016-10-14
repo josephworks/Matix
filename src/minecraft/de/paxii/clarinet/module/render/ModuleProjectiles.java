@@ -105,7 +105,7 @@ public class ModuleProjectiles extends Module {
 					Vec3d var34 = new Vec3d(var22, var23, var24);
 					Vec3d var35 = new Vec3d(var29, var30, var31);
 					RayTraceResult var8 = Wrapper.getWorld()
-							.rayTraceBlocks(var34, var35);
+					                             .rayTraceBlocks(var34, var35);
 
 					if (var8 != null) {
 						var22 = (float) var8.hitVec.xCoord;

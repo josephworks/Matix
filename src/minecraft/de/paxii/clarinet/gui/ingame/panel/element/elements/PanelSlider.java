@@ -50,10 +50,10 @@ public class PanelSlider extends PanelElement {
 		}
 
 		Wrapper.getClickableGui()
-				.getCurrentTheme()
-				.drawSlider(sliderValue, this.getElementX(),
-						this.getElementY(), this.getElementWidth(),
-						this.getElementHeight(), dragX, shouldRound);
+		       .getCurrentTheme()
+		       .drawSlider(sliderValue, this.getElementX(),
+				       this.getElementY(), this.getElementWidth(),
+				       this.getElementHeight(), dragX, shouldRound);
 	}
 
 	@Override

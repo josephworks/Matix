@@ -1,7 +1,6 @@
 package de.paxii.clarinet.gui.ingame.panel;
 
 import de.paxii.clarinet.Wrapper;
-import de.paxii.clarinet.gui.ingame.panel.element.AbstractPanelValueElement;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
 import lombok.Getter;
@@ -153,9 +152,8 @@ public class GuiPanel {
 					continue;
 
 				if (guiPanel.isMouseOverPanel(mouseX, mouseY)
-						&& Wrapper.getClickableGui().getGuiPanels()
-						.indexOf(guiPanel) > Wrapper.getClickableGui()
-						.getGuiPanels().indexOf(this)) {
+						&& Wrapper.getClickableGui().getGuiPanels().indexOf(guiPanel) >
+						Wrapper.getClickableGui().getGuiPanels().indexOf(this)) {
 					return false;
 				}
 			}

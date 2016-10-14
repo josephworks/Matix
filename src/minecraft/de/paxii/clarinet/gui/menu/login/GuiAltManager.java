@@ -98,9 +98,13 @@ public class GuiAltManager extends GuiScreen {
 				this.width / 2, 8, 16777215);
 
 		this.drawString(Wrapper.getFontRenderer(), "Username: ", 5, 8, 0xffffff);
-		this.drawString(Wrapper.getFontRenderer(), Wrapper.getMinecraft()
-				.getSession().getUsername(), 5 + Wrapper.getFontRenderer()
-				.getStringWidth("Username: "), 8, 0x00ff00);
+		this.drawString(
+				Wrapper.getFontRenderer(),
+				Wrapper.getMinecraft().getSession().getUsername(),
+				5 + Wrapper.getFontRenderer().getStringWidth("Username: "),
+				8,
+				0x00ff00
+		);
 
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}

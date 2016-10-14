@@ -76,5 +76,6 @@ public class GuiListEntryExternalModule implements GuiListExtended.IGuiListEntry
 	}
 
 	@Override
-	public void mouseReleased(int mouseX, int mouseY, int var3, int var4, int var5, int var6) {}
+	public void mouseReleased(int mouseX, int mouseY, int var3, int var4, int var5, int var6) {
+	}
 }

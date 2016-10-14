@@ -30,7 +30,7 @@ public class ModuleSafeWalk extends Module {
 					.getCollidingBoundingBoxes(
 							Wrapper.getPlayer(),
 							Wrapper.getPlayer().getEntityBoundingBox()
-									.offset(event.getX(), -1.0D, 0.0D))
+							       .offset(event.getX(), -1.0D, 0.0D))
 					.isEmpty(); var13 = event.getX()) {
 				if (event.getX() < var20 && event.getX() >= -var20) {
 					event.setX(0.0D);
@@ -47,7 +47,7 @@ public class ModuleSafeWalk extends Module {
 					.getCollidingBoundingBoxes(
 							Wrapper.getPlayer(),
 							Wrapper.getPlayer().getEntityBoundingBox()
-									.offset(0.0D, -1.0D, event.getZ()))
+							       .offset(0.0D, -1.0D, event.getZ()))
 					.isEmpty(); var17 = event.getZ()) {
 				if (event.getZ() < var20 && event.getZ() >= -var20) {
 					event.setZ(0.0D);
@@ -65,9 +65,9 @@ public class ModuleSafeWalk extends Module {
 					.getCollidingBoundingBoxes(
 							Wrapper.getPlayer(),
 							Wrapper.getPlayer()
-									.getEntityBoundingBox()
-									.offset(event.getX(), -1.0D,
-											event.getZ())).isEmpty(); var17 = event
+							       .getEntityBoundingBox()
+							       .offset(event.getX(), -1.0D,
+									       event.getZ())).isEmpty(); var17 = event
 					.getZ()) {
 				if (event.getX() < var20 && event.getX() >= -var20) {
 					event.setX(0.0D);

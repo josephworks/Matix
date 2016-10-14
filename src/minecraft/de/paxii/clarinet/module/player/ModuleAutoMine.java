@@ -162,10 +162,10 @@ public class ModuleAutoMine extends Module {
 
 
 	private float[] getAngles(final BlockPos blockPos) {
-		double difX = (blockPos.getX() + 0.5D) - Wrapper.getPlayer().posX, difY = (blockPos.getY() + 0.5D)
-				- (Wrapper.getPlayer().posY + Wrapper.getPlayer()
-				.getEyeHeight()), difZ = (blockPos.getZ() + 0.5D)
-				- Wrapper.getPlayer().posZ;
+		double difX = (blockPos.getX() + 0.5D) - Wrapper.getPlayer().posX,
+				difY = (blockPos.getY() + 0.5D)
+						- (Wrapper.getPlayer().posY + Wrapper.getPlayer().getEyeHeight()),
+				difZ = (blockPos.getZ() + 0.5D) - Wrapper.getPlayer().posZ;
 		double helper = Math.sqrt(difX * difX + difZ * difZ);
 		float yaw = (float) (Math.atan2(difZ, difX) * 180 / Math.PI) - 90;
 		float pitch = (float) -(Math.atan2(difY, helper) * 180 / Math.PI);

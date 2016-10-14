@@ -50,11 +50,11 @@ public class ModuleSettingsHandler {
 						Wrapper.getModuleManager().getModuleList().values().forEach((module) -> {
 							for (ModuleSettingsObject moduleSettings : moduleSettingsContainer.getModuleSettings()) {
 								if (moduleSettings.getModuleName().equals(module.getName())) {
-																	/*
-								 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
-								 * This converts settings stored as doubles to int if the value stays the same
-								 * Gson uses Doubles rather than Integers when guessing data types.
-								 */
+									/*
+									 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
+									 * This converts settings stored as doubles to int if the value stays the same
+									 * Gson uses Doubles rather than Integers when guessing data types.
+									 */
 									moduleSettings.getModuleSettings().forEach((key, value) -> {
 										if (value.getValue() instanceof Double) {
 											double doubleValue = (double) value.getValue();

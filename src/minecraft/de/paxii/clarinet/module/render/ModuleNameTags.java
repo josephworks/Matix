@@ -52,8 +52,8 @@ public class ModuleNameTags extends Module {
 	}
 
 	public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking) {
-		final float distance =Wrapper.getPlayer().getDistanceToEntity(entity);
-		final double scale = distance > 10.0F ?  distance / instance.getModuleValues().get("scale").getValue() : 1.0F;
+		final float distance = Wrapper.getPlayer().getDistanceToEntity(entity);
+		final double scale = distance > 10.0F ? distance / instance.getModuleValues().get("scale").getValue() : 1.0F;
 		final float alpha = instance.getValueOrDefault("opacity", Boolean.class, true) ? 0.25F : 1.00F;
 		yOffset -= scale / 2;
 
@@ -130,7 +130,7 @@ public class ModuleNameTags extends Module {
 					String displayName = enchantmentEntry.getKey().getTranslatedName(enchantmentEntry.getValue());
 					displayName = displayName.replaceAll("enchantment.level.[0-9]+", "");
 					displayName = displayName.substring(0, 4).toLowerCase() + ": " + ChatColor.GREEN + enchantmentEntry.getValue();
-					fontRenderer.drawString(displayName, 75 - (xIndex * 50), -75 -(5 + (10 * yIndex)), 0xFFFFFFFF);
+					fontRenderer.drawString(displayName, 75 - (xIndex * 50), -75 - (5 + (10 * yIndex)), 0xFFFFFFFF);
 
 					yIndex++;
 				}

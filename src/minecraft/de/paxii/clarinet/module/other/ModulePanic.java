@@ -5,8 +5,6 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Lars on 20.03.2016.
