@@ -76,7 +76,7 @@ public class CommandSetting extends AClientCommand {
 
 	@Override
 	public String getUsage() {
-		return "say <client setting key> <value>";
+		return "setting <client setting key> <value>";
 	}
 
 	@Override
