@@ -14,6 +14,7 @@ import de.paxii.clarinet.util.settings.type.ClientSettingString;
 import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.opengl.GL11;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;

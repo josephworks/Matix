@@ -25,7 +25,7 @@ public class ModuleAutoFish extends Module {
 		if (e instanceof EntityFishHook) {
 			EntityFishHook fishHook = (EntityFishHook) e;
 
-			if (fishHook.angler.getEntityId() == Wrapper.getPlayer()
+			if (fishHook.getAngler().getEntityId() == Wrapper.getPlayer()
 			                                            .getEntityId()) {
 				if (event.getVelocityPacket().getMotionX() == 0
 						&& event.getVelocityPacket().getMotionY() != 0

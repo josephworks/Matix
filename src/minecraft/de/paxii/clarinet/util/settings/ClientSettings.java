@@ -13,13 +13,13 @@ public class ClientSettings {
 	@Getter
 	private static HashMap<String, ClientSetting> clientSettings = new HashMap<>();
 	@Getter
-	private static ClientSettingString clientFolderPath = new ClientSettingString("client.folder", "./resourcepacks/1.10 R3D Craft 256x");
+	private static ClientSettingString clientFolderPath = new ClientSettingString("client.folder", "./resourcepacks/1.11 R3D Craft 256x");
 
 	static {
 		put(clientFolderPath);
 		put(new ClientSettingString("client.enckey", UUID.randomUUID().toString().replaceAll("-", "")));
 		put(new ClientSettingString("client.prefix", "#"));
-		put(new ClientSettingString("client.guitheme", "Default"));
+		put(new ClientSettingString("client.guitheme", "Matix2HD"));
 		put(new ClientSettingBoolean("client.hidden", false));
 		put(new ClientSettingBoolean("client.update", true));
 	}

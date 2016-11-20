@@ -58,11 +58,11 @@ public class Wrapper {
 	}
 
 	public static EntityPlayerSP getPlayer() {
-		return getMinecraft().thePlayer;
+		return getMinecraft().player;
 	}
 
 	public static WorldClient getWorld() {
-		return getMinecraft().theWorld;
+		return getMinecraft().world;
 	}
 
 	public static FontRenderer getFontRenderer() {

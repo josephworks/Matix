@@ -115,7 +115,7 @@ public class ModuleNameTags extends Module {
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
 		ArrayList<ItemStack> itemList = new ArrayList<>();
-		itemList.addAll(Arrays.asList(entityPlayer.inventory.armorInventory));
+		itemList.addAll(entityPlayer.inventory.armorInventory);
 		itemList.add(entityPlayer.getHeldItemMainhand());
 
 		int xIndex = 0;

@@ -30,7 +30,7 @@ public class ModuleProjectiles extends Module {
 	}
 
 	private void draw() {
-		ItemStack is = Wrapper.getMinecraft().thePlayer.inventory
+		ItemStack is = Wrapper.getPlayer().inventory
 				.getCurrentItem();
 
 		if (is != null) {
@@ -133,7 +133,7 @@ public class ModuleProjectiles extends Module {
 							AxisAlignedBB var39 = new AxisAlignedBB(
 									var9.minX, var37, var9.minZ, var9.maxX,
 									var38, var9.maxZ);
-							if (Wrapper.getMinecraft().theWorld
+							if (Wrapper.getWorld()
 									.isAABBInMaterial(var39, Material.WATER)) {
 								var4 += 0.2F;
 							}

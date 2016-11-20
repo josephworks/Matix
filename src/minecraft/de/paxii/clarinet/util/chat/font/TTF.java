@@ -120,7 +120,7 @@ public class TTF {
 	public void drawString(String text, float x, float y, FontType fontType,
 	                       int color, int color2) {
 		text = stripUnsupported(text);
-		GL11.glEnable(3042);
+		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glScalef(0.5F, 0.5F, 0.5F);
 		String text2 = stripControlCodes(text);
 		switch (fontType.ordinal()) {
@@ -148,6 +148,7 @@ public class TTF {
 
 		drawer(text, x, y, color);
 		GL11.glScalef(2.0F, 2.0F, 2.0F);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 
 	public void drawSplitString(String text, int x, int y, int width, int color) {
