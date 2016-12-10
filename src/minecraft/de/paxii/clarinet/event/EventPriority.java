@@ -1,35 +1,35 @@
 package de.paxii.clarinet.event;
 
 public class EventPriority {
-	public static final byte HIGHEST = 0,
-			HIGH = 1,
-			NORMAL = 2,
-			LOW = 3,
-			LOWEST = 4;
+  public static final byte HIGHEST = 0,
+          HIGH = 1,
+          NORMAL = 2,
+          LOW = 3,
+          LOWEST = 4;
 
-	public String toString(int eventPriority) {
-		switch (eventPriority) {
-			case HIGHEST:
-				return "Highest";
+  public static int[] getValues() {
+    return new int[]{HIGHEST, HIGH, NORMAL, LOW, LOWEST};
+  }
 
-			case HIGH:
-				return "High";
+  public String toString(int eventPriority) {
+    switch (eventPriority) {
+      case HIGHEST:
+        return "Highest";
 
-			case NORMAL:
-				return "Normal";
+      case HIGH:
+        return "High";
 
-			case LOW:
-				return "Low";
+      case NORMAL:
+        return "Normal";
 
-			case LOWEST:
-				return "Lowest";
+      case LOW:
+        return "Low";
 
-			default:
-				return "Normal";
-		}
-	}
+      case LOWEST:
+        return "Lowest";
 
-	public static int[] getValues() {
-		return new int[]{ HIGHEST, HIGH, NORMAL, LOW, LOWEST };
-	}
+      default:
+        return "Normal";
+    }
+  }
 }

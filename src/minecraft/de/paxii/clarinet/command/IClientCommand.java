@@ -1,13 +1,13 @@
 package de.paxii.clarinet.command;
 
 public interface IClientCommand {
-	String getCommand();
+  String getCommand();
 
-	String getDescription();
+  String getDescription();
 
-	void runCommand(String[] args);
+  void runCommand(String[] args);
 
-	String getUsage();
+  String getUsage();
 
-	CommandCategory getCategory();
+  CommandCategory getCategory();
 }

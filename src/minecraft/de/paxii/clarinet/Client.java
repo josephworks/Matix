@@ -19,81 +19,81 @@ import de.paxii.clarinet.util.notifications.NotificationManager;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.settings.ClientSettingsHandler;
 import de.paxii.clarinet.util.update.UpdateChecker;
-import lombok.Getter;
 
 import java.io.File;
 
+import lombok.Getter;
+
 @Getter
 public class Client {
-	@Getter
-	private static Client clientInstance;
-	@Getter
-	private static final String clientName = "Matix";
-	@Getter
-	private static final String clientVersion = "1.7B";
-	@Getter
-	private static final String gameVersion = "1.11";
-	@Getter
-	private static final int clientBuild = 17000;
-	@Getter
-	private static final String clientURL = "http://paxii.de/Matix/";
+  @Getter
+  private static final String clientName = "Matix";
+  @Getter
+  private static final String clientVersion = "1.7B";
+  @Getter
+  private static final String gameVersion = "1.11";
+  @Getter
+  private static final int clientBuild = 17000;
+  @Getter
+  private static final String clientURL = "http://paxii.de/Matix/";
+  @Getter
+  private static Client clientInstance;
+  private EventManager eventManager;
+  private ModuleManager moduleManager;
+  private FileManager fileManager;
+  private FriendManager friendManager;
+  private NotificationManager notificationManager;
+  private FontManager fontManager;
+  private MCLeaksManager mcLeaksManager;
 
-	private EventManager eventManager;
-	private ModuleManager moduleManager;
-	private FileManager fileManager;
-	private FriendManager friendManager;
-	private NotificationManager notificationManager;
-	private FontManager fontManager;
-	private MCLeaksManager mcLeaksManager;
+  private ModuleStore moduleStore;
 
-	private ModuleStore moduleStore;
+  private ClientConsole clientConsole;
+  private ClientClickableGui clientClickableGui;
 
-	private ClientConsole clientConsole;
-	private ClientClickableGui clientClickableGui;
+  private ClientSettingsHandler clientSettingsHandler;
+  private ModuleSettingsHandler moduleSettingsHandler;
+  private PanelSettingsHandler panelSettingsHandler;
+  private FriendSettingsHandler friendSettingsHandler;
 
-	private ClientSettingsHandler clientSettingsHandler;
-	private ModuleSettingsHandler moduleSettingsHandler;
-	private PanelSettingsHandler panelSettingsHandler;
-	private FriendSettingsHandler friendSettingsHandler;
+  private GuiAltManager altManger;
 
-	private GuiAltManager altManger;
+  private StringEncryption stringEncryption;
 
-	private StringEncryption stringEncryption;
+  private UpdateChecker updateChecker;
 
-	private UpdateChecker updateChecker;
+  public Client() {
+    Client.clientInstance = this;
 
-	public Client() {
-		Client.clientInstance = this;
+    File clientFolder = new File(ClientSettings.getClientFolderPath().getValue());
 
-		File clientFolder = new File(ClientSettings.getClientFolderPath().getValue());
+    if (!clientFolder.exists()) {
+      clientFolder.mkdirs();
+    }
 
-		if (!clientFolder.exists()) {
-			clientFolder.mkdirs();
-		}
+    this.eventManager = new EventManager();
 
-		this.eventManager = new EventManager();
+    this.clientSettingsHandler = new ClientSettingsHandler();
+    this.stringEncryption = new StringEncryption();
 
-		this.clientSettingsHandler = new ClientSettingsHandler();
-		this.stringEncryption = new StringEncryption();
+    this.moduleStore = new ModuleStore();
 
-		this.moduleStore = new ModuleStore();
+    this.moduleManager = new ModuleManager();
+    this.fileManager = new FileManager();
+    this.friendManager = new FriendManager();
+    this.notificationManager = new NotificationManager();
+    this.fontManager = new FontManager();
+    this.mcLeaksManager = new MCLeaksManager();
 
-		this.moduleManager = new ModuleManager();
-		this.fileManager = new FileManager();
-		this.friendManager = new FriendManager();
-		this.notificationManager = new NotificationManager();
-		this.fontManager = new FontManager();
-		this.mcLeaksManager = new MCLeaksManager();
+    this.clientConsole = new ClientConsole();
+    this.clientClickableGui = new ClientClickableGui();
 
-		this.clientConsole = new ClientConsole();
-		this.clientClickableGui = new ClientClickableGui();
+    this.moduleSettingsHandler = new ModuleSettingsHandler();
+    this.panelSettingsHandler = new PanelSettingsHandler();
+    this.friendSettingsHandler = new FriendSettingsHandler();
 
-		this.moduleSettingsHandler = new ModuleSettingsHandler();
-		this.panelSettingsHandler = new PanelSettingsHandler();
-		this.friendSettingsHandler = new FriendSettingsHandler();
+    this.altManger = new GuiAltManager(new GuiMainMenuHook());
 
-		this.altManger = new GuiAltManager(new GuiMainMenuHook());
-
-		this.updateChecker = new UpdateChecker();
-	}
+    this.updateChecker = new UpdateChecker();
+  }
 }

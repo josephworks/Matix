@@ -1,26 +1,28 @@
 package de.paxii.clarinet.event.events.entity;
 
 import de.paxii.clarinet.event.events.type.EventCancellable;
-import lombok.Getter;
-import lombok.Setter;
+
 import net.minecraft.entity.Entity;
 
-public class PreRenderEntityEvent extends EventCancellable {
-	@Getter
-	private Entity renderedEntity;
-	@Getter
-	private float renderPartialTicks;
-	@Getter
-	private double x, y, z;
-	@Getter
-	@Setter
-	private boolean debugRendered;
+import lombok.Getter;
+import lombok.Setter;
 
-	public PreRenderEntityEvent(Entity renderedEntity, double x, double y, double z, float renderPartialTicks) {
-		this.renderedEntity = renderedEntity;
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.renderPartialTicks = renderPartialTicks;
-	}
+public class PreRenderEntityEvent extends EventCancellable {
+  @Getter
+  private Entity renderedEntity;
+  @Getter
+  private float renderPartialTicks;
+  @Getter
+  private double x, y, z;
+  @Getter
+  @Setter
+  private boolean debugRendered;
+
+  public PreRenderEntityEvent(Entity renderedEntity, double x, double y, double z, float renderPartialTicks) {
+    this.renderedEntity = renderedEntity;
+    this.x = x;
+    this.y = y;
+    this.z = z;
+    this.renderPartialTicks = renderPartialTicks;
+  }
 }

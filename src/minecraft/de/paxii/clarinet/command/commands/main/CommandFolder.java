@@ -13,42 +13,42 @@ import java.net.URI;
  * Created by Lars on 04.08.2016.
  */
 public class CommandFolder extends AClientCommand {
-	@Override
-	public String getCommand() {
-		return "folder";
-	}
+  @Override
+  public String getCommand() {
+    return "folder";
+  }
 
-	@Override
-	public String getDescription() {
-		return "Opens the Matix Base Folder";
-	}
+  @Override
+  public String getDescription() {
+    return "Opens the Matix Base Folder";
+  }
 
-	@Override
-	public void runCommand(String[] args) {
-		String relativePath = ClientSettings.getClientFolderPath().getValue();
-		if (relativePath.startsWith("./")) {
-			relativePath = relativePath.substring(2);
-		}
-		URI uri = new File(relativePath).toURI();
-		try {
-			this.openWebLink(uri);
-			Chat.printClientMessage("Opened \"" + relativePath + "\".");
-		} catch (IOException ioException) {
-			Chat.printClientMessage("Couldn't open \"" + relativePath + "\".");
-		}
-	}
+  @Override
+  public void runCommand(String[] args) {
+    String relativePath = ClientSettings.getClientFolderPath().getValue();
+    if (relativePath.startsWith("./")) {
+      relativePath = relativePath.substring(2);
+    }
+    URI uri = new File(relativePath).toURI();
+    try {
+      this.openWebLink(uri);
+      Chat.printClientMessage("Opened \"" + relativePath + "\".");
+    } catch (IOException ioException) {
+      Chat.printClientMessage("Couldn't open \"" + relativePath + "\".");
+    }
+  }
 
-	private void openWebLink(URI url) throws IOException {
-		java.awt.Desktop.getDesktop().browse(url);
-	}
+  private void openWebLink(URI url) throws IOException {
+    java.awt.Desktop.getDesktop().browse(url);
+  }
 
-	@Override
-	public String getUsage() {
-		return "folder";
-	}
+  @Override
+  public String getUsage() {
+    return "folder";
+  }
 
-	@Override
-	public CommandCategory getCategory() {
-		return CommandCategory.MAIN;
-	}
+  @Override
+  public CommandCategory getCategory() {
+    return CommandCategory.MAIN;
+  }
 }

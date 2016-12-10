@@ -2,6 +2,7 @@ package de.paxii.clarinet.util.module.settings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
@@ -19,127 +20,127 @@ import java.util.ArrayList;
 import java.util.Map.Entry;
 
 public class ModuleSettingsHandler {
-	private ArrayList<Module> enabledModules;
+  private ArrayList<Module> enabledModules;
 
-	public ModuleSettingsHandler() {
-		this.enabledModules = new ArrayList<>();
-		Wrapper.getEventManager().register(this);
-	}
+  public ModuleSettingsHandler() {
+    this.enabledModules = new ArrayList<>();
+    Wrapper.getEventManager().register(this);
+  }
 
-	@EventHandler
-	public void onPostLoadModules(PostLoadModulesEvent event) {
-		new Thread(() -> {
-			try {
-				Gson gson = new Gson();
+  @EventHandler
+  public void onPostLoadModules(PostLoadModulesEvent event) {
+    new Thread(() -> {
+      try {
+        Gson gson = new Gson();
 
-				File settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/modules.json");
+        File settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/modules.json");
 
-				if (settingsFile.exists()) {
-					BufferedReader br = new BufferedReader(new FileReader(settingsFile));
-					String file = "", line;
+        if (settingsFile.exists()) {
+          BufferedReader br = new BufferedReader(new FileReader(settingsFile));
+          String file = "", line;
 
-					while ((line = br.readLine()) != null) {
-						file += line;
-					}
+          while ((line = br.readLine()) != null) {
+            file += line;
+          }
 
-					br.close();
+          br.close();
 
-					if (file.length() > 0) {
-						ModuleSettingsContainer moduleSettingsContainer = gson.fromJson(file, ModuleSettingsContainer.class);
+          if (file.length() > 0) {
+            ModuleSettingsContainer moduleSettingsContainer = gson.fromJson(file, ModuleSettingsContainer.class);
 
-						Wrapper.getModuleManager().getModuleList().values().forEach((module) -> {
-							for (ModuleSettingsObject moduleSettings : moduleSettingsContainer.getModuleSettings()) {
-								if (moduleSettings.getModuleName().equals(module.getName())) {
-									/*
+            Wrapper.getModuleManager().getModuleList().values().forEach((module) -> {
+              for (ModuleSettingsObject moduleSettings : moduleSettingsContainer.getModuleSettings()) {
+                if (moduleSettings.getModuleName().equals(module.getName())) {
+                  /*
 									 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
 									 * This converts settings stored as doubles to int if the value stays the same
 									 * Gson uses Doubles rather than Integers when guessing data types.
 									 */
-									moduleSettings.getModuleSettings().forEach((key, value) -> {
-										if (value.getValue() instanceof Double) {
-											double doubleValue = (double) value.getValue();
+                  moduleSettings.getModuleSettings().forEach((key, value) -> {
+                    if (value.getValue() instanceof Double) {
+                      double doubleValue = (double) value.getValue();
 
-											int intValue = (int) ((long) doubleValue);
-											if (doubleValue == intValue) {
-												value.setValue(intValue);
-											}
-										}
-									});
+                      int intValue = (int) ((long) doubleValue);
+                      if (doubleValue == intValue) {
+                        value.setValue(intValue);
+                      }
+                    }
+                  });
 
-									for (Entry<String, ClientSettingSettingsObject> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
-										module.setValue(settingsEntry.getKey(), settingsEntry.getValue().getValue());
-									}
+                  for (Entry<String, ClientSettingSettingsObject> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
+                    module.setValue(settingsEntry.getKey(), settingsEntry.getValue().getValue());
+                  }
 
-									moduleSettings.getModuleValues().forEach((k, v) -> {
-										if (ValueBase.doesValueExist(v.getName())) {
-											ValueBase vb = ValueBase.getValueBase(v.getName());
+                  moduleSettings.getModuleValues().forEach((k, v) -> {
+                    if (ValueBase.doesValueExist(v.getName())) {
+                      ValueBase vb = ValueBase.getValueBase(v.getName());
 
-											if (vb != null) {
-												vb.setValue(v.getValue());
-												vb.setMin(v.getMin());
-												vb.setMax(v.getMax());
-												vb.setName(v.getName());
-											}
-										}
-									});
+                      if (vb != null) {
+                        vb.setValue(v.getValue());
+                        vb.setMin(v.getMin());
+                        vb.setMax(v.getMax());
+                        vb.setName(v.getName());
+                      }
+                    }
+                  });
 
-									module.setKey(moduleSettings.getModuleKey());
+                  module.setKey(moduleSettings.getModuleKey());
 
-									if (moduleSettings.isEnabled()) {
-										this.enabledModules.add(module);
-									}
-									break;
-								}
-							}
+                  if (moduleSettings.isEnabled()) {
+                    this.enabledModules.add(module);
+                  }
+                  break;
+                }
+              }
 
-							module.onStartup();
-						});
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}).start();
-	}
+              module.onStartup();
+            });
+          }
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }).start();
+  }
 
-	@EventHandler
-	private void onLoadWorld(LoadWorldEvent event) {
-		this.enabledModules.forEach((module) -> {
-			if (!module.isEnabled()) {
-				module.setEnabled(true);
-			}
-		});
-		this.enabledModules.clear();
-	}
+  @EventHandler
+  private void onLoadWorld(LoadWorldEvent event) {
+    this.enabledModules.forEach((module) -> {
+      if (!module.isEnabled()) {
+        module.setEnabled(true);
+      }
+    });
+    this.enabledModules.clear();
+  }
 
-	@EventHandler
-	public void onStopGame(StopGameEvent event) {
-		try {
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			File settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/modules.json");
+  @EventHandler
+  public void onStopGame(StopGameEvent event) {
+    try {
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      File settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/modules.json");
 
-			settingsFile.delete();
+      settingsFile.delete();
 
-			if (settingsFile.createNewFile()) {
-				ModuleSettingsContainer moduleSettingsContainer = new ModuleSettingsContainer(new ArrayList<>());
+      if (settingsFile.createNewFile()) {
+        ModuleSettingsContainer moduleSettingsContainer = new ModuleSettingsContainer(new ArrayList<>());
 
-				for (Entry<String, Module> moduleEntry : Wrapper.getModuleManager().getModuleList().entrySet()) {
-					Module module = moduleEntry.getValue();
-					module.onShutdown();
+        for (Entry<String, Module> moduleEntry : Wrapper.getModuleManager().getModuleList().entrySet()) {
+          Module module = moduleEntry.getValue();
+          module.onShutdown();
 
-					moduleSettingsContainer.getModuleSettings().add(new ModuleSettingsObject(module));
-				}
+          moduleSettingsContainer.getModuleSettings().add(new ModuleSettingsObject(module));
+        }
 
-				String jsonString = gson.toJson(moduleSettingsContainer);
+        String jsonString = gson.toJson(moduleSettingsContainer);
 
-				FileWriter fileWriter = new FileWriter(settingsFile);
-				fileWriter.write(jsonString);
-				fileWriter.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        FileWriter fileWriter = new FileWriter(settingsFile);
+        fileWriter.write(jsonString);
+        fileWriter.close();
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-		Wrapper.getEventManager().unregister(this);
-	}
+    Wrapper.getEventManager().unregister(this);
+  }
 }

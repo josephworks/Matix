@@ -5,6 +5,7 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,238 +16,236 @@ import java.util.Map;
 import java.util.Random;
 
 public class AuraManager {
-	private final Module module;
+  private final Module module;
 
-	private final ValueBase valueRange;
-	private final ValueBase valueDelay;
-	private final ValueBase valueAngle;
+  private final ValueBase valueRange;
+  private final ValueBase valueDelay;
+  private final ValueBase valueAngle;
 
-	private final TimeManager timeManager;
+  private final TimeManager timeManager;
 
-	private final ArrayList<Float> pitchMap;
-	private final ArrayList<Float> yawMap;
+  private final ArrayList<Float> pitchMap;
+  private final ArrayList<Float> yawMap;
+  private final CameraObject cameraObject;
+  private final Random random;
+  private Map<Integer, Long> attackMap;
 
-	private Map<Integer, Long> attackMap;
-	private final CameraObject cameraObject;
+  public AuraManager(Module module) {
+    this.module = module;
+    this.attackMap = new HashMap<>();
+    this.cameraObject = new CameraObject();
+    this.pitchMap = new ArrayList<>();
+    this.yawMap = new ArrayList<>();
+    this.random = new Random();
 
-	private final Random random;
+    this.timeManager = new TimeManager();
 
-	public AuraManager(Module module) {
-		this.module = module;
-		this.attackMap = new HashMap<>();
-		this.cameraObject = new CameraObject();
-		this.pitchMap = new ArrayList<>();
-		this.yawMap = new ArrayList<>();
-		this.random = new Random();
+    this.valueRange = new ValueBase(module.getName() + " Range", 4.1F, 1, 6, "Range");
+    this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15, "Speed") {
+      @Override
+      public void onUpdate(float oldValue, float newValue) {
+        Chat.printClientMessage(
+                String.format("Auto Speed is currently enabled for %s. Speed is not taken into account.", module.getName())
+        );
+      }
+    };
+    this.valueAngle = new ValueBase(module.getName() + " Angle", 80.0F, 1.0F, 180.0F, "Angle");
 
-		this.timeManager = new TimeManager();
+    this.module.getModuleValues().put("valueRange", this.valueRange);
+    this.module.getModuleValues().put("valueDelay", this.valueDelay);
+    this.module.getModuleValues().put("valueAngle", this.valueAngle);
 
-		this.valueRange = new ValueBase(module.getName() + " Range", 4.1F, 1, 6, "Range");
-		this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15, "Speed") {
-			@Override
-			public void onUpdate(float oldValue, float newValue) {
-				Chat.printClientMessage(
-						String.format("Auto Speed is currently enabled for %s. Speed is not taken into account.", module.getName())
-				);
-			}
-		};
-		this.valueAngle = new ValueBase(module.getName() + " Angle", 80.0F, 1.0F, 180.0F, "Angle");
+    this.module.getModuleSettings().put("animal", new ClientSettingBoolean("Animals", false));
+    this.module.getModuleSettings().put("mob", new ClientSettingBoolean("Mobs", true));
+    this.module.getModuleSettings().put("player", new ClientSettingBoolean("Players", true));
+    this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", true));
+    this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", true));
+    this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", false));
+    this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
 
-		this.module.getModuleValues().put("valueRange", this.valueRange);
-		this.module.getModuleValues().put("valueDelay", this.valueDelay);
-		this.module.getModuleValues().put("valueAngle", this.valueAngle);
+    for (float f = -10.0F; f <= 10.0F; f += 2.0F) {
+      this.yawMap.add(f);
+    }
 
-		this.module.getModuleSettings().put("animal", new ClientSettingBoolean("Animals", false));
-		this.module.getModuleSettings().put("mob", new ClientSettingBoolean("Mobs", true));
-		this.module.getModuleSettings().put("player", new ClientSettingBoolean("Players", true));
-		this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", true));
-		this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", true));
-		this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", false));
-		this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
+    for (float f = -10.0F; f <= 50.0F; f += 5.0F) {
+      this.pitchMap.add(f);
+    }
+  }
 
-		for (float f = -10.0F; f <= 10.0F; f += 2.0F) {
-			this.yawMap.add(f);
-		}
+  public void addToAttackMap(final int entityId, final long last) {
+    attackMap.put(entityId, last);
+  }
 
-		for (float f = -10.0F; f <= 50.0F; f += 5.0F) {
-			this.pitchMap.add(f);
-		}
-	}
+  private long getLast(Entity entity) {
+    if (attackMap.get(entity.getEntityId()) == null) {
+      return 0L;
+    }
 
-	public void addToAttackMap(final int entityId, final long last) {
-		attackMap.put(entityId, last);
-	}
+    return attackMap.get(entity.getEntityId());
+  }
 
-	private long getLast(Entity entity) {
-		if (attackMap.get(entity.getEntityId()) == null) {
-			return 0L;
-		}
+  public long getDelay() {
+    return (long) (1000L / this.valueDelay.getValue());
+  }
 
-		return attackMap.get(entity.getEntityId());
-	}
+  public void setDelay(final float delay) {
+    this.valueDelay.setValue(delay);
+  }
 
-	public long getDelay() {
-		return (long) (1000L / this.valueDelay.getValue());
-	}
+  public boolean isDelayComplete(TimeManager timeManager) {
+    if (this.isAutoSpeed()) {
+      return Wrapper.getPlayer().getCooledAttackStrength(0.0F) >= 1.0F;
+    }
 
-	public void setDelay(final float delay) {
-		this.valueDelay.setValue(delay);
-	}
+    return timeManager.sleep(this.getDelay());
+  }
 
-	public boolean isDelayComplete(TimeManager timeManager) {
-		if (this.isAutoSpeed()) {
-			return Wrapper.getPlayer().getCooledAttackStrength(0.0F) >= 1.0F;
-		}
+  public double getRange() {
+    return this.valueRange.getValue();
+  }
 
-		return timeManager.sleep(this.getDelay());
-	}
+  public void setRange(final float range) {
+    this.valueRange.setValue(range);
+  }
 
-	public double getRange() {
-		return this.valueRange.getValue();
-	}
+  public float getAngle() {
+    return this.valueAngle.getValue();
+  }
 
-	public void setRange(final float range) {
-		this.valueRange.setValue(range);
-	}
+  public Map<Integer, Long> getAttackMap() {
+    return attackMap;
+  }
 
-	public float getAngle() {
-		return this.valueAngle.getValue();
-	}
+  public void setAttackMap(Map<Integer, Long> attackMap) {
+    this.attackMap = attackMap;
+  }
 
-	public Map<Integer, Long> getAttackMap() {
-		return attackMap;
-	}
+  public long convertToMilliseconds(double delay) {
+    return 1000L / (long) delay;
+  }
 
-	public void setAttackMap(Map<Integer, Long> attackMap) {
-		this.attackMap = attackMap;
-	}
+  public void saveCamera(EntityPlayer p) {
+    this.cameraObject.saveCamera(p);
+  }
 
-	public long convertToMilliseconds(double delay) {
-		return 1000L / (long) delay;
-	}
+  public void restoreCamera(EntityPlayer p) {
+    this.cameraObject.restoreCamera(p);
+  }
 
-	public void saveCamera(EntityPlayer p) {
-		this.cameraObject.saveCamera(p);
-	}
+  public float getRandomPitchModifier() {
+    int randomIndex = random.nextInt(pitchMap.size() - 1);
 
-	public void restoreCamera(EntityPlayer p) {
-		this.cameraObject.restoreCamera(p);
-	}
+    return pitchMap.get(randomIndex);
+  }
 
-	public float getRandomPitchModifier() {
-		int randomIndex = random.nextInt(pitchMap.size() - 1);
+  public float getRandomYawModifier() {
+    int randomIndex = random.nextInt(yawMap.size() - 1);
 
-		return pitchMap.get(randomIndex);
-	}
+    return yawMap.get(randomIndex);
+  }
 
-	public float getRandomYawModifier() {
-		int randomIndex = random.nextInt(yawMap.size() - 1);
+  public boolean isSilent() {
+    return this.module.getValue("silent", Boolean.class);
+  }
 
-		return yawMap.get(randomIndex);
-	}
+  public void setSilent(boolean silent) {
+    this.module.setValue("silent", silent);
+  }
 
-	public boolean isSilent() {
-		return this.module.getValue("silent", Boolean.class);
-	}
+  public boolean isMob() {
+    return this.module.getValue("mob", Boolean.class);
+  }
 
-	public void setSilent(boolean silent) {
-		this.module.setValue("silent", silent);
-	}
+  public void setMob(boolean mob) {
+    this.module.setValue("silent", mob);
+  }
 
-	public boolean isMob() {
-		return this.module.getValue("mob", Boolean.class);
-	}
+  public boolean isAnimal() {
+    return this.module.getValue("animal", Boolean.class);
+  }
 
-	public void setMob(boolean mob) {
-		this.module.setValue("silent", mob);
-	}
+  public void setAnimal(boolean animal) {
+    this.module.setValue("animal", animal);
+  }
 
-	public boolean isAnimal() {
-		return this.module.getValue("animal", Boolean.class);
-	}
+  public boolean isPlayer() {
+    return this.module.getValue("player", Boolean.class);
+  }
 
-	public void setAnimal(boolean animal) {
-		this.module.setValue("animal", animal);
-	}
+  public void setPlayer(boolean player) {
+    this.module.setValue("player", player);
+  }
 
-	public boolean isPlayer() {
-		return this.module.getValue("player", Boolean.class);
-	}
+  public boolean isLegit() {
+    return this.module.getValue("legit", Boolean.class);
+  }
 
-	public void setPlayer(boolean player) {
-		this.module.setValue("player", player);
-	}
+  public void setLegit(boolean legit) {
+    this.module.setValue("legit", legit);
+  }
 
-	public boolean isLegit() {
-		return this.module.getValue("legit", Boolean.class);
-	}
+  public boolean isInvisible() {
+    return this.module.getValue("invisible", Boolean.class);
+  }
 
-	public void setLegit(boolean legit) {
-		this.module.setValue("legit", legit);
-	}
+  public void setInvisible(boolean invisible) {
+    this.module.setValue("invisible", invisible);
+  }
 
-	public boolean isInvisible() {
-		return this.module.getValue("invisible", Boolean.class);
-	}
+  public boolean isAutoSpeed() {
+    return this.module.getValueOrDefault("autoDelay", Boolean.class, false);
+  }
 
-	public void setInvisible(boolean invisible) {
-		this.module.setValue("invisible", invisible);
-	}
+  public void setAutoSpeed(boolean autoSpeed) {
+    this.module.setValue("autoDelay", autoSpeed);
+  }
 
-	public boolean isAutoSpeed() {
-		return this.module.getValueOrDefault("autoDelay", Boolean.class, false);
-	}
+  public void setAngles(EntityLivingBase entityLiving, EntityManager entityManager) {
+    float yaw = entityManager.getAngles(entityLiving)[0];
+    float pitch = entityManager.getAngles(entityLiving)[1];
 
-	public void setAutoSpeed(boolean autoSpeed) {
-		this.module.setValue("autoDelay", autoSpeed);
-	}
+    if (this.isLegit()) {
+      this.timeManager.updateTimer();
 
-	public void setAngles(EntityLivingBase entityLiving, EntityManager entityManager) {
-		float yaw = entityManager.getAngles(entityLiving)[0];
-		float pitch = entityManager.getAngles(entityLiving)[1];
+      if (this.timeManager.sleep(200L)) {
+        this.setPitch(pitch + (random.nextFloat() - 0.5F) * 50F);
+        this.setYaw(yaw + (random.nextFloat() - 0.5F) * 10F);
 
-		if (this.isLegit()) {
-			this.timeManager.updateTimer();
+        this.timeManager.updateLast();
+      } else {
+        this.setPitch(pitch);
+        this.setYaw(yaw);
+      }
+    } else {
+      this.setPitch(pitch);
+      this.setYaw(yaw);
+    }
+  }
 
-			if (this.timeManager.sleep(200L)) {
-				this.setPitch(pitch + (random.nextFloat() - 0.5F) * 50F);
-				this.setYaw(yaw + (random.nextFloat() - 0.5F) * 10F);
+  private void setYaw(float yaw) {
+    Wrapper.getPlayer().rotationYaw = yaw;
+    Wrapper.getPlayer().rotationYawHead = yaw;
+  }
 
-				this.timeManager.updateLast();
-			} else {
-				this.setPitch(pitch);
-				this.setYaw(yaw);
-			}
-		} else {
-			this.setPitch(pitch);
-			this.setYaw(yaw);
-		}
-	}
-
-	private void setYaw(float yaw) {
-		Wrapper.getPlayer().rotationYaw = yaw;
-		Wrapper.getPlayer().rotationYawHead = yaw;
-	}
-
-	private void setPitch(float pitch) {
-		Wrapper.getPlayer().rotationPitch = pitch;
-	}
+  private void setPitch(float pitch) {
+    Wrapper.getPlayer().rotationPitch = pitch;
+  }
 }
 
 class CameraObject {
-	private float cameraYaw;
-	private float cameraPitch;
-	private float cameraYawHead;
+  private float cameraYaw;
+  private float cameraPitch;
+  private float cameraYawHead;
 
-	public void saveCamera(EntityPlayer p) {
-		this.cameraYaw = p.rotationYaw;
-		this.cameraPitch = p.rotationPitch;
-		this.cameraYawHead = p.rotationYawHead;
-	}
+  public void saveCamera(EntityPlayer p) {
+    this.cameraYaw = p.rotationYaw;
+    this.cameraPitch = p.rotationPitch;
+    this.cameraYawHead = p.rotationYawHead;
+  }
 
-	public void restoreCamera(EntityPlayer p) {
-		p.rotationYaw = this.cameraYaw;
-		p.rotationPitch = this.cameraPitch;
-		p.rotationYawHead = this.cameraYawHead;
-	}
+  public void restoreCamera(EntityPlayer p) {
+    p.rotationYaw = this.cameraYaw;
+    p.rotationPitch = this.cameraPitch;
+    p.rotationYawHead = this.cameraYawHead;
+  }
 }

@@ -7,8 +7,8 @@ import lombok.Data;
  */
 @Data
 public class ModuleEntry {
-	private String module;
-	private String description;
-	private String version;
-	private int build;
+  private String module;
+  private String description;
+  private String version;
+  private int build;
 }

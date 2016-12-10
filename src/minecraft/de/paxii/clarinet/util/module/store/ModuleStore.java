@@ -3,6 +3,7 @@ package de.paxii.clarinet.util.module.store;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
 import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
@@ -14,9 +15,9 @@ import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.notifications.NotificationPriority;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.web.JsonFetcher;
-import lombok.Data;
-import lombok.Getter;
+
 import net.minecraft.network.play.client.CPacketChatMessage;
+
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -29,194 +30,197 @@ import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import lombok.Data;
+import lombok.Getter;
+
 /**
  * Created by Lars on 07.02.2016.
  */
 public class ModuleStore {
-	private static final String moduleUrl = Client.getClientURL() + "modules/files/%s/%s/%s.jar";
-	private static final TreeMap<String, ModuleEntry> moduleList = new TreeMap<>();
-	@Getter
-	private static ArrayList<String> modulesToDelete = new ArrayList<>();
+  private static final String moduleUrl = Client.getClientURL() + "modules/files/%s/%s/%s.jar";
+  private static final TreeMap<String, ModuleEntry> moduleList = new TreeMap<>();
+  @Getter
+  private static ArrayList<String> modulesToDelete = new ArrayList<>();
 
-	public ModuleStore() {
-		Wrapper.getEventManager().register(this);
+  public ModuleStore() {
+    Wrapper.getEventManager().register(this);
 
-		this.removeModules();
-	}
+    this.removeModules();
+  }
 
-	private void removeModules() {
-		File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
+  public static void downloadModule(String moduleName) {
+    try {
+      if (ModuleStore.isModuleInstalled(moduleName)) {
+        ModuleStore.removeModule(moduleName);
+      }
 
-		if (modulesToDelete.exists()) {
-			String jsonString = "";
+      ModuleEntry moduleEntry = ModuleStore.moduleList.get(moduleName);
+      File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName + "-" + moduleEntry.getVersion()));
+      URL downloadUrl = new URL(String.format(moduleUrl, Client.getGameVersion(), moduleName, moduleName + "-" + moduleEntry.getVersion()));
 
-			try {
-				Scanner sc = new Scanner(modulesToDelete);
-				Gson gson = new Gson();
+      if (moduleFile.exists()) {
+        if (!moduleFile.delete()) {
+          return;
+        }
+      }
 
-				while (sc.hasNextLine())
-					jsonString += sc.nextLine();
+      new Thread(() -> {
+        try {
+          FileUtils.copyURLToFile(downloadUrl, moduleFile);
+        } catch (IOException e) {
+          e.printStackTrace();
+        } finally {
+          Chat.printClientMessage(String.format("Module %s has been downloaded. Reloading Client...", moduleName));
 
-				sc.close();
+          Wrapper.getConsole().onChatMessage(new PlayerSendChatMessageEvent(new CPacketChatMessage(ClientSettings.getValue("client.prefix", String.class) + "reload")));
+        }
+      }).start();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 
-				ArrayList<String> modulesToRemove = gson.fromJson(jsonString, new TypeToken<ArrayList<String>>() {
-				}.getType());
+  public static void removeModule(String moduleName) {
+    try {
+      String removedVersion = moduleName;
+      if (Wrapper.getModuleManager().doesModuleExist(moduleName)) {
+        Module module = Wrapper.getModuleManager().getModule(moduleName);
+        removedVersion = moduleName + "-" + module.getVersion();
 
-				if (modulesToRemove != null) {
-					modulesToRemove.forEach((moduleName -> {
-						File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName));
-						moduleFile.delete();
+        module.setEnabled(false);
+        module.onShutdown();
+        Wrapper.getModuleManager().removeModule(module);
 
-						if (moduleName.contains("-")) {
-							String oldModuleName = moduleName.split("-")[0];
-							File oldModuleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", oldModuleName));
+        Wrapper.getClickableGui().loadPanels();
+      }
 
-							if (oldModuleFile.exists()) {
-								oldModuleFile.delete();
-							}
-						}
-					}));
-				}
+      if (!ModuleStore.modulesToDelete.contains(removedVersion)) {
+        ModuleStore.modulesToDelete.add(removedVersion);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
-				modulesToDelete.delete();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    modulesToDelete.forEach(System.out::println);
+  }
 
-	public static void downloadModule(String moduleName) {
-		try {
-			if (ModuleStore.isModuleInstalled(moduleName)) {
-				ModuleStore.removeModule(moduleName);
-			}
+  public static TreeMap<String, ModuleEntry> listModules() {
+    return moduleList;
+  }
 
-			ModuleEntry moduleEntry = ModuleStore.moduleList.get(moduleName);
-			File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName + "-" + moduleEntry.getVersion()));
-			URL downloadUrl = new URL(String.format(moduleUrl, Client.getGameVersion(), moduleName, moduleName + "-" + moduleEntry.getVersion()));
+  public static void fetchModules() {
+    String listPath = Client.getClientURL() + "modules/modules.php";
 
-			if (moduleFile.exists()) {
-				if (!moduleFile.delete()) {
-					return;
-				}
-			}
+    ModuleResponse moduleResponse = JsonFetcher.fetchData(listPath, ModuleResponse.class);
 
-			new Thread(() -> {
-				try {
-					FileUtils.copyURLToFile(downloadUrl, moduleFile);
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					Chat.printClientMessage(String.format("Module %s has been downloaded. Reloading Client...", moduleName));
+    if (moduleResponse != null) {
+      moduleResponse.getModuleList().forEach((moduleEntry) -> moduleList.put(moduleEntry.getModule(), moduleEntry));
+    } else {
+      if (moduleList.size() == 0) {
+        ModuleEntry moduleEntry = new ModuleEntry();
+        moduleEntry.setModule("Error");
+        moduleEntry.setDescription("Could not get list of external Modules!");
+        moduleList.put("Error", moduleEntry);
+      }
+    }
+  }
 
-					Wrapper.getConsole().onChatMessage(new PlayerSendChatMessageEvent(new CPacketChatMessage(ClientSettings.getValue("client.prefix", String.class) + "reload")));
-				}
-			}).start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+  public static boolean isModuleInstalled(String moduleName) {
+    return ModuleStore.moduleList.containsKey(moduleName) && Wrapper.getModuleManager().getModuleList().containsKey(moduleName);
+  }
 
-	public static void removeModule(String moduleName) {
-		try {
-			String removedVersion = moduleName;
-			if (Wrapper.getModuleManager().doesModuleExist(moduleName)) {
-				Module module = Wrapper.getModuleManager().getModule(moduleName);
-				removedVersion = moduleName + "-" + module.getVersion();
+  public static boolean isModuleUptoDate(String moduleName) {
+    return ModuleStore.isModuleInstalled(moduleName) && ModuleStore.listModules().get(moduleName).getBuild() <= Wrapper.getModuleManager().getModule(moduleName).getBuildVersion();
+  }
 
-				module.setEnabled(false);
-				module.onShutdown();
-				Wrapper.getModuleManager().removeModule(module);
+  private void removeModules() {
+    File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
 
-				Wrapper.getClickableGui().loadPanels();
-			}
+    if (modulesToDelete.exists()) {
+      String jsonString = "";
 
-			if (!ModuleStore.modulesToDelete.contains(removedVersion)) {
-				ModuleStore.modulesToDelete.add(removedVersion);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+      try {
+        Scanner sc = new Scanner(modulesToDelete);
+        Gson gson = new Gson();
 
-		modulesToDelete.forEach(System.out::println);
-	}
+        while (sc.hasNextLine())
+          jsonString += sc.nextLine();
 
-	public static TreeMap<String, ModuleEntry> listModules() {
-		return moduleList;
-	}
+        sc.close();
 
-	public static void fetchModules() {
-		String listPath = Client.getClientURL() + "modules/modules.php";
+        ArrayList<String> modulesToRemove = gson.fromJson(jsonString, new TypeToken<ArrayList<String>>() {
+        }.getType());
 
-		ModuleResponse moduleResponse = JsonFetcher.fetchData(listPath, ModuleResponse.class);
+        if (modulesToRemove != null) {
+          modulesToRemove.forEach((moduleName -> {
+            File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName));
+            moduleFile.delete();
 
-		if (moduleResponse != null) {
-			moduleResponse.getModuleList().forEach((moduleEntry) -> moduleList.put(moduleEntry.getModule(), moduleEntry));
-		} else {
-			if (moduleList.size() == 0) {
-				ModuleEntry moduleEntry = new ModuleEntry();
-				moduleEntry.setModule("Error");
-				moduleEntry.setDescription("Could not get list of external Modules!");
-				moduleList.put("Error", moduleEntry);
-			}
-		}
-	}
+            if (moduleName.contains("-")) {
+              String oldModuleName = moduleName.split("-")[0];
+              File oldModuleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", oldModuleName));
 
-	public static boolean isModuleInstalled(String moduleName) {
-		return ModuleStore.moduleList.containsKey(moduleName) && Wrapper.getModuleManager().getModuleList().containsKey(moduleName);
-	}
+              if (oldModuleFile.exists()) {
+                oldModuleFile.delete();
+              }
+            }
+          }));
+        }
 
-	public static boolean isModuleUptoDate(String moduleName) {
-		return ModuleStore.isModuleInstalled(moduleName) && ModuleStore.listModules().get(moduleName).getBuild() <= Wrapper.getModuleManager().getModule(moduleName).getBuildVersion();
-	}
+        modulesToDelete.delete();
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 
-	@EventHandler
-	public void onPostLoadModules(PostLoadModulesEvent event) {
-		AtomicBoolean updateAvailable = new AtomicBoolean(false);
-		moduleList.forEach((moduleName, moduleEntry) -> {
-			if (ModuleStore.isModuleInstalled(moduleName) && !ModuleStore.isModuleUptoDate(moduleName)) {
-				updateAvailable.set(true);
-			}
-		});
+  @EventHandler
+  public void onPostLoadModules(PostLoadModulesEvent event) {
+    AtomicBoolean updateAvailable = new AtomicBoolean(false);
+    moduleList.forEach((moduleName, moduleEntry) -> {
+      if (ModuleStore.isModuleInstalled(moduleName) && !ModuleStore.isModuleUptoDate(moduleName)) {
+        updateAvailable.set(true);
+      }
+    });
 
-		if (updateAvailable.get()) {
-			Wrapper.getClient().getNotificationManager().addNotification("There are Updates available for installed Plugins!", NotificationPriority.DANGER, 10000L);
-		}
-	}
+    if (updateAvailable.get()) {
+      Wrapper.getClient().getNotificationManager().addNotification("There are Updates available for installed Plugins!", NotificationPriority.DANGER, 10000L);
+    }
+  }
 
-	@EventHandler
-	public void onShutdown(StopGameEvent event) {
-		File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
+  @EventHandler
+  public void onShutdown(StopGameEvent event) {
+    File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
 
-		try {
-			modulesToDelete.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    try {
+      modulesToDelete.createNewFile();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
-		if (ModuleStore.modulesToDelete.size() > 0) {
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    if (ModuleStore.modulesToDelete.size() > 0) {
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-			String jsonString = gson.toJson(ModuleStore.modulesToDelete);
+      String jsonString = gson.toJson(ModuleStore.modulesToDelete);
 
-			try {
-				FileWriter fw = new FileWriter(modulesToDelete);
+      try {
+        FileWriter fw = new FileWriter(modulesToDelete);
 
-				fw.write(jsonString);
+        fw.write(jsonString);
 
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+        fw.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
 
-	@Data
-	class ModuleResponse {
-		private ArrayList<ModuleEntry> moduleList;
+  @Data
+  class ModuleResponse {
+    private ArrayList<ModuleEntry> moduleList;
 
-		public ModuleResponse(ArrayList<ModuleEntry> moduleList) {
-			this.moduleList = moduleList;
-		}
-	}
+    public ModuleResponse(ArrayList<ModuleEntry> moduleList) {
+      this.moduleList = moduleList;
+    }
+  }
 }

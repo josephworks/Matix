@@ -12,141 +12,140 @@ import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventManager {
-	private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<>();
+  private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<>();
+  private static KeyPressedEvent lastCalledEvent;
+  private static long lastCalledMS;
 
-	public void register(Object object) {
-		for (final Method method : object.getClass().getDeclaredMethods()) {
-			if (isMethodBad(method)) {
-				continue;
-			}
+  private static void cleanMap(boolean onlyEmptyEntries) {
+    Iterator<Map.Entry<Class<? extends Event>, List<MethodData>>> mapIterator = REGISTRY_MAP.entrySet().iterator();
 
-			register(object, method);
-		}
-	}
+    while (mapIterator.hasNext()) {
+      if (!onlyEmptyEntries || mapIterator.next().getValue().isEmpty()) {
+        mapIterator.remove();
+      }
+    }
+  }
 
-	public void register(Object object, Class<? extends Event> eventClass) {
-		for (final Method method : object.getClass().getDeclaredMethods()) {
-			if (isMethodBad(method, eventClass)) {
-				continue;
-			}
+  private static boolean isMethodBad(Method method) {
+    return method.getParameterTypes().length != 1 || !method.isAnnotationPresent(EventHandler.class);
+  }
 
-			register(object, method);
-		}
-	}
+  private static boolean isMethodBad(Method method, Class<? extends Event> eventClass) {
+    return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
+  }
 
-	public void unregister(Object object) {
-		for (final List<MethodData> dataList : REGISTRY_MAP.values()) {
-			dataList.stream()
-			        .filter(data -> data.getSource().equals(object))
-			        .forEach(dataList::remove);
-		}
+  public static <T extends Event> T call(final T event) {
+    if (event instanceof KeyPressedEvent) {
+      KeyPressedEvent keyPressedEvent = (KeyPressedEvent) event;
 
-		cleanMap(true);
-	}
+      if (lastCalledMS != 0) {
+        if (lastCalledMS + 10 >= System.currentTimeMillis()) {
+          if (keyPressedEvent.getKey() == lastCalledEvent.getKey()) {
+            return event;
+          }
+        }
+      } else {
+        lastCalledEvent = keyPressedEvent;
+        lastCalledMS = System.currentTimeMillis();
+      }
+    }
 
-	public void unregister(Object object, Class<? extends Event> eventClass) {
-		if (REGISTRY_MAP.containsKey(eventClass)) {
-			REGISTRY_MAP.get(eventClass).stream()
-			            .filter(data -> data.getSource().equals(object))
-			            .forEach(REGISTRY_MAP.get(eventClass)::remove);
+    List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
 
-			cleanMap(true);
-		}
-	}
+    if (dataList != null) {
+      if (event instanceof EventCancellable) {
+        EventCancellable cancellable = (EventCancellable) event;
 
-	private void register(Object object, Method method) {
-		Class<? extends Event> indexClass = (Class<? extends Event>) method.getParameterTypes()[0];
-		final MethodData methodData = new MethodData(object, method, method.getAnnotation(EventHandler.class).priority());
-		methodData.getTarget().setAccessible(true);
+        for (final MethodData data : dataList) {
+          invoke(data, event);
 
-		if (REGISTRY_MAP.containsKey(indexClass)) {
-			if (!REGISTRY_MAP.get(indexClass).contains(methodData)) {
-				REGISTRY_MAP.get(indexClass).add(methodData);
-				sortListValue(indexClass);
-			}
-		} else {
-			CopyOnWriteArrayList<MethodData> methodDataList = new CopyOnWriteArrayList<>(new MethodData[]{ methodData });
-			REGISTRY_MAP.put(indexClass, methodDataList);
-		}
-	}
+          if (cancellable.isCancelled()) {
+            break;
+          }
+        }
+      } else {
+        for (final MethodData data : dataList) {
+          invoke(data, event);
+        }
+      }
+    }
 
-	private void sortListValue(Class<? extends Event> indexClass) {
-		List<MethodData> sortedList = new CopyOnWriteArrayList<>();
+    return event;
+  }
 
-		for (final int priority : EventPriority.getValues()) {
-			REGISTRY_MAP.get(indexClass).stream()
-			            .filter(data -> data.getPriority() == priority)
-			            .forEach(sortedList::add);
-		}
+  private static void invoke(MethodData data, Event argument) {
+    try {
+      data.getTarget().invoke(data.getSource(), argument);
+    } catch (ReflectiveOperationException e) {
+      e.printStackTrace();
+    }
+  }
 
-		REGISTRY_MAP.put(indexClass, sortedList);
-	}
+  public void register(Object object) {
+    for (final Method method : object.getClass().getDeclaredMethods()) {
+      if (isMethodBad(method)) {
+        continue;
+      }
 
-	private static void cleanMap(boolean onlyEmptyEntries) {
-		Iterator<Map.Entry<Class<? extends Event>, List<MethodData>>> mapIterator = REGISTRY_MAP.entrySet().iterator();
+      register(object, method);
+    }
+  }
 
-		while (mapIterator.hasNext()) {
-			if (!onlyEmptyEntries || mapIterator.next().getValue().isEmpty()) {
-				mapIterator.remove();
-			}
-		}
-	}
+  public void register(Object object, Class<? extends Event> eventClass) {
+    for (final Method method : object.getClass().getDeclaredMethods()) {
+      if (isMethodBad(method, eventClass)) {
+        continue;
+      }
 
-	private static boolean isMethodBad(Method method) {
-		return method.getParameterTypes().length != 1 || !method.isAnnotationPresent(EventHandler.class);
-	}
+      register(object, method);
+    }
+  }
 
-	private static boolean isMethodBad(Method method, Class<? extends Event> eventClass) {
-		return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
-	}
+  public void unregister(Object object) {
+    for (final List<MethodData> dataList : REGISTRY_MAP.values()) {
+      dataList.stream()
+              .filter(data -> data.getSource().equals(object))
+              .forEach(dataList::remove);
+    }
 
-	private static KeyPressedEvent lastCalledEvent;
-	private static long lastCalledMS;
+    cleanMap(true);
+  }
 
-	public static <T extends Event> T call(final T event) {
-		if (event instanceof KeyPressedEvent) {
-			KeyPressedEvent keyPressedEvent = (KeyPressedEvent) event;
+  public void unregister(Object object, Class<? extends Event> eventClass) {
+    if (REGISTRY_MAP.containsKey(eventClass)) {
+      REGISTRY_MAP.get(eventClass).stream()
+              .filter(data -> data.getSource().equals(object))
+              .forEach(REGISTRY_MAP.get(eventClass)::remove);
 
-			if (lastCalledMS != 0) {
-				if (lastCalledMS + 10 >= System.currentTimeMillis()) {
-					if (keyPressedEvent.getKey() == lastCalledEvent.getKey()) {
-						return event;
-					}
-				}
-			} else {
-				lastCalledEvent = keyPressedEvent;
-				lastCalledMS = System.currentTimeMillis();
-			}
-		}
+      cleanMap(true);
+    }
+  }
 
-		List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
+  private void register(Object object, Method method) {
+    Class<? extends Event> indexClass = (Class<? extends Event>) method.getParameterTypes()[0];
+    final MethodData methodData = new MethodData(object, method, method.getAnnotation(EventHandler.class).priority());
+    methodData.getTarget().setAccessible(true);
 
-		if (dataList != null) {
-			if (event instanceof EventCancellable) {
-				EventCancellable cancellable = (EventCancellable) event;
+    if (REGISTRY_MAP.containsKey(indexClass)) {
+      if (!REGISTRY_MAP.get(indexClass).contains(methodData)) {
+        REGISTRY_MAP.get(indexClass).add(methodData);
+        sortListValue(indexClass);
+      }
+    } else {
+      CopyOnWriteArrayList<MethodData> methodDataList = new CopyOnWriteArrayList<>(new MethodData[]{methodData});
+      REGISTRY_MAP.put(indexClass, methodDataList);
+    }
+  }
 
-				for (final MethodData data : dataList) {
-					invoke(data, event);
+  private void sortListValue(Class<? extends Event> indexClass) {
+    List<MethodData> sortedList = new CopyOnWriteArrayList<>();
 
-					if (cancellable.isCancelled()) {
-						break;
-					}
-				}
-			} else {
-				for (final MethodData data : dataList) {
-					invoke(data, event);
-				}
-			}
-		}
+    for (final int priority : EventPriority.getValues()) {
+      REGISTRY_MAP.get(indexClass).stream()
+              .filter(data -> data.getPriority() == priority)
+              .forEach(sortedList::add);
+    }
 
-		return event;
-	}
-
-	private static void invoke(MethodData data, Event argument) {
-		try {
-			data.getTarget().invoke(data.getSource(), argument);
-		} catch (ReflectiveOperationException e) {
-			e.printStackTrace();
-		}
-	}
+    REGISTRY_MAP.put(indexClass, sortedList);
+  }
 }

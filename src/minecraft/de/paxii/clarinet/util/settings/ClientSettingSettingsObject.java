@@ -7,11 +7,11 @@ import lombok.Data;
  */
 @Data
 public class ClientSettingSettingsObject {
-	private String name;
-	private Object value;
+  private String name;
+  private Object value;
 
-	public ClientSettingSettingsObject(String name, Object value) {
-		this.name = name;
-		this.value = value;
-	}
+  public ClientSettingSettingsObject(String name, Object value) {
+    this.name = name;
+    this.value = value;
+  }
 }

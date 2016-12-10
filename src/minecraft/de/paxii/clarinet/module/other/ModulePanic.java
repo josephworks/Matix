@@ -10,32 +10,32 @@ import java.util.ArrayList;
  * Created by Lars on 20.03.2016.
  */
 public class ModulePanic extends Module {
-	private ArrayList<Module> enabledModules;
+  private ArrayList<Module> enabledModules;
 
-	public ModulePanic() {
-		super("Panic", ModuleCategory.OTHER);
+  public ModulePanic() {
+    super("Panic", ModuleCategory.OTHER);
 
-		this.enabledModules = new ArrayList<>();
+    this.enabledModules = new ArrayList<>();
 
-		this.setDescription("Turns all modules off.");
-	}
+    this.setDescription("Turns all modules off.");
+  }
 
-	@Override
-	public void onEnable() {
-		this.enabledModules.clear();
+  @Override
+  public void onEnable() {
+    this.enabledModules.clear();
 
-		Wrapper.getModuleManager().getModuleList().values().forEach(module -> {
-			if (module.isEnabled() && module != this) {
-				this.enabledModules.add(module);
-				module.setEnabled(false);
-			}
-		});
-	}
+    Wrapper.getModuleManager().getModuleList().values().forEach(module -> {
+      if (module.isEnabled() && module != this) {
+        this.enabledModules.add(module);
+        module.setEnabled(false);
+      }
+    });
+  }
 
-	@Override
-	public void onDisable() {
-		for (Module module : this.enabledModules) {
-			module.setEnabled(true);
-		}
-	}
+  @Override
+  public void onDisable() {
+    for (Module module : this.enabledModules) {
+      module.setEnabled(true);
+    }
+  }
 }

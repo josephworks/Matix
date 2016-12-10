@@ -1,84 +1,84 @@
 package de.paxii.clarinet.util.module.settings;
 
+import java.util.ArrayList;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-
 public class ValueBase implements Comparable<ValueBase> {
-	@Getter
-	@Setter
-	private float min, max, value;
-	@Getter
-	@Setter
-	private String name, displayName;
-	@Getter
-	@Setter
-	private boolean shouldRound;
-	@Getter
-	private static ArrayList<ValueBase> valueList = new ArrayList<>();
+  @Getter
+  private static ArrayList<ValueBase> valueList = new ArrayList<>();
+  @Getter
+  @Setter
+  private float min, max, value;
+  @Getter
+  @Setter
+  private String name, displayName;
+  @Getter
+  @Setter
+  private boolean shouldRound;
 
-	public ValueBase(String name, float current, float min, float max) {
-		this(name, current, min, max, false);
-	}
+  public ValueBase(String name, float current, float min, float max) {
+    this(name, current, min, max, false);
+  }
 
-	public ValueBase(String name, float current, float min, float max, String displayName) {
-		this(name, current, min, max, false, displayName);
-	}
+  public ValueBase(String name, float current, float min, float max, String displayName) {
+    this(name, current, min, max, false, displayName);
+  }
 
-	public ValueBase(String name, float current, float min, float max, boolean shouldRound) {
-		this(name, current, min, max, shouldRound, null);
-	}
+  public ValueBase(String name, float current, float min, float max, boolean shouldRound) {
+    this(name, current, min, max, shouldRound, null);
+  }
 
-	public ValueBase(String name, float current, float min, float max, boolean shouldRound, String displayName) {
-		this.name = name;
-		this.value = current;
-		this.min = min;
-		this.max = max;
-		this.shouldRound = shouldRound;
-		this.displayName = displayName;
+  public ValueBase(String name, float current, float min, float max, boolean shouldRound, String displayName) {
+    this.name = name;
+    this.value = current;
+    this.min = min;
+    this.max = max;
+    this.shouldRound = shouldRound;
+    this.displayName = displayName;
 
-		if (!doesValueExist(getName())) {
-			valueList.add(this);
-		}
-	}
+    if (!doesValueExist(getName())) {
+      valueList.add(this);
+    }
+  }
 
-	public String getDisplayName() {
-		return this.displayName != null ? this.displayName : this.name;
-	}
+  public static boolean doesValueExist(String name) {
+    for (ValueBase vb : valueList) {
+      if (vb.getName().equals(name)) {
+        return true;
+      }
+    }
 
-	public void onUpdate(float oldValue, float newValue) {
-	}
+    return false;
+  }
 
-	public void setValue(float value) {
-		if (this.value != value) {
-			this.onUpdate(this.value, value);
-		}
-		this.value = value;
-	}
+  public static ValueBase getValueBase(String name) {
+    for (ValueBase vb : valueList) {
+      if (vb.getName().equals(name)) {
+        return vb;
+      }
+    }
 
-	public static boolean doesValueExist(String name) {
-		for (ValueBase vb : valueList) {
-			if (vb.getName().equals(name)) {
-				return true;
-			}
-		}
+    return null;
+  }
 
-		return false;
-	}
+  public String getDisplayName() {
+    return this.displayName != null ? this.displayName : this.name;
+  }
 
-	public static ValueBase getValueBase(String name) {
-		for (ValueBase vb : valueList) {
-			if (vb.getName().equals(name)) {
-				return vb;
-			}
-		}
+  public void onUpdate(float oldValue, float newValue) {
+  }
 
-		return null;
-	}
+  public void setValue(float value) {
+    if (this.value != value) {
+      this.onUpdate(this.value, value);
+    }
+    this.value = value;
+  }
 
-	@Override
-	public int compareTo(ValueBase vb) {
-		return this.getName().compareToIgnoreCase(vb.getName());
-	}
+  @Override
+  public int compareTo(ValueBase vb) {
+    return this.getName().compareToIgnoreCase(vb.getName());
+  }
 }

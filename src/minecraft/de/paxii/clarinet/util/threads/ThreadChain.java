@@ -6,26 +6,26 @@ import java.util.ArrayList;
  * Created by Lars on 05.06.2016.
  */
 public class ThreadChain {
-	private final ArrayList<Thread> threadList;
+  private final ArrayList<Thread> threadList;
 
-	public ThreadChain() {
-		this.threadList = new ArrayList<>();
-	}
+  public ThreadChain() {
+    this.threadList = new ArrayList<>();
+  }
 
-	public ThreadChain chainThread(Thread thread) {
-		this.threadList.add(thread);
+  public ThreadChain chainThread(Thread thread) {
+    this.threadList.add(thread);
 
-		return this;
-	}
+    return this;
+  }
 
-	public void next() {
-		if (this.threadList.size() > 0) {
-			this.threadList.get(0).start();
-			this.threadList.remove(0);
-		}
-	}
+  public void next() {
+    if (this.threadList.size() > 0) {
+      this.threadList.get(0).start();
+      this.threadList.remove(0);
+    }
+  }
 
-	public void kickOff() {
-		this.next();
-	}
+  public void kickOff() {
+    this.next();
+  }
 }

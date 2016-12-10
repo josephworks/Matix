@@ -7,34 +7,34 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 
 public class ModuleVanillaFly extends Module {
-	private double savedX, savedY, savedZ;
+  private double savedX, savedY, savedZ;
 
-	public ModuleVanillaFly() {
-		super("VanillaFly", ModuleCategory.MOVEMENT, -1);
+  public ModuleVanillaFly() {
+    super("VanillaFly", ModuleCategory.MOVEMENT, -1);
 
-		this.setRegistered(true);
-		this.setDescription("Delays the \"Kicked for flying\" - Vanilla AntiFly.");
-	}
+    this.setRegistered(true);
+    this.setDescription("Delays the \"Kicked for flying\" - Vanilla AntiFly.");
+  }
 
-	@EventHandler
-	public void preMotionUpdate(PreMotionUpdateEvent event) {
-		if (event.getPlayer().onGround || Wrapper.getModuleManager().isModuleActive("KillAura")) {
-			return;
-		}
+  @EventHandler
+  public void preMotionUpdate(PreMotionUpdateEvent event) {
+    if (event.getPlayer().onGround || Wrapper.getModuleManager().isModuleActive("KillAura")) {
+      return;
+    }
 
-		double distanceX = event.getPlayer().posX - this.savedX;
-		double distanceY = event.getPlayer().posY - this.savedY;
-		double distanceZ = event.getPlayer().posZ - this.savedZ;
+    double distanceX = event.getPlayer().posX - this.savedX;
+    double distanceY = event.getPlayer().posY - this.savedY;
+    double distanceZ = event.getPlayer().posZ - this.savedZ;
 
-		double distanceSq = (distanceX * distanceX) + (distanceY * distanceY) + (distanceZ * distanceZ);
+    double distanceSq = (distanceX * distanceX) + (distanceY * distanceY) + (distanceZ * distanceZ);
 
-		if (distanceSq <= 80.0D) {
-			event.setCancelled(true);
-			return;
-		}
+    if (distanceSq <= 80.0D) {
+      event.setCancelled(true);
+      return;
+    }
 
-		this.savedX = event.getPlayer().posX;
-		this.savedY = event.getPlayer().posY;
-		this.savedZ = event.getPlayer().posZ;
-	}
+    this.savedX = event.getPlayer().posX;
+    this.savedY = event.getPlayer().posY;
+    this.savedZ = event.getPlayer().posZ;
+  }
 }

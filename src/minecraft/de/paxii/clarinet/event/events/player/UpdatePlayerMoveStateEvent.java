@@ -1,6 +1,7 @@
 package de.paxii.clarinet.event.events.player;
 
 import de.paxii.clarinet.event.events.Event;
+
 import lombok.Data;
 
 /**
@@ -8,10 +9,10 @@ import lombok.Data;
  */
 @Data
 public class UpdatePlayerMoveStateEvent implements Event {
-	private float moveStrafe, moveForward;
+  private float moveStrafe, moveForward;
 
-	public UpdatePlayerMoveStateEvent(float moveStrafe, float moveForward) {
-		this.moveStrafe = moveStrafe;
-		this.moveForward = moveForward;
-	}
+  public UpdatePlayerMoveStateEvent(float moveStrafe, float moveForward) {
+    this.moveStrafe = moveStrafe;
+    this.moveForward = moveForward;
+  }
 }
