@@ -13,7 +13,9 @@ public class GuiKeybinds extends GuiScreen {
 	private final GuiScreen parentScreen;
 
 	private final GuiKeybindsList keybindsList;
-
+	@Getter
+	@Setter
+	boolean shouldListen;
 	@Getter
 	@Setter
 	private GuiListEntryModuleKey selectedButton;
@@ -22,10 +24,6 @@ public class GuiKeybinds extends GuiScreen {
 	private GuiListEntryModuleKey pressedButton;
 	@Getter
 	private int pressedKey;
-	@Getter
-	@Setter
-	boolean shouldListen;
-
 	private GuiButton doneButton;
 
 	public GuiKeybinds(GuiScreen parentScreen) {

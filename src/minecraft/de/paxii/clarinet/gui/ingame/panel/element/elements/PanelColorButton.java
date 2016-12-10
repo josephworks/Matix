@@ -5,13 +5,13 @@ import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
 
 public class PanelColorButton extends PanelElement {
+	private final DefaultClientTheme.DefaultThemeColorObject colorObject;
+
 	public PanelColorButton(DefaultClientTheme.DefaultThemeColorObject colorObject) {
 		super(90, 12);
 
 		this.colorObject = colorObject;
 	}
-
-	private final DefaultClientTheme.DefaultThemeColorObject colorObject;
 
 	@Override
 	public void drawElement(int elementX, int elementY, int mouseX, int mouseY) {

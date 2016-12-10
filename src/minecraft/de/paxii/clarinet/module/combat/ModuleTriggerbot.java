@@ -25,8 +25,8 @@ import org.lwjgl.input.Mouse;
 import java.util.List;
 
 public class ModuleTriggerbot extends Module {
-	private RayTraceResult objectMouseOver;
 	private final TimeManager timeManager;
+	private RayTraceResult objectMouseOver;
 
 	public ModuleTriggerbot() {
 		super("Triggerbot", ModuleCategory.COMBAT);

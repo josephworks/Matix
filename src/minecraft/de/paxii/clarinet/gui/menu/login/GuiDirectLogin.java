@@ -12,13 +12,11 @@ import java.io.IOException;
 
 public class GuiDirectLogin extends GuiScreen {
 	private final GuiScreen parentScreen;
-
+	private final TimeManager timeManager;
 	private GuiTextField userNameField;
 	private GuiPasswordField passwordField;
-
 	private String errorMessage;
 	private boolean displayError;
-	private final TimeManager timeManager;
 
 	public GuiDirectLogin(GuiScreen parentScreen) {
 		this.parentScreen = parentScreen;

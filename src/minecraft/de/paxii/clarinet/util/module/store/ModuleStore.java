@@ -44,47 +44,6 @@ public class ModuleStore {
 		this.removeModules();
 	}
 
-	private void removeModules() {
-		File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
-
-		if (modulesToDelete.exists()) {
-			String jsonString = "";
-
-			try {
-				Scanner sc = new Scanner(modulesToDelete);
-				Gson gson = new Gson();
-
-				while (sc.hasNextLine())
-					jsonString += sc.nextLine();
-
-				sc.close();
-
-				ArrayList<String> modulesToRemove = gson.fromJson(jsonString, new TypeToken<ArrayList<String>>() {
-				}.getType());
-
-				if (modulesToRemove != null) {
-					modulesToRemove.forEach((moduleName -> {
-						File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName));
-						moduleFile.delete();
-
-						if (moduleName.contains("-")) {
-							String oldModuleName = moduleName.split("-")[0];
-							File oldModuleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", oldModuleName));
-
-							if (oldModuleFile.exists()) {
-								oldModuleFile.delete();
-							}
-						}
-					}));
-				}
-
-				modulesToDelete.delete();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	public static void downloadModule(String moduleName) {
 		try {
 			if (ModuleStore.isModuleInstalled(moduleName)) {
@@ -168,6 +127,47 @@ public class ModuleStore {
 
 	public static boolean isModuleUptoDate(String moduleName) {
 		return ModuleStore.isModuleInstalled(moduleName) && ModuleStore.listModules().get(moduleName).getBuild() <= Wrapper.getModuleManager().getModule(moduleName).getBuildVersion();
+	}
+
+	private void removeModules() {
+		File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
+
+		if (modulesToDelete.exists()) {
+			String jsonString = "";
+
+			try {
+				Scanner sc = new Scanner(modulesToDelete);
+				Gson gson = new Gson();
+
+				while (sc.hasNextLine())
+					jsonString += sc.nextLine();
+
+				sc.close();
+
+				ArrayList<String> modulesToRemove = gson.fromJson(jsonString, new TypeToken<ArrayList<String>>() {
+				}.getType());
+
+				if (modulesToRemove != null) {
+					modulesToRemove.forEach((moduleName -> {
+						File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName));
+						moduleFile.delete();
+
+						if (moduleName.contains("-")) {
+							String oldModuleName = moduleName.split("-")[0];
+							File oldModuleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", oldModuleName));
+
+							if (oldModuleFile.exists()) {
+								oldModuleFile.delete();
+							}
+						}
+					}));
+				}
+
+				modulesToDelete.delete();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@EventHandler

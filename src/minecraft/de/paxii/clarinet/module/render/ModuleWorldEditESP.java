@@ -265,10 +265,6 @@ public class ModuleWorldEditESP extends Module {
 			this.selectionName = selectionName;
 		}
 
-		public String getName() {
-			return this.selectionName;
-		}
-
 		public static SelectionDir parseSelectionDir(String selection) {
 			selection = selection.toUpperCase();
 
@@ -279,6 +275,10 @@ public class ModuleWorldEditESP extends Module {
 			}
 
 			return null;
+		}
+
+		public String getName() {
+			return this.selectionName;
 		}
 	}
 }

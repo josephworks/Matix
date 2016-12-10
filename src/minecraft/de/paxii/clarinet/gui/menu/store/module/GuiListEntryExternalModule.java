@@ -12,10 +12,9 @@ import net.minecraft.client.gui.GuiScreen;
  * Created by Lars on 07.02.2016.
  */
 public class GuiListEntryExternalModule implements GuiListExtended.IGuiListEntry {
+	private final GuiScreen parentScreen;
 	@Getter
 	private ModuleEntry moduleEntry;
-	private final GuiScreen parentScreen;
-
 	private int x, y, width, height;
 
 	public GuiListEntryExternalModule(ModuleEntry moduleEntry, GuiScreen parentScreen) {

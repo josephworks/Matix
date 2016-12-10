@@ -33,10 +33,6 @@ public enum ChatColor {
 
 	public static final char COLOR_CHAR = 167;
 	private static final Pattern STRIP_COLOR_PATTERN;
-	private final int intCode;
-	private final char code;
-	private final boolean isFormat;
-	private final String toString;
 	private static final Map<Integer, ChatColor> BY_ID;
 	private static final Map<Character, ChatColor> BY_CHAR;
 
@@ -52,6 +48,11 @@ public enum ChatColor {
 		}
 	}
 
+	private final int intCode;
+	private final char code;
+	private final boolean isFormat;
+	private final String toString;
+
 	ChatColor(final String s, final int n, final char code, final int intCode) {
 		this(s, n, code, intCode, false);
 	}
@@ -61,23 +62,6 @@ public enum ChatColor {
 		this.intCode = intCode;
 		this.isFormat = isFormat;
 		this.toString = new String(new char[]{ 167, code });
-	}
-
-	public char getChar() {
-		return this.code;
-	}
-
-	@Override
-	public String toString() {
-		return this.toString;
-	}
-
-	public boolean isFormat() {
-		return this.isFormat;
-	}
-
-	public boolean isColor() {
-		return !this.isFormat && this != ChatColor.RESET;
 	}
 
 	public static ChatColor getByChar(final char code) {
@@ -128,5 +112,22 @@ public enum ChatColor {
 			}
 		}
 		return result;
+	}
+
+	public char getChar() {
+		return this.code;
+	}
+
+	@Override
+	public String toString() {
+		return this.toString;
+	}
+
+	public boolean isFormat() {
+		return this.isFormat;
+	}
+
+	public boolean isColor() {
+		return !this.isFormat && this != ChatColor.RESET;
 	}
 }

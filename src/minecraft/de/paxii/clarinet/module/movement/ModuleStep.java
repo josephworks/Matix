@@ -13,14 +13,14 @@ import org.lwjgl.input.Keyboard;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ModuleStep extends Module {
+	private final AtomicBoolean canPacket = new AtomicBoolean();
+
 	public ModuleStep() {
 		super("Step", ModuleCategory.MOVEMENT, Keyboard.KEY_K);
 
 		this.setRegistered(true);
 		this.setDescription("Allows you to step up full blocks.");
 	}
-
-	private final AtomicBoolean canPacket = new AtomicBoolean();
 
 	@EventHandler
 	public void onTick(IngameTickEvent event) {

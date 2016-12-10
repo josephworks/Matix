@@ -19,14 +19,13 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ClientClickableGui extends GuiScreen {
+	private final GuiPanelManager panelManager;
 	@Getter
 	private IClientTheme currentTheme;
 	@Getter
 	private ConcurrentArrayList<GuiPanel> guiPanels;
 	@Getter
 	private ConcurrentArrayList<IClientTheme> panelThemes;
-
-	private final GuiPanelManager panelManager;
 
 	public ClientClickableGui() {
 		this.guiPanels = new ConcurrentArrayList<>();

@@ -26,8 +26,6 @@ import java.io.File;
 @Getter
 public class Client {
 	@Getter
-	private static Client clientInstance;
-	@Getter
 	private static final String clientName = "Matix";
 	@Getter
 	private static final String clientVersion = "1.6.5.1B";
@@ -37,7 +35,8 @@ public class Client {
 	private static final int clientBuild = 16501;
 	@Getter
 	private static final String clientURL = "http://paxii.de/Matix/";
-
+	@Getter
+	private static Client clientInstance;
 	private EventManager eventManager;
 	private ModuleManager moduleManager;
 	private FileManager fileManager;

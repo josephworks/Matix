@@ -10,11 +10,11 @@ public class DisplayGuiScreenEvent extends EventCancellable {
 		this.guiScreen = guiScreen;
 	}
 
-	public void setGuiScreen(GuiScreen guiScreen) {
-		this.guiScreen = guiScreen;
-	}
-
 	public GuiScreen getGuiScreen() {
 		return this.guiScreen;
+	}
+
+	public void setGuiScreen(GuiScreen guiScreen) {
+		this.guiScreen = guiScreen;
 	}
 }

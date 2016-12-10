@@ -13,6 +13,73 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class EventManager {
 	private static final Map<Class<? extends Event>, List<MethodData>> REGISTRY_MAP = new HashMap<>();
+	private static KeyPressedEvent lastCalledEvent;
+	private static long lastCalledMS;
+
+	private static void cleanMap(boolean onlyEmptyEntries) {
+		Iterator<Map.Entry<Class<? extends Event>, List<MethodData>>> mapIterator = REGISTRY_MAP.entrySet().iterator();
+
+		while (mapIterator.hasNext()) {
+			if (!onlyEmptyEntries || mapIterator.next().getValue().isEmpty()) {
+				mapIterator.remove();
+			}
+		}
+	}
+
+	private static boolean isMethodBad(Method method) {
+		return method.getParameterTypes().length != 1 || !method.isAnnotationPresent(EventHandler.class);
+	}
+
+	private static boolean isMethodBad(Method method, Class<? extends Event> eventClass) {
+		return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
+	}
+
+	public static <T extends Event> T call(final T event) {
+		if (event instanceof KeyPressedEvent) {
+			KeyPressedEvent keyPressedEvent = (KeyPressedEvent) event;
+
+			if (lastCalledMS != 0) {
+				if (lastCalledMS + 10 >= System.currentTimeMillis()) {
+					if (keyPressedEvent.getKey() == lastCalledEvent.getKey()) {
+						return event;
+					}
+				}
+			} else {
+				lastCalledEvent = keyPressedEvent;
+				lastCalledMS = System.currentTimeMillis();
+			}
+		}
+
+		List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
+
+		if (dataList != null) {
+			if (event instanceof EventCancellable) {
+				EventCancellable cancellable = (EventCancellable) event;
+
+				for (final MethodData data : dataList) {
+					invoke(data, event);
+
+					if (cancellable.isCancelled()) {
+						break;
+					}
+				}
+			} else {
+				for (final MethodData data : dataList) {
+					invoke(data, event);
+				}
+			}
+		}
+
+		return event;
+	}
+
+	private static void invoke(MethodData data, Event argument) {
+		try {
+			data.getTarget().invoke(data.getSource(), argument);
+		} catch (ReflectiveOperationException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void register(Object object) {
 		for (final Method method : object.getClass().getDeclaredMethods()) {
@@ -80,73 +147,5 @@ public class EventManager {
 		}
 
 		REGISTRY_MAP.put(indexClass, sortedList);
-	}
-
-	private static void cleanMap(boolean onlyEmptyEntries) {
-		Iterator<Map.Entry<Class<? extends Event>, List<MethodData>>> mapIterator = REGISTRY_MAP.entrySet().iterator();
-
-		while (mapIterator.hasNext()) {
-			if (!onlyEmptyEntries || mapIterator.next().getValue().isEmpty()) {
-				mapIterator.remove();
-			}
-		}
-	}
-
-	private static boolean isMethodBad(Method method) {
-		return method.getParameterTypes().length != 1 || !method.isAnnotationPresent(EventHandler.class);
-	}
-
-	private static boolean isMethodBad(Method method, Class<? extends Event> eventClass) {
-		return isMethodBad(method) || !method.getParameterTypes()[0].equals(eventClass);
-	}
-
-	private static KeyPressedEvent lastCalledEvent;
-	private static long lastCalledMS;
-
-	public static <T extends Event> T call(final T event) {
-		if (event instanceof KeyPressedEvent) {
-			KeyPressedEvent keyPressedEvent = (KeyPressedEvent) event;
-
-			if (lastCalledMS != 0) {
-				if (lastCalledMS + 10 >= System.currentTimeMillis()) {
-					if (keyPressedEvent.getKey() == lastCalledEvent.getKey()) {
-						return event;
-					}
-				}
-			} else {
-				lastCalledEvent = keyPressedEvent;
-				lastCalledMS = System.currentTimeMillis();
-			}
-		}
-
-		List<MethodData> dataList = REGISTRY_MAP.get(event.getClass());
-
-		if (dataList != null) {
-			if (event instanceof EventCancellable) {
-				EventCancellable cancellable = (EventCancellable) event;
-
-				for (final MethodData data : dataList) {
-					invoke(data, event);
-
-					if (cancellable.isCancelled()) {
-						break;
-					}
-				}
-			} else {
-				for (final MethodData data : dataList) {
-					invoke(data, event);
-				}
-			}
-		}
-
-		return event;
-	}
-
-	private static void invoke(MethodData data, Event argument) {
-		try {
-			data.getTarget().invoke(data.getSource(), argument);
-		} catch (ReflectiveOperationException e) {
-			e.printStackTrace();
-		}
 	}
 }

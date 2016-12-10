@@ -26,21 +26,21 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class TTF {
-	private Font theFont;
-	private Graphics2D theGraphics;
-	private FontMetrics theMetrics;
 	private final float fontSize;
 	private final int startChar;
 	private final int endChar;
 	private final float[] xPos;
 	private final float[] yPos;
-	private BufferedImage bufferedImage;
-	private ResourceLocation resourceLocation;
-	private float extraSpacing = 0.0F;
 	private final Pattern patternControlCode = Pattern
 			.compile("(?i)\\u00A7[0-9A-FK-OG]");
 	private final Pattern patternUnsupported = Pattern
 			.compile("(?i)\\u00A7[K-O]");
+	private Font theFont;
+	private Graphics2D theGraphics;
+	private FontMetrics theMetrics;
+	private BufferedImage bufferedImage;
+	private ResourceLocation resourceLocation;
+	private float extraSpacing = 0.0F;
 
 	public TTF(Object font, float size) {
 		this(font, size, 0.0F);

@@ -8,15 +8,6 @@ import org.lwjgl.opengl.GL11;
 import java.lang.reflect.Field;
 
 public class GuiMethods extends Gui {
-	public void drawGradientRectWithOutline(int xs, int ys, int xe, int ye, int c, int c1, int c2) {
-		this.drawGradientRect(xs + 1, ys + 1, xe - 1, ye - 1, c1, c2);
-		GL11.glPushMatrix();
-		GL11.glScalef(0.5f, 0.5f, 0.5f);
-		this.drawWHollowBorderedRect(xs * 2 + 1, ys * 2 + 1, xe * 2 - 1,
-				ye * 2 - 1, 1, c);
-		GL11.glPopMatrix();
-	}
-
 	public static void drawGradientBorderedRect(double x, double y, double x2, double y2, float l1, int col1, int col2, int col3) {
 		float f = (float) (col1 >> 24 & 0xFF) / 255F;
 		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
@@ -102,58 +93,6 @@ public class GuiMethods extends Gui {
 		GL11.glScalef(2.0F, 2.0F, 2.0F);
 	}
 
-	public void drawGradientRectWithOutline(int xs, int ys, int xe, int ye, int c, int c1, int c2, int c3) {
-		this.drawGradientRect(xs + 1, ys + 1, xe - 1, ye - 1, c1, c2);
-		drawVerticalLine((xs + 1), (ys), (ye) - 1, c3);
-		drawHorizontalLine(xs + 1, xe - 2, ys + 1, c3);
-		GL11.glPushMatrix();
-		GL11.glScalef(0.5f, 0.5f, 0.5f);
-		this.drawWHollowBorderedRect(xs * 2 + 1, ys * 2 + 1, xe * 2 - 1,
-				ye * 2 - 1, 1, c);
-		GL11.glPopMatrix();
-	}
-
-	public void drawSmallRect(int x, int y, int x1, int y1, int CO1) {
-		GL11.glPushMatrix();
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
-		drawRect(x * 2, y * 2, x1 * 2, y1 * 2, CO1);
-		GL11.glPopMatrix();
-	}
-
-	public void drawSmallWHollowBorderedRect(int x, int y, int x1, int y1, int CO1) {
-		GL11.glPushMatrix();
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
-		drawWHollowBorderedRect(x * 2, y * 2, x1 * 2, y1 * 2, CO1);
-		GL11.glPopMatrix();
-	}
-
-	public void drawWHollowBorderedRect(int x, int y, int x1, int y1, int CO1) {
-		drawVerticalLine(x, y, y1 - 1, CO1);
-		drawVerticalLine(x1 - 1, y, y1 - 1, CO1);
-		drawHorizontalLine(x + 1, x1 - 2, y, CO1);
-		drawHorizontalLine(x + 1, x1 - 2, y1 - 1, CO1);
-	}
-
-	public void drawBarMethod(int x, int y, int x1, int y1, int CO1, int CO2, int CO3) {
-		drawSmallWBorderedBarRect(x, y, x1, y1, CO1, CO2, CO3);
-	}
-
-	public void drawSmallWBorderedBarRect(int x, int y, int x1, int y1, int CO1, int CO2, int CO3) {
-		GL11.glPushMatrix();
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
-		drawWBorderedBarRect(x * 2, y * 2, x1 * 2, y1 * 2, CO1, CO2, CO3);
-		GL11.glPopMatrix();
-	}
-
-	public void drawWBorderedBarRect(int x, int y, int x1, int y1, int CO1, int CO2, int CO3) {
-		drawRect(x + 1, y + 1, x1 - 1, y1 - 1, CO2);
-		drawRect(x + 1, y + 1, x1 - 1, y1 - 6, CO3);
-		drawVerticalLine(x, y, y1 - 1, CO1);
-		drawVerticalLine(x1 - 1, y, y1 - 1, CO1);
-		drawHorizontalLine(x + 1, x1 - 2, y, CO1);
-		drawHorizontalLine(x + 1, x1 - 2, y1 - 1, CO1);
-	}
-
 	public static void drawRect(int x, int y, int x2, int y2, int col1) {
 		float f = (float) (col1 >> 24 & 0xFF) / 255F;
 		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
@@ -176,80 +115,6 @@ public class GuiMethods extends Gui {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-	}
-
-	public void drawGradientRect2(int x, int y, int x2, int y2, int col1, int col2) {
-		float f = (float) (col1 >> 24 & 0xFF) / 255F;
-		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
-		float f2 = (float) (col1 >> 8 & 0xFF) / 255F;
-		float f3 = (float) (col1 & 0xFF) / 255F;
-		float f4 = (float) (col2 >> 24 & 0xFF) / 255F;
-		float f5 = (float) (col2 >> 16 & 0xFF) / 255F;
-		float f6 = (float) (col2 >> 8 & 0xFF) / 255F;
-		float f7 = (float) (col2 & 0xFF) / 255F;
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		GL11.glPushMatrix();
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glColor4f(f1, f2, f3, f);
-		GL11.glVertex2d(x2, y);
-		GL11.glVertex2d(x, y);
-		GL11.glColor4f(f5, f6, f7, f4);
-		GL11.glVertex2d(x, y2);
-		GL11.glVertex2d(x2, y2);
-		GL11.glEnd();
-		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-		GL11.glShadeModel(GL11.GL_FLAT);
-	}
-
-	public void drawRoundedGradientRect(int x, int y, int x1, int y1, int size, int col1, int col2, int borderC) {
-		x *= 2;
-		y *= 2;
-		x1 *= 2;
-		y1 *= 2;
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
-		drawVerticalLine(x, y + 1, y1 - 2, borderC);
-		drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
-		drawHorizontalLine(x + 2, x1 - 3, y, borderC);
-		drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
-		drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
-		drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
-		drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
-		drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
-		float f = (float) (col1 >> 24 & 0xFF) / 255F;
-		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
-		float f2 = (float) (col1 >> 8 & 0xFF) / 255F;
-		float f3 = (float) (col1 & 0xFF) / 255F;
-		float f4 = (float) (col2 >> 24 & 0xFF) / 255F;
-		float f5 = (float) (col2 >> 16 & 0xFF) / 255F;
-		float f6 = (float) (col2 >> 8 & 0xFF) / 255F;
-		float f7 = (float) (col2 & 0xFF) / 255F;
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-		GL11.glShadeModel(GL11.GL_SMOOTH);
-		GL11.glPushMatrix();
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glColor4f(f1, f2, f3, f);
-		GL11.glVertex2d(x1, y);
-		GL11.glVertex2d(x, y);
-		GL11.glColor4f(f5, f6, f7, f4);
-		GL11.glVertex2d(x, y1);
-		GL11.glVertex2d(x1, y1);
-		GL11.glEnd();
-		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-		GL11.glShadeModel(GL11.GL_FLAT);
-		GL11.glScalef(2F, 2F, 2F);
 	}
 
 	public static void drawBar(int x, int y, int x2, int y2, float l1, int col1, int col2, int col3, int var, boolean inverse) {
@@ -361,46 +226,6 @@ public class GuiMethods extends Gui {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-	}
-
-	public void drawGradientBorderedRect(int x, int y, int x2, int y2, float l1, int col1, int col2, int col3) {
-		this.drawGradientRect(x, y, x2, y2, col2, col3);
-		float f = (float) (col1 >> 24 & 0xFF) / 255F;
-		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
-		float f2 = (float) (col1 >> 8 & 0xFF) / 255F;
-		float f3 = (float) (col1 & 0xFF) / 255F;
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glEnable(GL11.GL_LINE_SMOOTH);
-		GL11.glPushMatrix();
-		GL11.glColor4f(f1, f2, f3, f);
-		GL11.glLineWidth(l1);
-		GL11.glBegin(GL11.GL_LINES);
-		GL11.glVertex2d(x, y);
-		GL11.glVertex2d(x, y2);
-		GL11.glVertex2d(x2, y2);
-		GL11.glVertex2d(x2, y);
-		GL11.glVertex2d(x, y);
-		GL11.glVertex2d(x2, y);
-		GL11.glVertex2d(x, y2);
-		GL11.glVertex2d(x2, y2);
-		GL11.glEnd();
-		GL11.glPopMatrix();
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_BLEND);
-		GL11.glDisable(GL11.GL_LINE_SMOOTH);
-	}
-
-	public void drawWHollowBorderedRect(int x, int y, int x1, int y1, int size, int borderC) {
-		Gui.drawVerticalLine(x, y + 1, y1 - 2, borderC);
-		Gui.drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
-		Gui.drawHorizontalLine(x + 2, x1 - 3, y, borderC);
-		Gui.drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
-		Gui.drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
-		Gui.drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
-		Gui.drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
-		Gui.drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
 	}
 
 	public static void drawVerticalLine(int x, int y, int y2, float l1, int col1) {
@@ -530,24 +355,6 @@ public class GuiMethods extends Gui {
 		GL11.glPopMatrix();
 	}
 
-	public void drawMoreRoundedBorderedRect2(int x, int y, int x1, int y1, int size, int borderC, int insideC) {
-		x *= 2;
-		y *= 2;
-		x1 *= 2;
-		y1 *= 2;
-		GL11.glScalef(0.5F, 0.5F, 0.5F);
-		drawVerticalLine(x, y + 1, y1 - 2, borderC);
-		drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
-		drawHorizontalLine(x + 2, x1 - 3, y, borderC);
-		drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
-		drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
-		drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
-		drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
-		drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
-		drawRect(x + size, y + size, x1 - size, y1 - size, insideC);
-		GL11.glScalef(2F, 2F, 2F);
-	}
-
 	public static void drawTri(int i, int j, int k) {
 		GL11.glRotatef(180F, 0.0F, 0.0F, 1.0F);
 		float f = (float) (k >> 24 & 0xff) / 255F;
@@ -613,7 +420,6 @@ public class GuiMethods extends Gui {
 		GL11.glPopMatrix();
 	}
 
-
 	public static void drawUpTri(int x, int y, int size, int color) {
 		float f = (float) (color >> 24 & 0xff) / 255F;
 		float f1 = (float) (color >> 16 & 0xff) / 255F;
@@ -639,7 +445,6 @@ public class GuiMethods extends Gui {
 		GL11.glPopMatrix();
 	}
 
-
 	public static void drawDownTri(int x, int y, int size, int color) {
 		float f = (float) (color >> 24 & 0xff) / 255F;
 		float f1 = (float) (color >> 16 & 0xff) / 255F;
@@ -663,14 +468,6 @@ public class GuiMethods extends Gui {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();
-	}
-
-	public void color(int c) {
-		float f = (float) (c >> 24 & 0xff) / 255F;
-		float f1 = (float) (c >> 16 & 0xff) / 255F;
-		float f2 = (float) (c >> 8 & 0xff) / 255F;
-		float f3 = (float) (c & 0xff) / 255F;
-		GL11.glColor4f(f1, f2, f3, f);
 	}
 
 	public static void drawDownTri(int i, int j, int k) {
@@ -896,6 +693,230 @@ public class GuiMethods extends Gui {
 		drawHorizontalLine(x + 1, x1 - 2, y1 - 1, borderC);
 	}
 
+	public static void drawMoreRoundedBorderedRect(int x, int y, int x1, int y1, int size, int borderC, int insideC) {
+		drawVerticalLine(x, y + 1, y1 - 2, borderC);
+		drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
+		drawHorizontalLine(x + 2, x1 - 3, y, borderC);
+		drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
+		drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
+		drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
+		drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
+		drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
+		drawRect(x + size, y + size, x1 - size, y1 - size, insideC);
+	}
+
+	public static void drawHLine(float par1, float par2, float par3, int par4) {
+		if (par2 < par1) {
+			float var5 = par1;
+			par1 = par2;
+			par2 = var5;
+		}
+
+		drawRect((int) par1, (int) par3, (int) par2 + 1, (int) par3 + 1,
+				par4);
+	}
+
+	public void drawGradientRectWithOutline(int xs, int ys, int xe, int ye, int c, int c1, int c2) {
+		this.drawGradientRect(xs + 1, ys + 1, xe - 1, ye - 1, c1, c2);
+		GL11.glPushMatrix();
+		GL11.glScalef(0.5f, 0.5f, 0.5f);
+		this.drawWHollowBorderedRect(xs * 2 + 1, ys * 2 + 1, xe * 2 - 1,
+				ye * 2 - 1, 1, c);
+		GL11.glPopMatrix();
+	}
+
+	public void drawGradientRectWithOutline(int xs, int ys, int xe, int ye, int c, int c1, int c2, int c3) {
+		this.drawGradientRect(xs + 1, ys + 1, xe - 1, ye - 1, c1, c2);
+		drawVerticalLine((xs + 1), (ys), (ye) - 1, c3);
+		drawHorizontalLine(xs + 1, xe - 2, ys + 1, c3);
+		GL11.glPushMatrix();
+		GL11.glScalef(0.5f, 0.5f, 0.5f);
+		this.drawWHollowBorderedRect(xs * 2 + 1, ys * 2 + 1, xe * 2 - 1,
+				ye * 2 - 1, 1, c);
+		GL11.glPopMatrix();
+	}
+
+	public void drawSmallRect(int x, int y, int x1, int y1, int CO1) {
+		GL11.glPushMatrix();
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		drawRect(x * 2, y * 2, x1 * 2, y1 * 2, CO1);
+		GL11.glPopMatrix();
+	}
+
+	public void drawSmallWHollowBorderedRect(int x, int y, int x1, int y1, int CO1) {
+		GL11.glPushMatrix();
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		drawWHollowBorderedRect(x * 2, y * 2, x1 * 2, y1 * 2, CO1);
+		GL11.glPopMatrix();
+	}
+
+	public void drawWHollowBorderedRect(int x, int y, int x1, int y1, int CO1) {
+		drawVerticalLine(x, y, y1 - 1, CO1);
+		drawVerticalLine(x1 - 1, y, y1 - 1, CO1);
+		drawHorizontalLine(x + 1, x1 - 2, y, CO1);
+		drawHorizontalLine(x + 1, x1 - 2, y1 - 1, CO1);
+	}
+
+	public void drawBarMethod(int x, int y, int x1, int y1, int CO1, int CO2, int CO3) {
+		drawSmallWBorderedBarRect(x, y, x1, y1, CO1, CO2, CO3);
+	}
+
+	public void drawSmallWBorderedBarRect(int x, int y, int x1, int y1, int CO1, int CO2, int CO3) {
+		GL11.glPushMatrix();
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		drawWBorderedBarRect(x * 2, y * 2, x1 * 2, y1 * 2, CO1, CO2, CO3);
+		GL11.glPopMatrix();
+	}
+
+	public void drawWBorderedBarRect(int x, int y, int x1, int y1, int CO1, int CO2, int CO3) {
+		drawRect(x + 1, y + 1, x1 - 1, y1 - 1, CO2);
+		drawRect(x + 1, y + 1, x1 - 1, y1 - 6, CO3);
+		drawVerticalLine(x, y, y1 - 1, CO1);
+		drawVerticalLine(x1 - 1, y, y1 - 1, CO1);
+		drawHorizontalLine(x + 1, x1 - 2, y, CO1);
+		drawHorizontalLine(x + 1, x1 - 2, y1 - 1, CO1);
+	}
+
+	public void drawGradientRect2(int x, int y, int x2, int y2, int col1, int col2) {
+		float f = (float) (col1 >> 24 & 0xFF) / 255F;
+		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
+		float f2 = (float) (col1 >> 8 & 0xFF) / 255F;
+		float f3 = (float) (col1 & 0xFF) / 255F;
+		float f4 = (float) (col2 >> 24 & 0xFF) / 255F;
+		float f5 = (float) (col2 >> 16 & 0xFF) / 255F;
+		float f6 = (float) (col2 >> 8 & 0xFF) / 255F;
+		float f7 = (float) (col2 & 0xFF) / 255F;
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glPushMatrix();
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glColor4f(f1, f2, f3, f);
+		GL11.glVertex2d(x2, y);
+		GL11.glVertex2d(x, y);
+		GL11.glColor4f(f5, f6, f7, f4);
+		GL11.glVertex2d(x, y2);
+		GL11.glVertex2d(x2, y2);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+		GL11.glShadeModel(GL11.GL_FLAT);
+	}
+
+	public void drawRoundedGradientRect(int x, int y, int x1, int y1, int size, int col1, int col2, int borderC) {
+		x *= 2;
+		y *= 2;
+		x1 *= 2;
+		y1 *= 2;
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		drawVerticalLine(x, y + 1, y1 - 2, borderC);
+		drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
+		drawHorizontalLine(x + 2, x1 - 3, y, borderC);
+		drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
+		drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
+		drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
+		drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
+		drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
+		float f = (float) (col1 >> 24 & 0xFF) / 255F;
+		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
+		float f2 = (float) (col1 >> 8 & 0xFF) / 255F;
+		float f3 = (float) (col1 & 0xFF) / 255F;
+		float f4 = (float) (col2 >> 24 & 0xFF) / 255F;
+		float f5 = (float) (col2 >> 16 & 0xFF) / 255F;
+		float f6 = (float) (col2 >> 8 & 0xFF) / 255F;
+		float f7 = (float) (col2 & 0xFF) / 255F;
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glShadeModel(GL11.GL_SMOOTH);
+		GL11.glPushMatrix();
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glColor4f(f1, f2, f3, f);
+		GL11.glVertex2d(x1, y);
+		GL11.glVertex2d(x, y);
+		GL11.glColor4f(f5, f6, f7, f4);
+		GL11.glVertex2d(x, y1);
+		GL11.glVertex2d(x1, y1);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+		GL11.glShadeModel(GL11.GL_FLAT);
+		GL11.glScalef(2F, 2F, 2F);
+	}
+
+	public void drawGradientBorderedRect(int x, int y, int x2, int y2, float l1, int col1, int col2, int col3) {
+		this.drawGradientRect(x, y, x2, y2, col2, col3);
+		float f = (float) (col1 >> 24 & 0xFF) / 255F;
+		float f1 = (float) (col1 >> 16 & 0xFF) / 255F;
+		float f2 = (float) (col1 >> 8 & 0xFF) / 255F;
+		float f3 = (float) (col1 & 0xFF) / 255F;
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glEnable(GL11.GL_LINE_SMOOTH);
+		GL11.glPushMatrix();
+		GL11.glColor4f(f1, f2, f3, f);
+		GL11.glLineWidth(l1);
+		GL11.glBegin(GL11.GL_LINES);
+		GL11.glVertex2d(x, y);
+		GL11.glVertex2d(x, y2);
+		GL11.glVertex2d(x2, y2);
+		GL11.glVertex2d(x2, y);
+		GL11.glVertex2d(x, y);
+		GL11.glVertex2d(x2, y);
+		GL11.glVertex2d(x, y2);
+		GL11.glVertex2d(x2, y2);
+		GL11.glEnd();
+		GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_BLEND);
+		GL11.glDisable(GL11.GL_LINE_SMOOTH);
+	}
+
+	public void drawWHollowBorderedRect(int x, int y, int x1, int y1, int size, int borderC) {
+		Gui.drawVerticalLine(x, y + 1, y1 - 2, borderC);
+		Gui.drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
+		Gui.drawHorizontalLine(x + 2, x1 - 3, y, borderC);
+		Gui.drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
+		Gui.drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
+		Gui.drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
+		Gui.drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
+		Gui.drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
+	}
+
+	public void drawMoreRoundedBorderedRect2(int x, int y, int x1, int y1, int size, int borderC, int insideC) {
+		x *= 2;
+		y *= 2;
+		x1 *= 2;
+		y1 *= 2;
+		GL11.glScalef(0.5F, 0.5F, 0.5F);
+		drawVerticalLine(x, y + 1, y1 - 2, borderC);
+		drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
+		drawHorizontalLine(x + 2, x1 - 3, y, borderC);
+		drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
+		drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
+		drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
+		drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
+		drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
+		drawRect(x + size, y + size, x1 - size, y1 - size, insideC);
+		GL11.glScalef(2F, 2F, 2F);
+	}
+
+	public void color(int c) {
+		float f = (float) (c >> 24 & 0xff) / 255F;
+		float f1 = (float) (c >> 16 & 0xff) / 255F;
+		float f2 = (float) (c >> 8 & 0xff) / 255F;
+		float f3 = (float) (c & 0xff) / 255F;
+		GL11.glColor4f(f1, f2, f3, f);
+	}
+
 	public void drawBorderedGradientRect(int x, int y, int x1, int y1, int size, int borderC, int insideC1, int insideC2) {
 		drawVerticalLine(x, y, y1 - 1, borderC);
 		drawVerticalLine(x1 - 1, y, y1 - 1, borderC);
@@ -956,18 +977,6 @@ public class GuiMethods extends Gui {
 	public void drawBorderedRectGuiArraylist(String s, int X, int Y) {
 		drawBorderedRect(X, Y, X + 80, Y + 12, 1, 0xFF000000, 0x43000000);
 		Wrapper.getFontRenderer().drawString(s, X + 3, Y + 2, 0xFFFFFF);
-	}
-
-	public static void drawMoreRoundedBorderedRect(int x, int y, int x1, int y1, int size, int borderC, int insideC) {
-		drawVerticalLine(x, y + 1, y1 - 2, borderC);
-		drawVerticalLine(x1 - 1, y + 1, y1 - 2, borderC);
-		drawHorizontalLine(x + 2, x1 - 3, y, borderC);
-		drawHorizontalLine(x + 2, x1 - 3, y1 - 1, borderC);
-		drawHorizontalLine(x + 1, x + 1, y + 1, borderC);
-		drawHorizontalLine(x1 - 2, x1 - 2, y + 1, borderC);
-		drawHorizontalLine(x1 - 2, x1 - 2, y1 - 2, borderC);
-		drawHorizontalLine(x + 1, x + 1, y1 - 2, borderC);
-		drawRect(x + size, y + size, x1 - size, y1 - size, insideC);
 	}
 
 	public void drawSmallStringWithShadow(String s, int x, int y, int c) {
@@ -1088,17 +1097,6 @@ public class GuiMethods extends Gui {
 		GL11.glDisable(GL11.GL_LINE_SMOOTH);
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glDisable(GL11.GL_BLEND);
-	}
-
-	public static void drawHLine(float par1, float par2, float par3, int par4) {
-		if (par2 < par1) {
-			float var5 = par1;
-			par1 = par2;
-			par2 = var5;
-		}
-
-		drawRect((int) par1, (int) par3, (int) par2 + 1, (int) par3 + 1,
-				par4);
 	}
 
 	public void drawRect(double x, double y, double d, double e, int color) {

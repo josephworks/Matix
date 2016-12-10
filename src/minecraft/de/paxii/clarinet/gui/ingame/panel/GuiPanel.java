@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 public class GuiPanel {
 	@Getter
+	ArrayList<PanelElement> panelElements;
+	@Getter
 	@Setter
 	private String panelName;
 	@Getter
@@ -19,8 +21,6 @@ public class GuiPanel {
 	@Getter
 	@Setter
 	private boolean dragging, draggable = true, opened, collapsible = true, pinned, visible = true, scrollable;
-	@Getter
-	ArrayList<PanelElement> panelElements;
 
 	public GuiPanel(String panelName, int panelX, int panelY) {
 		this(panelName, panelX, panelY, 100, 200);

@@ -6,13 +6,13 @@ import lombok.Getter;
  * Created by Lars on 26.05.2016.
  */
 public class Notification {
+	private final long initialTime;
 	@Getter
 	private String text;
 	@Getter
 	private NotificationPriority priority;
 	@Getter
 	private long time;
-	private final long initialTime;
 
 	public Notification(String text) {
 		this(text, NotificationPriority.NORMAL, 3000);

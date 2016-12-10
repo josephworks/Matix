@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class ValueBase implements Comparable<ValueBase> {
 	@Getter
+	private static ArrayList<ValueBase> valueList = new ArrayList<>();
+	@Getter
 	@Setter
 	private float min, max, value;
 	@Getter
@@ -15,8 +17,6 @@ public class ValueBase implements Comparable<ValueBase> {
 	@Getter
 	@Setter
 	private boolean shouldRound;
-	@Getter
-	private static ArrayList<ValueBase> valueList = new ArrayList<>();
 
 	public ValueBase(String name, float current, float min, float max) {
 		this(name, current, min, max, false);
@@ -43,20 +43,6 @@ public class ValueBase implements Comparable<ValueBase> {
 		}
 	}
 
-	public String getDisplayName() {
-		return this.displayName != null ? this.displayName : this.name;
-	}
-
-	public void onUpdate(float oldValue, float newValue) {
-	}
-
-	public void setValue(float value) {
-		if (this.value != value) {
-			this.onUpdate(this.value, value);
-		}
-		this.value = value;
-	}
-
 	public static boolean doesValueExist(String name) {
 		for (ValueBase vb : valueList) {
 			if (vb.getName().equals(name)) {
@@ -75,6 +61,20 @@ public class ValueBase implements Comparable<ValueBase> {
 		}
 
 		return null;
+	}
+
+	public String getDisplayName() {
+		return this.displayName != null ? this.displayName : this.name;
+	}
+
+	public void onUpdate(float oldValue, float newValue) {
+	}
+
+	public void setValue(float value) {
+		if (this.value != value) {
+			this.onUpdate(this.value, value);
+		}
+		this.value = value;
 	}
 
 	@Override

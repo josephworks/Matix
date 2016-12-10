@@ -11,12 +11,10 @@ import java.io.IOException;
 
 public class GuiMcLeaksLogin extends GuiScreen {
 	private final GuiScreen parentScreen;
-
+	private final TimeManager timeManager;
 	private GuiTextField userNameField;
-
 	private String errorMessage;
 	private boolean displayError;
-	private final TimeManager timeManager;
 
 	public GuiMcLeaksLogin(GuiScreen parentScreen) {
 		this.parentScreen = parentScreen;

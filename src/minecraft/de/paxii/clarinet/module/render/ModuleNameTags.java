@@ -46,11 +46,6 @@ public class ModuleNameTags extends Module {
 		this.getModuleValues().put("scale", new ValueBase("NameTag Scale", 3.0F, 1.0F, 10.0F, "Scale"));
 	}
 
-	@Override
-	public void onEnable() {
-		ModuleNameTags.isActive = true;
-	}
-
 	public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking) {
 		final float distance = Wrapper.getPlayer().getDistanceToEntity(entity);
 		final double scale = distance > 10.0F ? distance / instance.getModuleValues().get("scale").getValue() : 1.0F;
@@ -147,6 +142,11 @@ public class ModuleNameTags extends Module {
 		GlStateManager.enableLighting();
 		GlStateManager.disableBlend();
 		GL11.glPopMatrix();
+	}
+
+	@Override
+	public void onEnable() {
+		ModuleNameTags.isActive = true;
 	}
 
 	@Override

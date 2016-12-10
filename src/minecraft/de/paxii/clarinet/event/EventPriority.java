@@ -7,6 +7,10 @@ public class EventPriority {
 			LOW = 3,
 			LOWEST = 4;
 
+	public static int[] getValues() {
+		return new int[]{ HIGHEST, HIGH, NORMAL, LOW, LOWEST };
+	}
+
 	public String toString(int eventPriority) {
 		switch (eventPriority) {
 			case HIGHEST:
@@ -27,9 +31,5 @@ public class EventPriority {
 			default:
 				return "Normal";
 		}
-	}
-
-	public static int[] getValues() {
-		return new int[]{ HIGHEST, HIGH, NORMAL, LOW, LOWEST };
 	}
 }

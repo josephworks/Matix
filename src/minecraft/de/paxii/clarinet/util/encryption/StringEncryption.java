@@ -8,10 +8,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class StringEncryption {
-	private String encryptionKey;
 	private final String DEFAULT_ENCODING = "UTF-8";
 	private final BASE64Encoder enc = new BASE64Encoder();
 	private final BASE64Decoder dec = new BASE64Decoder();
+	private String encryptionKey;
 
 	public StringEncryption(String encryptionKey) {
 		this.encryptionKey = encryptionKey;

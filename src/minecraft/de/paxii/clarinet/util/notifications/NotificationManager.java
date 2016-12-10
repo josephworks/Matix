@@ -8,9 +8,9 @@ import lombok.Getter;
  * Created by Lars on 26.05.2016.
  */
 public class NotificationManager {
+	private final NotificationRenderer notificationRenderer;
 	@Getter
 	private ConcurrentArrayList<Notification> notifications;
-	private final NotificationRenderer notificationRenderer;
 
 	public NotificationManager() {
 		this.notifications = new ConcurrentArrayList<>();

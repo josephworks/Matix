@@ -8,10 +8,9 @@ import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 
 public class GuiListEntryModuleKey implements GuiListExtended.IGuiListEntry {
+	private final GuiScreen parentScreen;
 	@Getter
 	private Module module;
-	private final GuiScreen parentScreen;
-
 	private int x, y, width, height;
 
 	public GuiListEntryModuleKey(Module module, GuiScreen parentScreen) {

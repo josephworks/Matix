@@ -20,9 +20,8 @@ public class ModuleKillaura extends Module {
 	private final AuraManager auraManager;
 	private final EntityManager entityManager;
 	private final TimeManager timeManager;
-	private EntityLivingBase target;
-
 	private final ValueBase valueRandomness;
+	private EntityLivingBase target;
 
 	public ModuleKillaura() {
 		super("KillAura", ModuleCategory.COMBAT, Keyboard.KEY_F);

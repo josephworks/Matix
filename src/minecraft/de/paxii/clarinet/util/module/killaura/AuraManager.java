@@ -25,11 +25,9 @@ public class AuraManager {
 
 	private final ArrayList<Float> pitchMap;
 	private final ArrayList<Float> yawMap;
-
-	private Map<Integer, Long> attackMap;
 	private final CameraObject cameraObject;
-
 	private final Random random;
+	private Map<Integer, Long> attackMap;
 
 	public AuraManager(Module module) {
 		this.module = module;
