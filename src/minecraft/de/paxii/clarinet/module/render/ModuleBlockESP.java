@@ -4,6 +4,7 @@ import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.block.BlockBreakEvent;
 import de.paxii.clarinet.event.events.game.IngameTickEvent;
+import de.paxii.clarinet.event.events.game.LoadWorldEvent;
 import de.paxii.clarinet.event.events.game.QuitServerEvent;
 import de.paxii.clarinet.event.events.game.RenderTickEvent;
 import de.paxii.clarinet.module.Module;
@@ -68,21 +69,13 @@ public class ModuleBlockESP extends Module {
 
   @EventHandler
   public void onTick(IngameTickEvent event) {
-    if (this.updatePosition == null) {
-      this.renderBlocks.clear();
-      this.searchBlocks();
+    this.updateRenderBlocks();
+  }
 
-      this.updatePosition = Wrapper.getPlayer().getPosition();
-    } else {
-      double distance = Wrapper.getPlayer().getDistance(this.updatePosition.getX(), this.updatePosition.getY(), this.updatePosition.getZ());
-
-      if (distance > this.getModuleValues().get("renderDistance").getValue() / 5) {
-        this.renderBlocks.clear();
-        this.searchBlocks();
-
-        this.updatePosition = Wrapper.getPlayer().getPosition();
-      }
-    }
+  @EventHandler
+  public void onWorldLoaded(LoadWorldEvent event) {
+    this.updatePosition = null;
+    this.updateRenderBlocks();
   }
 
   @EventHandler
@@ -148,6 +141,24 @@ public class ModuleBlockESP extends Module {
           this.renderBlocks.remove(searchBlock);
         }
       }));
+    }
+  }
+
+  private void updateRenderBlocks() {
+    if (this.updatePosition == null) {
+      this.renderBlocks.clear();
+      this.searchBlocks();
+
+      this.updatePosition = Wrapper.getPlayer().getPosition();
+    } else {
+      double distance = Wrapper.getPlayer().getDistance(this.updatePosition.getX(), this.updatePosition.getY(), this.updatePosition.getZ());
+
+      if (distance > this.getModuleValues().get("renderDistance").getValue() / 5) {
+        this.renderBlocks.clear();
+        this.searchBlocks();
+
+        this.updatePosition = Wrapper.getPlayer().getPosition();
+      }
     }
   }
 
