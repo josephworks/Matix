@@ -9,11 +9,11 @@ import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
-import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import lombok.Getter;
 
@@ -24,7 +24,7 @@ public class ModuleXray extends Module {
   @Getter
   private static boolean isActive;
   @Getter
-  private static ConcurrentArrayList<Integer> blockList = new ConcurrentArrayList<>();
+  private static ConcurrentLinkedQueue<Integer> blockList = new ConcurrentLinkedQueue<>();
   @Getter
   private static int xrayOpacity = 0x44FFFFFF;
   private boolean editedAmbientOcclusion;
@@ -54,13 +54,9 @@ public class ModuleXray extends Module {
   @Override
   public void onStartup() {
     if (this.getModuleSettings().isEmpty()) {
-      blockList.add(54);
-      blockList.add(56);
-      blockList.add(14);
-      blockList.add(15);
-      blockList.add(16);
-      blockList.add(21);
-      blockList.add(129);
+      for (int blockId : new int[]{54, 56, 14, 15, 16, 21, 129}) {
+        blockList.add(blockId);
+      }
     } else {
       this.getModuleSettings().forEach((blockIdentifier, value) -> {
         try {
@@ -84,10 +80,9 @@ public class ModuleXray extends Module {
 
   @EventHandler
   public void onIngameTick(IngameTickEvent event) {
-    if (Wrapper.getWorld().provider.getLightBrightnessTable()[0] != 1)
-      for (int i = 0; 15 >= i; ++i) {
-        Wrapper.getWorld().provider.getLightBrightnessTable()[i] = 1;
-      }
+    for (int i = 0; i < Wrapper.getWorld().provider.getLightBrightnessTable().length; i++) {
+      Wrapper.getWorld().provider.getLightBrightnessTable()[i] = 1;
+    }
   }
 
   @Override
@@ -168,13 +163,7 @@ public class ModuleXray extends Module {
   }
 
   public void removeBlock(int blockID) {
-    for (int i = 0; i < blockList.size(); i++) {
-      int id = blockList.get(i);
-
-      if (id == blockID) {
-        blockList.remove(i);
-      }
-    }
+    blockList.removeIf(id -> id == blockID);
   }
 
   @Override

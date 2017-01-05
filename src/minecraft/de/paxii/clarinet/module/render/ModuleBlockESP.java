@@ -13,24 +13,24 @@ import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.render.GL11Helper;
 import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
-import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import lombok.Getter;
 
 public class ModuleBlockESP extends Module {
   private final ConcurrentHashMap<Integer, Integer> searchBlocks;
-  private ConcurrentArrayList<SearchBlock> renderBlocks;
+  private ConcurrentLinkedQueue<SearchBlock> renderBlocks;
   private BlockPos updatePosition;
 
   public ModuleBlockESP() {
@@ -45,7 +45,7 @@ public class ModuleBlockESP extends Module {
     });
 
     this.searchBlocks = new ConcurrentHashMap<>();
-    this.renderBlocks = new ConcurrentArrayList<>();
+    this.renderBlocks = new ConcurrentLinkedQueue<>();
 
     this.setCommand(true);
     this.setRegistered(true);
@@ -80,55 +80,38 @@ public class ModuleBlockESP extends Module {
 
   @EventHandler
   public void onRender(RenderTickEvent event) {
-    for (SearchBlock renderBlock : this.renderBlocks) {
+    this.renderBlocks.forEach((renderBlock -> {
       int renderColor = searchBlocks.get(renderBlock.getBlockID());
-
+      Color decode = new Color(renderColor);
       BlockPos blockPos = renderBlock.getBlockPos();
 
-      double xx = Wrapper.getPlayer().lastTickPosX
+      double x = blockPos.getX() - (Wrapper.getPlayer().lastTickPosX
               + (Wrapper.getPlayer().posX - Wrapper.getPlayer().lastTickPosX)
-              * Wrapper.getTimer().renderPartialTicks;
-      double yy = Wrapper.getPlayer().lastTickPosY
+              * Wrapper.getTimer().renderPartialTicks);
+      double y = blockPos.getY() - (Wrapper.getPlayer().lastTickPosY
               + (Wrapper.getPlayer().posY - Wrapper.getPlayer().lastTickPosY)
-              * Wrapper.getTimer().renderPartialTicks;
-      double zz = Wrapper.getPlayer().lastTickPosZ
+              * Wrapper.getTimer().renderPartialTicks);
+      double z = blockPos.getZ() - (Wrapper.getPlayer().lastTickPosZ
               + (Wrapper.getPlayer().posZ - Wrapper.getPlayer().lastTickPosZ)
-              * Wrapper.getTimer().renderPartialTicks;
-
-      double x = blockPos.getX() - xx;
-      double y = blockPos.getY() - yy;
-      double z = blockPos.getZ() - zz;
-      AxisAlignedBB blockBox = new AxisAlignedBB(x, y, z, x + 1.0D, y + 1.0D, z + 1.0D);
+              * Wrapper.getTimer().renderPartialTicks);
 
       GL11.glPushMatrix();
       GL11Helper.enableDefaults();
-      GL11.glEnable(GL11.GL_LINE_SMOOTH);
-      GL11.glEnable(GL11.GL_BLEND);
-      GL11.glDisable(GL11.GL_DEPTH_TEST);
-      GL11.glDisable(GL11.GL_LIGHTING);
-      GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-      GL11.glDepthMask(false);
       GlStateManager.depthMask(false);
       GlStateManager.disableTexture2D();
       GlStateManager.disableLighting();
       GlStateManager.disableCull();
       GlStateManager.disableBlend();
       GL11.glLineWidth(1.0F);
-      RenderGlobal.drawOutlinedBoundingBox(blockBox, renderColor);
-
+      RenderGlobal.drawBoundingBox(x, y, z, x + 1.0D, y + 1.0D, z + 1.0D, decode.getRed() / 255.0F, decode.getGreen() / 255.0F, decode.getBlue() / 255.0F, 1.0F);
       GL11Helper.disableDefaults();
       GlStateManager.enableTexture2D();
       GlStateManager.enableLighting();
       GlStateManager.enableCull();
       GlStateManager.disableBlend();
       GlStateManager.depthMask(true);
-      GL11.glDepthMask(true);
-      GL11.glEnable(GL11.GL_DEPTH_TEST);
-      GL11.glDisable(GL11.GL_BLEND);
-      GL11.glEnable(GL11.GL_LIGHTING);
-      GL11.glDisable(GL11.GL_LINE_SMOOTH);
       GL11.glPopMatrix();
-    }
+    }));
   }
 
   @EventHandler
