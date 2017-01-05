@@ -1,7 +1,8 @@
 package de.paxii.clarinet.util.notifications;
 
 import de.paxii.clarinet.Wrapper;
-import de.paxii.clarinet.util.threads.ConcurrentArrayList;
+
+import java.util.ArrayList;
 
 import lombok.Getter;
 
@@ -11,10 +12,10 @@ import lombok.Getter;
 public class NotificationManager {
   private final NotificationRenderer notificationRenderer;
   @Getter
-  private ConcurrentArrayList<Notification> notifications;
+  private ArrayList<Notification> notifications;
 
   public NotificationManager() {
-    this.notifications = new ConcurrentArrayList<>();
+    this.notifications = new ArrayList<>();
     this.notificationRenderer = new NotificationRenderer(this);
 
     Wrapper.getEventManager().register(this.notificationRenderer);

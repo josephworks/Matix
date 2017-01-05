@@ -10,7 +10,6 @@ import de.paxii.clarinet.gui.menu.hooks.GuiMainMenuHook;
 import de.paxii.clarinet.util.alt.AltContainer;
 import de.paxii.clarinet.util.login.YggdrasilLoginBridge;
 import de.paxii.clarinet.util.settings.ClientSettings;
-import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -21,6 +20,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import lombok.Getter;
@@ -35,11 +35,11 @@ public class GuiAltManager extends GuiScreen {
   @Setter
   private GuiAltListEntry pressedSlot;
   @Getter
-  private ConcurrentArrayList<AltObject> altList;
+  private ArrayList<AltObject> altList;
 
   public GuiAltManager(GuiScreen parentScreen) {
     this.parentScreen = parentScreen;
-    this.altList = new ConcurrentArrayList<>();
+    this.altList = new ArrayList<>();
 
     if (this.parentScreen instanceof GuiMainMenuHook)
       this.mainMenuHook = (GuiMainMenuHook) this.parentScreen;

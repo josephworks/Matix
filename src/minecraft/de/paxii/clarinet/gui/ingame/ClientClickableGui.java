@@ -11,11 +11,11 @@ import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.Matix2HDTheme;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.settings.type.ClientSettingString;
-import de.paxii.clarinet.util.threads.ConcurrentArrayList;
 
 import net.minecraft.client.gui.GuiScreen;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import lombok.Getter;
@@ -25,13 +25,13 @@ public class ClientClickableGui extends GuiScreen {
   @Getter
   private IClientTheme currentTheme;
   @Getter
-  private ConcurrentArrayList<GuiPanel> guiPanels;
+  private ArrayList<GuiPanel> guiPanels;
   @Getter
-  private ConcurrentArrayList<IClientTheme> panelThemes;
+  private ArrayList<IClientTheme> panelThemes;
 
   public ClientClickableGui() {
-    this.guiPanels = new ConcurrentArrayList<>();
-    this.panelThemes = new ConcurrentArrayList<>();
+    this.guiPanels = new ArrayList<>();
+    this.panelThemes = new ArrayList<>();
     this.panelManager = new GuiPanelManager();
 
     Wrapper.getEventManager().register(this);
