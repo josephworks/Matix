@@ -176,6 +176,7 @@ public class ModuleStore {
 
   @EventHandler
   public void onPostLoadModules(PostLoadModulesEvent event) {
+    fetchModules();
     AtomicBoolean updateAvailable = new AtomicBoolean(false);
     moduleList.forEach((moduleName, moduleEntry) -> {
       if (ModuleStore.isModuleInstalled(moduleName) && !ModuleStore.isModuleUptoDate(moduleName)) {
