@@ -8,6 +8,7 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.EntityLiving;
 
 import org.lwjgl.opengl.GL11;
 
@@ -21,17 +22,19 @@ public class ModuleWallhack extends Module {
 
   @EventHandler
   public void preRender(PreRenderEntityEvent event) {
-    GL11.glDisable(GL11.GL_DEPTH_TEST);
-    GL11.glDepthMask(false);
-    GlStateManager.depthMask(false);
-    Wrapper.getRenderer().disableLightmap();
+    if (event.getRenderedEntity() instanceof EntityLiving) {
+      GlStateManager.disableDepth();
+      GlStateManager.depthMask(false);
+      Wrapper.getRenderer().disableLightmap();
+    }
   }
 
   @EventHandler
   public void postRender(PostRenderEntityEvent event) {
-    Wrapper.getRenderer().enableLightmap();
-    GlStateManager.depthMask(true);
-    GL11.glDepthMask(true);
-    GL11.glEnable(GL11.GL_DEPTH_TEST);
+    if (event.getRenderedEntity() instanceof EntityLiving) {
+      Wrapper.getRenderer().enableLightmap();
+      GlStateManager.enableDepth();
+      GlStateManager.depthMask(true);
+    }
   }
 }
