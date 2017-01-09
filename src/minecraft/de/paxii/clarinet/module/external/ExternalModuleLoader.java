@@ -2,6 +2,7 @@ package de.paxii.clarinet.module.external;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.module.Module;
+import de.paxii.clarinet.util.module.store.ModuleStore;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import java.io.File;
@@ -46,9 +47,31 @@ public class ExternalModuleLoader {
   }
 
   private File[] getModuleJars() {
-    ArrayList<File> moduleJars = new ArrayList<>();
-    moduleJars.addAll(Arrays.asList(this.moduleFolder.listFiles((f) -> f.getName().endsWith(".jar"))));
-    return moduleJars.toArray(new File[moduleJars.size()]);
+    ArrayList<File> moduleJars = new ArrayList<>(Arrays.asList(this.moduleFolder.listFiles((f) -> f.getName().endsWith(".jar"))));
+    ArrayList<File> ignoredModules = new ArrayList<>();
+
+    // Filter duplicated modules
+    return moduleJars.stream().filter(moduleJar -> {
+      if (!ignoredModules.contains(moduleJar)) {
+        for (File otherModuleJar : moduleJars) {
+          if (moduleJar.getName().equals(otherModuleJar.getName()) ||
+                  ignoredModules.contains(otherModuleJar)) {
+            continue;
+          }
+
+          String[] moduleJarName = moduleJar.getName().split("-");
+          String[] otherModuleJarName = otherModuleJar.getName().split("-");
+
+          if (moduleJarName[0].equals(otherModuleJarName[0])) {
+            ignoredModules.add(moduleJar);
+            ModuleStore.getModulesToDelete().add(moduleJar.getName().replace(".jar", ""));
+            return false;
+          }
+        }
+      }
+
+      return true;
+    }).toArray(File[]::new);
   }
 
   private void loadModuleJars(File[] moduleJars) {
