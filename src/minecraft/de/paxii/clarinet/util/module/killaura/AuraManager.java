@@ -44,9 +44,11 @@ public class AuraManager {
     this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15, "Speed") {
       @Override
       public void onUpdate(float oldValue, float newValue) {
-        Chat.printClientMessage(
-                String.format("Auto Speed is currently enabled for %s. Speed is not taken into account.", module.getName())
-        );
+        if (AuraManager.this.isAutoSpeed()) {
+          Chat.printClientMessage(
+                  String.format("Auto Speed is currently enabled for %s. Speed is not taken into account.", module.getName())
+          );
+        }
       }
     };
     this.valueAngle = new ValueBase(module.getName() + " Angle", 80.0F, 1.0F, 180.0F, "Angle");
