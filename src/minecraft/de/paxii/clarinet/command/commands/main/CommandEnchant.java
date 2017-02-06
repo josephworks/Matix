@@ -7,7 +7,6 @@ import de.paxii.clarinet.util.chat.Chat;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 
 /**
  * Created by Lars on 28.02.2016.
@@ -26,11 +25,11 @@ public class CommandEnchant extends AClientCommand {
   @Override
   public void runCommand(String[] args) {
     if (Wrapper.getPlayer().capabilities.isCreativeMode) {
-      ItemStack currentItem = Wrapper.getPlayer().getHeldItem(EnumHand.MAIN_HAND);
+      ItemStack currentItem = Wrapper.getPlayer().getHeldItem();
 
       if (currentItem != null) {
-        for (Enchantment enchantment : Enchantment.REGISTRY) {
-          if (enchantment == Enchantment.getEnchantmentByID(33)) {
+        for (Enchantment enchantment : Enchantment.getEnchantmentsList()) {
+          if (enchantment == Enchantment.getEnchantmentById(33)) {
             continue;
           }
 

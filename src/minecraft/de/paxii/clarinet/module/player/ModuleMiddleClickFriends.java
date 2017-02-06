@@ -30,7 +30,7 @@ public class ModuleMiddleClickFriends extends Module {
 
       if (pointedEntity != null) {
         if (pointedEntity instanceof EntityPlayer) {
-          String userName = pointedEntity.getName();
+          String userName = pointedEntity.getCommandSenderName();
 
           if (!Wrapper.getFriendManager().isFriend(userName)) {
             Wrapper.getFriendManager().addFriend(userName);

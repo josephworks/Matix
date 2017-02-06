@@ -59,11 +59,11 @@ public class Wrapper {
   }
 
   public static EntityPlayerSP getPlayer() {
-    return getMinecraft().player;
+    return getMinecraft().thePlayer;
   }
 
   public static WorldClient getWorld() {
-    return getMinecraft().world;
+    return getMinecraft().theWorld;
   }
 
   public static FontRenderer getFontRenderer() {
@@ -83,10 +83,10 @@ public class Wrapper {
   }
 
   public static NetHandlerPlayClient getSendQueue() {
-    return getPlayer().connection;
+    return getPlayer().sendQueue;
   }
 
   public static ScaledResolution getScaledResolution() {
-    return new ScaledResolution(getMinecraft());
+    return new ScaledResolution(getMinecraft(), getMinecraft().displayWidth, getMinecraft().displayHeight);
   }
 }

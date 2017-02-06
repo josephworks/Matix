@@ -10,7 +10,6 @@ import de.paxii.clarinet.util.player.PlayerUtils;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -19,7 +18,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 
 public class ModuleAutoTool extends Module {
   public ModuleAutoTool() {
@@ -43,7 +42,7 @@ public class ModuleAutoTool extends Module {
   private void autoTool(int i, int j, int k) {
     Block b = Wrapper.getWorld().getBlock(i, j, k);
 
-    if (b.getMaterial() != Material.AIR) {
+    if (b.getMaterial() != Material.air) {
       float s = 0.1F;
       int currentItem = Wrapper.getPlayer().inventory.currentItem;
 
@@ -121,17 +120,17 @@ public class ModuleAutoTool extends Module {
     if (e instanceof EntityZombie
             || e instanceof EntitySkeleton) {
       return EnchantmentHelper.getEnchantmentLevel(
-              Enchantment.getEnchantmentByID(16), i)
+              16, i)
               + EnchantmentHelper.getEnchantmentLevel(
-              Enchantment.getEnchantmentByID(17), i);
+              17, i);
     } else if (e instanceof EntitySpider) {
       return EnchantmentHelper.getEnchantmentLevel(
-              Enchantment.getEnchantmentByID(16), i)
+              16, i)
               + EnchantmentHelper.getEnchantmentLevel(
-              Enchantment.getEnchantmentByID(18), i);
+              18, i);
     } else {
       return EnchantmentHelper.getEnchantmentLevel(
-              Enchantment.getEnchantmentByID(16), i);
+              16, i);
     }
   }
 }

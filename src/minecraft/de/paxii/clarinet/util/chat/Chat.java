@@ -2,12 +2,12 @@ package de.paxii.clarinet.util.chat;
 
 import de.paxii.clarinet.Wrapper;
 
-import net.minecraft.network.play.client.CPacketChatMessage;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.network.play.client.C01PacketChatMessage;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 
 import java.util.regex.Pattern;
 
@@ -19,17 +19,17 @@ public class Chat {
   private static final Pattern URL_PATTERN = Pattern.compile("^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]");
 
   public static void printChatMessage(String chatMessage) {
-    ITextComponent textComponent = new TextComponentString("");
+    IChatComponent textComponent = new ChatComponentText("");
     String[] messageParts = chatMessage.split(" ");
     int pathIndex = 0;
 
     for (String messagePart : messageParts) {
-      ITextComponent append = new TextComponentString(messagePart);
-      Style chatStyle = new Style();
+      IChatComponent append = new ChatComponentText(messagePart);
+      ChatStyle chatStyle = new ChatStyle();
 
       if (Chat.URL_PATTERN.matcher(ChatColor.stripColor(messagePart)).matches()) {
         chatStyle.setUnderlined(true);
-        chatStyle.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ChatColor.stripColor(messagePart)));
+        chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, ChatColor.stripColor(messagePart)));
       }
 
       String currentPath = chatMessage.substring(0, chatMessage.indexOf(messagePart, pathIndex));
@@ -40,7 +40,7 @@ public class Chat {
         Chat.formatChatStyle(chatStyle, formattingChar);
       }
 
-      append.setStyle(chatStyle);
+      append.setChatStyle(chatStyle);
       textComponent.appendSibling(append);
       textComponent.appendText(" ");
       pathIndex += messagePart.length() - 1;
@@ -50,7 +50,7 @@ public class Chat {
             .printChatMessage(textComponent);
   }
 
-  public static void printChatComponent(ITextComponent textComponent) {
+  public static void printChatComponent(IChatComponent textComponent) {
     Wrapper.getMinecraft().getIngameGUI().getChatGUI()
             .printChatMessage(textComponent);
   }
@@ -60,12 +60,12 @@ public class Chat {
   }
 
   public static void sendChatMessage(String chatMessage) {
-    Wrapper.getSendQueue().addToSendQueue(new CPacketChatMessage("_PASS_" + chatMessage));
+    Wrapper.getSendQueue().addToSendQueue(new C01PacketChatMessage("_PASS_" + chatMessage));
   }
 
-  private static TextFormatting getTextFormattingByValue(char value) {
-    for (TextFormatting textFormatting : TextFormatting.values()) {
-      if (value == textFormatting.getFormattingCode()) {
+  private static EnumChatFormatting getTextFormattingByValue(char value) {
+    for (EnumChatFormatting textFormatting : EnumChatFormatting.values()) {
+      if (value == textFormatting.getColorIndex()) {
         return textFormatting;
       }
     }
@@ -73,7 +73,7 @@ public class Chat {
     return null;
   }
 
-  private static void formatChatStyle(Style chatStyle, char formattingChar) {
+  private static void formatChatStyle(ChatStyle chatStyle, char formattingChar) {
     switch (formattingChar) {
       case 'k':
         chatStyle.setObfuscated(true);
@@ -96,11 +96,11 @@ public class Chat {
         chatStyle.setBold(false);
         chatStyle.setUnderlined(false);
         chatStyle.setItalic(false);
-        chatStyle.setColor(TextFormatting.RESET);
+        chatStyle.setColor(EnumChatFormatting.RESET);
         break;
       default:
-        TextFormatting textFormatting = Chat.getTextFormattingByValue(formattingChar);
-        chatStyle.setColor(textFormatting != null ? textFormatting : TextFormatting.RESET);
+        EnumChatFormatting textFormatting = Chat.getTextFormattingByValue(formattingChar);
+        chatStyle.setColor(textFormatting != null ? textFormatting : EnumChatFormatting.RESET);
     }
   }
 }

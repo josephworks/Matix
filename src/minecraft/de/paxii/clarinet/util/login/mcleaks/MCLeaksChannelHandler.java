@@ -4,8 +4,8 @@ import de.paxii.clarinet.Wrapper;
 
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraft.network.login.client.CPacketEncryptionResponse;
-import net.minecraft.network.login.server.SPacketEncryptionRequest;
+import net.minecraft.network.login.client.C01PacketEncryptionResponse;
+import net.minecraft.network.login.server.S01PacketEncryptionRequest;
 import net.minecraft.util.CryptManager;
 
 import java.math.BigInteger;
@@ -25,15 +25,15 @@ import io.netty.util.concurrent.GenericFutureListener;
 public class MCLeaksChannelHandler extends MessageToMessageDecoder<Packet> {
   @Override
   protected void decode(ChannelHandlerContext channelHandlerContext, Packet packet, List<Object> list) throws Exception {
-    if (Wrapper.getClient().getMcLeaksManager().isUsingMcLeaks() && packet instanceof SPacketEncryptionRequest) {
-      this.handleEncryptionPacket(Wrapper.getClient().getMcLeaksManager().getNetworkManager(), (SPacketEncryptionRequest) packet);
+    if (Wrapper.getClient().getMcLeaksManager().isUsingMcLeaks() && packet instanceof S01PacketEncryptionRequest) {
+      this.handleEncryptionPacket(Wrapper.getClient().getMcLeaksManager().getNetworkManager(), (S01PacketEncryptionRequest) packet);
       channelHandlerContext.pipeline().remove(this);
     } else {
       list.add(packet);
     }
   }
 
-  private void handleEncryptionPacket(NetworkManager networkManager, SPacketEncryptionRequest encryptionRequest) {
+  private void handleEncryptionPacket(NetworkManager networkManager, S01PacketEncryptionRequest encryptionRequest) {
     try {
       final SecretKey secretkey = CryptManager.createNewSharedKey();
       String serverId = encryptionRequest.getServerId();
@@ -48,7 +48,7 @@ public class MCLeaksChannelHandler extends MessageToMessageDecoder<Packet> {
               remoteAddress.getHostName() + ":" + remoteAddress.getPort(),
               encryptionKey,
               () -> networkManager.sendPacket(
-                      new CPacketEncryptionResponse(secretkey, publickey, encryptionRequest.getVerifyToken()),
+                      new C01PacketEncryptionResponse(secretkey, publickey, encryptionRequest.getVerifyToken()),
                       p_operationComplete_1_ -> networkManager.enableEncryption(secretkey), new GenericFutureListener[0])
       );
     } catch (Exception x) {

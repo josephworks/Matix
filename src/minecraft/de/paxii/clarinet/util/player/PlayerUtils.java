@@ -8,7 +8,7 @@ public class PlayerUtils {
     float var2 = 1.0F;
 
     if (itemStack != null && block != null) {
-      var2 *= itemStack.getStrVsBlock(block.getBlockState().getBaseState());
+      var2 *= itemStack.getStrVsBlock(block);
     }
 
     return var2;

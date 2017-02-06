@@ -9,7 +9,7 @@ import de.paxii.clarinet.util.chat.Chat;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import java.awt.*;
 import java.util.ArrayList;

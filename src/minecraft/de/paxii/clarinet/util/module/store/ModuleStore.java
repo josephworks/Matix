@@ -16,7 +16,7 @@ import de.paxii.clarinet.util.notifications.NotificationPriority;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.web.JsonFetcher;
 
-import net.minecraft.network.play.client.CPacketChatMessage;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 
 import org.apache.commons.io.FileUtils;
 
@@ -72,7 +72,7 @@ public class ModuleStore {
         } finally {
           Chat.printClientMessage(String.format("Module %s has been downloaded. Reloading Client...", moduleName));
 
-          Wrapper.getConsole().onChatMessage(new PlayerSendChatMessageEvent(new CPacketChatMessage(ClientSettings.getValue("client.prefix", String.class) + "reload")));
+          Wrapper.getConsole().onChatMessage(new PlayerSendChatMessageEvent(new C01PacketChatMessage(ClientSettings.getValue("client.prefix", String.class) + "reload")));
         }
       }).start();
     } catch (IOException e) {

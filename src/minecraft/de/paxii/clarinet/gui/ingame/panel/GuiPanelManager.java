@@ -94,10 +94,10 @@ public class GuiPanelManager {
         IntObject blockIndex = new IntObject(0);
         List<PanelBlockButton> blockButtons = new ArrayList<>();
 
-        Iterator<Block> it = Block.REGISTRY.iterator();
+        Iterator<Block> it = Block.blockRegistry.iterator();
         while (it.hasNext()) {
           Block block = it.next();
-          if (block.getMaterial() != Material.AIR) {
+          if (block.getMaterial() != Material.air) {
             AtomicBoolean atomicBoolean = new AtomicBoolean(false);
             this.getPanelElements().forEach((panelElement -> {
               if (panelElement instanceof PanelBlockRow) {

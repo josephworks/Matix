@@ -6,7 +6,7 @@ import de.paxii.clarinet.event.events.game.SendPacketEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 
-import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class ModuleNofall extends Module {
   public ModuleNofall() {
@@ -18,8 +18,8 @@ public class ModuleNofall extends Module {
 
   @EventHandler
   public void onSendPacket(SendPacketEvent e) {
-    if (!Wrapper.getPlayer().onGround && e.getPacket() instanceof CPacketPlayer) {
-      CPacketPlayer curPacket = (CPacketPlayer) e.getPacket();
+    if (!Wrapper.getPlayer().onGround && e.getPacket() instanceof C03PacketPlayer) {
+      C03PacketPlayer curPacket = (C03PacketPlayer) e.getPacket();
       curPacket.setOnGround(true);
       e.setPacket(curPacket);
     }

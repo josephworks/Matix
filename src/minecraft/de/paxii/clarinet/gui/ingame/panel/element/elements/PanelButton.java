@@ -10,7 +10,7 @@ import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSetting;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
-import net.minecraft.network.play.client.CPacketChatMessage;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 
 import java.util.ArrayList;
 
@@ -115,7 +115,7 @@ public class PanelButton extends PanelElement {
           this.moduleSettings.setVisible(false);
         }
       } else if (clickedButton == 2) {
-        Wrapper.getConsole().onChatMessage(new PlayerSendChatMessageEvent(new CPacketChatMessage(
+        Wrapper.getConsole().onChatMessage(new PlayerSendChatMessageEvent(new C01PacketChatMessage(
                 ClientSettings.getValue("client.prefix", String.class) + "help " + this.getModule().getName().toLowerCase()
         )));
       }

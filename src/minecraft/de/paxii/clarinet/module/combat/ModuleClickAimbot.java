@@ -14,7 +14,6 @@ import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumHand;
 
 public class ModuleClickAimbot extends Module {
   private final AuraManager auraManager;
@@ -62,7 +61,7 @@ public class ModuleClickAimbot extends Module {
 
     if (timeManager.sleep(this.auraManager.getDelay())) {
       Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), this.target);
-      Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+      Wrapper.getPlayer().swingItem();
       this.auraManager.addToAttackMap(this.target.getEntityId(), this.timeManager.getLast());
       this.timeManager.updateLast();
     }
@@ -150,15 +149,6 @@ public class ModuleClickAimbot extends Module {
               this.auraManager.setLegit(legit);
 
               Chat.printClientMessage("ClickAimbot legit mode has been set to " + legit + ".");
-            } catch (Exception e) {
-              Chat.printClientMessage("Invalid argument!");
-            }
-          } else if (identifier.equalsIgnoreCase("autospeed")) {
-            try {
-              boolean autoSpeed = Boolean.parseBoolean(value);
-              this.auraManager.setAutoSpeed(autoSpeed);
-
-              Chat.printClientMessage("ClickAimbot auto speed mode has been set to " + autoSpeed + ".");
             } catch (Exception e) {
               Chat.printClientMessage("Invalid argument!");
             }

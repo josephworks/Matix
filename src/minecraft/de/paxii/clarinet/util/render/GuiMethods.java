@@ -3,7 +3,7 @@ package de.paxii.clarinet.util.render;
 import de.paxii.clarinet.Wrapper;
 
 import net.minecraft.client.gui.Gui;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 import org.lwjgl.opengl.GL11;
 

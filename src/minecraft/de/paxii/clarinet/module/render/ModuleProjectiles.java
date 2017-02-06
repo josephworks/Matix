@@ -11,10 +11,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 import org.lwjgl.opengl.GL11;
 
@@ -104,9 +104,9 @@ public class ModuleProjectiles extends Module {
           var29 += var25;
           var30 += var26;
           var31 += var27;
-          Vec3d var34 = new Vec3d(var22, var23, var24);
-          Vec3d var35 = new Vec3d(var29, var30, var31);
-          RayTraceResult var8 = Wrapper.getWorld()
+          Vec3 var34 = new Vec3(var22, var23, var24);
+          Vec3 var35 = new Vec3(var29, var30, var31);
+          MovingObjectPosition var8 = Wrapper.getWorld()
                   .rayTraceBlocks(var34, var35);
 
           if (var8 != null) {
@@ -136,7 +136,7 @@ public class ModuleProjectiles extends Module {
                       var9.minX, var37, var9.minZ, var9.maxX,
                       var38, var9.maxZ);
               if (Wrapper.getWorld()
-                      .isAABBInMaterial(var39, Material.WATER)) {
+                      .isAABBInMaterial(var39, Material.water)) {
                 var4 += 0.2F;
               }
             }

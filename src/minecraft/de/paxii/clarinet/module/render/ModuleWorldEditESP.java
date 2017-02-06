@@ -12,8 +12,8 @@ import de.paxii.clarinet.util.render.GL11Helper;
 
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 
 import org.lwjgl.opengl.GL11;
 

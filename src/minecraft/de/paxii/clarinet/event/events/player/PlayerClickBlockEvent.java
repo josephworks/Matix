@@ -3,7 +3,7 @@ package de.paxii.clarinet.event.events.player;
 import de.paxii.clarinet.event.events.type.EventCancellable;
 
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 
 
 public class PlayerClickBlockEvent extends EventCancellable {

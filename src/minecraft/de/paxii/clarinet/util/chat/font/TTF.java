@@ -2,7 +2,6 @@ package de.paxii.clarinet.util.chat.font;
 
 /*
   Created by Lars on 26.06.2016.
-  <p>
   This uses an updated Version of NahrFont
 
   @Credits Nahr
@@ -11,9 +10,8 @@ package de.paxii.clarinet.util.chat.font;
 import de.paxii.clarinet.Wrapper;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -184,7 +182,7 @@ public class TTF {
         int colorCode = "0123456789abcdefkl".indexOf(oneMore);
         if (colorCode < 16 && colorCode >= 0) {
           try {
-            int newColor = Wrapper.getFontRenderer().getColorCode()[colorCode];
+            int newColor = Wrapper.getFontRenderer().getColorCode(oneMore);
             GL11.glColor4f((newColor >> 16) / 255.0F,
                     (newColor >> 8 & 0xFF) / 255.0F,
                     (newColor & 0xFF) / 255.0F, alpha);
@@ -342,14 +340,14 @@ public class TTF {
   }
 
   private void drawTexturedModalRect(float x, float y, float textureX, float textureY, float width, float height) {
+    float scale = 0.0039063F;
     Tessellator tessellator = Tessellator.getInstance();
-    VertexBuffer vertexbuffer = tessellator.getBuffer();
-    vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-    int zLevel = 0;
-    vertexbuffer.pos((double) x, (double) (y + height), (double) zLevel).tex((double) (textureX * 0.00390625F), (double) ((textureY + height) * 0.00390625F)).endVertex();
-    vertexbuffer.pos((double) (x + width), (double) (y + height), (double) zLevel).tex((double) ((textureX + width) * 0.00390625F), (double) ((textureY + height) * 0.00390625F)).endVertex();
-    vertexbuffer.pos((double) (x + width), (double) y, (double) zLevel).tex((double) ((textureX + width) * 0.00390625F), (double) (textureY * 0.00390625F)).endVertex();
-    vertexbuffer.pos((double) x, (double) y, (double) zLevel).tex((double) (textureX * 0.00390625F), (double) (textureY * 0.00390625F)).endVertex();
+    WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+    worldRenderer.startDrawing(7);
+    worldRenderer.addVertexWithUV(x + 0.0F, y + height, 0.0D, (textureX + 0.0F) * scale, (textureY + height) * scale);
+    worldRenderer.addVertexWithUV(x + width, y + height, 0.0D, (textureX + width) * scale, (textureY + height) * scale);
+    worldRenderer.addVertexWithUV(x + width, y + 0.0F, 0.0D, (textureX + width) * scale, (textureY + 0.0F) * scale);
+    worldRenderer.addVertexWithUV(x + 0.0F, y + 0.0F, 0.0D, (textureX + 0.0F) * scale, (textureY + 0.0F) * scale);
     tessellator.draw();
   }
 

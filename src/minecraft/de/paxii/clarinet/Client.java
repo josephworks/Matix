@@ -31,7 +31,7 @@ public class Client {
   @Getter
   private static final String clientVersion = "1.7.4B";
   @Getter
-  private static final String gameVersion = "1.11.2";
+  private static final String gameVersion = "1.8";
   @Getter
   private static final int clientBuild = 17004;
   @Getter

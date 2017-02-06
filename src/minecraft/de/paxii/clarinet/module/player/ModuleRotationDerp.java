@@ -9,8 +9,7 @@ import de.paxii.clarinet.util.module.killaura.TimeManager;
 
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.util.EnumHand;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 import java.util.Random;
 
@@ -32,8 +31,8 @@ public class ModuleRotationDerp extends Module {
   public void onTick(IngameTickEvent event) {
     timeManager.updateTimer();
 
-    if (Wrapper.getPlayer().getHeldItem(EnumHand.MAIN_HAND) != null) {
-      ItemStack it = Wrapper.getPlayer().getHeldItem(EnumHand.MAIN_HAND);
+    if (Wrapper.getPlayer().getHeldItem() != null) {
+      ItemStack it = Wrapper.getPlayer().getHeldItem();
 
       if (it != null && it.getItem() instanceof ItemBow) {
         return;
@@ -44,7 +43,7 @@ public class ModuleRotationDerp extends Module {
       float derpYaw = random.nextInt(360);
       float derpPitch = random.nextInt(180);
 
-      Wrapper.getSendQueue().addToSendQueue(new CPacketPlayer.Rotation(derpYaw, derpPitch, Wrapper.getPlayer().onGround));
+      Wrapper.getSendQueue().addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(derpYaw, derpPitch, Wrapper.getPlayer().onGround));
 
       timeManager.updateLast();
     }

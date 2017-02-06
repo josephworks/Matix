@@ -124,7 +124,7 @@ public class EntityManager {
       return false;
     }
 
-    if (entityLiving instanceof EntityPlayer && friends.isFriend(entityLiving.getName())) {
+    if (entityLiving instanceof EntityPlayer && friends.isFriend(entityLiving.getCommandSenderName())) {
       return false;
     }
 

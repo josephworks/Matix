@@ -3,7 +3,7 @@ package de.paxii.clarinet.event.events.block;
 import de.paxii.clarinet.event.events.Event;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 
 import lombok.Value;
 

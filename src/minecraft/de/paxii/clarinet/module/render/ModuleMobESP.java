@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 import org.lwjgl.opengl.GL11;
 
@@ -47,7 +47,7 @@ public class ModuleMobESP extends Module {
               var11.maxY - entity.posY + event.getY() + 0.2D,
               var11.maxZ - entity.posZ + event.getZ() + 0.2D
       );
-      RenderGlobal.drawOutlinedBoundingBox(var12, 201, 4, 155, 255);
+      RenderGlobal.drawOutlinedBoundingBox(var12, 0xFF00FF);
 
       GL11Helper.disableDefaults();
       GlStateManager.enableTexture2D();

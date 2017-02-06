@@ -12,9 +12,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
+import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -24,7 +23,9 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.Getter;
 
@@ -51,7 +52,7 @@ public class ModuleNameTags extends Module {
   public static void drawHealthTags(Entity entity, FontRenderer fontRenderer, String nameTag, float posX, float posY, float posZ, int yOffset, float playerViewY, float playerViewX, boolean thirdPersonView, boolean isSneaking) {
     final float distance = Wrapper.getPlayer().getDistanceToEntity(entity);
     final double scale = distance > 10.0F ? distance / instance.getModuleValues().get("scale").getValue() : 1.0F;
-    final float alpha = instance.getValueOrDefault("opacity", Boolean.class, true) ? 0.25F : 1.00F;
+    final int alpha = instance.getValueOrDefault("opacity", Boolean.class, true) ? 65 : 255;
     yOffset -= scale / 2;
 
     if (entity instanceof EntityOtherPlayerMP && instance.getValueOrDefault("displayHealth", Boolean.class, true)) {
@@ -61,7 +62,7 @@ public class ModuleNameTags extends Module {
 
     GlStateManager.pushMatrix();
     GlStateManager.translate(posX, posY, posZ);
-    GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
+    GL11.glNormal3f(0.0F, 1.0F, 0.0F);
     GlStateManager.rotate(-playerViewY, 0.0F, 1.0F, 0.0F);
     GlStateManager.rotate((float) (thirdPersonView ? -1 : 1) * playerViewX, 1.0F, 0.0F, 0.0F);
     GlStateManager.scale(-0.025F, -0.025F, 0.025F);
@@ -69,17 +70,21 @@ public class ModuleNameTags extends Module {
     GlStateManager.depthMask(false);
     GlStateManager.disableDepth();
     GlStateManager.enableBlend();
-    GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+    GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
     int i = fontRenderer.getStringWidth(nameTag) / 2;
     GlStateManager.disableTexture2D();
     Tessellator tessellator = Tessellator.getInstance();
-    VertexBuffer vertexbuffer = tessellator.getBuffer();
-    vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-    vertexbuffer.pos((double) (-i - 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
-    vertexbuffer.pos((double) (-i - 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
-    vertexbuffer.pos((double) (i + 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
-    vertexbuffer.pos((double) (i + 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
+    WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+    worldRenderer.startDrawing(7);
+    worldRenderer.addVertex((double) (-i - 1), (double) (-1 + yOffset), 0.0D);
+    worldRenderer.putColorRGB_F(0.0F, 0.0F, 0.0F, alpha);
+    worldRenderer.addVertex((double) (-i - 1), (double) (8 + yOffset), 0.0D);
+    worldRenderer.putColorRGB_F(0.0F, 0.0F, 0.0F, alpha);
+    worldRenderer.addVertex((double) (i + 1), (double) (8 + yOffset), 0.0D);
+    worldRenderer.putColorRGB_F(0.0F, 0.0F, 0.0F, alpha);
+    worldRenderer.addVertex((double) (i + 1), (double) (-1 + yOffset), 0.0D);
+    worldRenderer.putColorRGB_F(0.0F, 0.0F, 0.0F, alpha);
 
     GL11.glScaled(scale, scale, scale);
     tessellator.draw();
@@ -109,11 +114,11 @@ public class ModuleNameTags extends Module {
     GlStateManager.depthMask(false);
     GlStateManager.disableDepth();
     GlStateManager.enableBlend();
-    GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+    GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
 
     ArrayList<ItemStack> itemList = new ArrayList<>();
-    itemList.addAll(entityPlayer.inventory.armorInventory);
-    itemList.add(entityPlayer.getHeldItemMainhand());
+    itemList.addAll(Arrays.asList(entityPlayer.inventory.armorInventory));
+    itemList.add(entityPlayer.getHeldItem());
 
     int xIndex = 0;
     for (ItemStack itemStack : itemList) {
@@ -123,13 +128,16 @@ public class ModuleNameTags extends Module {
 
         entityItem.hoverStart = 0;
         GlStateManager.scale(-0.01F, -0.01F, 0.01F);
-        for (Map.Entry<Enchantment, Integer> enchantmentEntry : EnchantmentHelper.getEnchantments(itemStack).entrySet()) {
-          String displayName = enchantmentEntry.getKey().getTranslatedName(enchantmentEntry.getValue());
-          displayName = displayName.replaceAll("enchantment.level.[0-9]+", "");
-          displayName = displayName.substring(0, 4).toLowerCase() + ": " + ChatColor.GREEN + enchantmentEntry.getValue();
-          fontRenderer.drawString(displayName, 75 - (xIndex * 50), -75 - (5 + (10 * yIndex)), 0xFFFFFFFF);
+        for (Map.Entry<Integer, Integer> enchantmentEntry : ((Set<Map.Entry<Integer, Integer>>)EnchantmentHelper.getEnchantments(itemStack).entrySet())) {
+          Enchantment enchantment = Enchantment.getEnchantmentById(enchantmentEntry.getKey());
+          if (enchantment != null) {
+            String displayName = enchantment.getTranslatedName(enchantmentEntry.getValue());
+            displayName = displayName.replaceAll("enchantment.level.[0-9]+", "");
+            displayName = displayName.substring(0, 4).toLowerCase() + ": " + ChatColor.GREEN + enchantmentEntry.getValue();
+            fontRenderer.drawString(displayName, 75 - (xIndex * 50), -75 - (5 + (10 * yIndex)), 0xFFFFFFFF);
 
-          yIndex++;
+            yIndex++;
+          }
         }
 
         GlStateManager.scale(-100F, -100F, 100F);

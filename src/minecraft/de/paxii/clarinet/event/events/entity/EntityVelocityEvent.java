@@ -2,7 +2,7 @@ package de.paxii.clarinet.event.events.entity;
 
 import de.paxii.clarinet.event.events.type.EventCancellable;
 
-import net.minecraft.network.play.server.SPacketEntityVelocity;
+import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +13,9 @@ public class EntityVelocityEvent extends EventCancellable {
   private int entityID;
   @Getter
   @Setter
-  private SPacketEntityVelocity velocityPacket;
+  private S12PacketEntityVelocity velocityPacket;
 
-  public EntityVelocityEvent(SPacketEntityVelocity velocityPacket) {
+  public EntityVelocityEvent(S12PacketEntityVelocity velocityPacket) {
     this.entityID = velocityPacket.getEntityID();
     this.velocityPacket = velocityPacket;
   }

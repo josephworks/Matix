@@ -8,7 +8,7 @@ import de.paxii.clarinet.event.events.player.PlayerStepEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 
-import net.minecraft.network.play.client.CPacketPlayer;
+import net.minecraft.network.play.client.C03PacketPlayer;
 
 import org.lwjgl.input.Keyboard;
 
@@ -36,8 +36,8 @@ public class ModuleStep extends Module {
 
   @EventHandler
   public void onPacketSend(SendPacketEvent event) {
-    if (event.getPacket() instanceof CPacketPlayer && this.canPacket.compareAndSet(true, false)) {
-      CPacketPlayer curPacket = (CPacketPlayer) event.getPacket();
+    if (event.getPacket() instanceof C03PacketPlayer && this.canPacket.compareAndSet(true, false)) {
+      C03PacketPlayer curPacket = (C03PacketPlayer) event.getPacket();
       curPacket.setY(curPacket.getY() + 0.063);
       event.setPacket(curPacket);
     }

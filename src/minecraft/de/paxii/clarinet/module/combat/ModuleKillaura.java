@@ -14,7 +14,6 @@ import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumHand;
 
 import org.lwjgl.input.Keyboard;
 
@@ -65,7 +64,7 @@ public class ModuleKillaura extends Module {
 
     if (this.auraManager.isDelayComplete(this.timeManager)) {
       Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), this.target);
-      Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+      Wrapper.getPlayer().swingItem();
       this.auraManager.addToAttackMap(this.target.getEntityId(), this.timeManager.getLast());
       this.timeManager.updateLast();
     }
@@ -155,15 +154,6 @@ public class ModuleKillaura extends Module {
               this.auraManager.setInvisible(invisible);
 
               Chat.printClientMessage("KillAura invisibility mode has been set to " + invisible + ".");
-            } catch (Exception e) {
-              Chat.printClientMessage("Invalid argument!");
-            }
-          } else if (identifier.equalsIgnoreCase("autospeed")) {
-            try {
-              boolean autoSpeed = Boolean.parseBoolean(value);
-              this.auraManager.setAutoSpeed(autoSpeed);
-
-              Chat.printClientMessage("KillAura auto speed mode has been set to " + autoSpeed + ".");
             } catch (Exception e) {
               Chat.printClientMessage("Invalid argument!");
             }

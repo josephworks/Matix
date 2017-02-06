@@ -7,10 +7,10 @@ import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.chat.ChatColor;
 
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.event.ClickEvent;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatStyle;
+import net.minecraft.util.IChatComponent;
 
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -73,12 +73,12 @@ public class CommandHelp extends AClientCommand {
           Chat.printClientMessage("Syntax: " + module.getSyntax());
         }
 
-        ITextComponent textComponent = new TextComponentString(Chat.getPrefix() + "Documentation: ");
-        ITextComponent urlComponent = new TextComponentString("Click here");
-        Style chatStyle = new Style();
+        IChatComponent textComponent = new ChatComponentText(Chat.getPrefix() + "Documentation: ");
+        IChatComponent urlComponent = new ChatComponentText("Click here");
+        ChatStyle chatStyle = new ChatStyle();
         chatStyle.setUnderlined(true);
-        chatStyle.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, module.getHelpUrl()));
-        urlComponent.setStyle(chatStyle);
+        chatStyle.setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, module.getHelpUrl()));
+        urlComponent.setChatStyle(chatStyle);
 
         textComponent.appendSibling(urlComponent);
         Chat.printChatComponent(textComponent);

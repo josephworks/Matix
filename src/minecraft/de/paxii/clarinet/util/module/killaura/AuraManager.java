@@ -41,16 +41,7 @@ public class AuraManager {
     this.timeManager = new TimeManager();
 
     this.valueRange = new ValueBase(module.getName() + " Range", 4.1F, 1, 6, "Range");
-    this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15, "Speed") {
-      @Override
-      public void onUpdate(float oldValue, float newValue) {
-        if (AuraManager.this.isAutoSpeed()) {
-          Chat.printClientMessage(
-                  String.format("Auto Speed is currently enabled for %s. Speed is not taken into account.", module.getName())
-          );
-        }
-      }
-    };
+    this.valueDelay = new ValueBase(module.getName() + " Speed", 2.0F, 1, 15, "Speed");
     this.valueAngle = new ValueBase(module.getName() + " Angle", 80.0F, 1.0F, 180.0F, "Angle");
 
     this.module.getModuleValues().put("valueRange", this.valueRange);
@@ -63,7 +54,6 @@ public class AuraManager {
     this.module.getModuleSettings().put("silent", new ClientSettingBoolean("Silent", true));
     this.module.getModuleSettings().put("legit", new ClientSettingBoolean("Legit", true));
     this.module.getModuleSettings().put("invisible", new ClientSettingBoolean("Invisible", false));
-    this.module.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
 
     for (float f = -10.0F; f <= 10.0F; f += 2.0F) {
       this.yawMap.add(f);
@@ -95,10 +85,6 @@ public class AuraManager {
   }
 
   public boolean isDelayComplete(TimeManager timeManager) {
-    if (this.isAutoSpeed()) {
-      return Wrapper.getPlayer().getCooledAttackStrength(0.0F) >= 1.0F;
-    }
-
     return timeManager.sleep(this.getDelay());
   }
 
@@ -192,14 +178,6 @@ public class AuraManager {
 
   public void setInvisible(boolean invisible) {
     this.module.setValue("invisible", invisible);
-  }
-
-  public boolean isAutoSpeed() {
-    return this.module.getValueOrDefault("autoDelay", Boolean.class, false);
-  }
-
-  public void setAutoSpeed(boolean autoSpeed) {
-    this.module.setValue("autoDelay", autoSpeed);
   }
 
   public void setAngles(EntityLivingBase entityLiving, EntityManager entityManager) {

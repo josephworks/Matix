@@ -14,7 +14,7 @@ public class ClientSettings {
   @Getter
   private static HashMap<String, ClientSetting> clientSettings = new HashMap<>();
   @Getter
-  private static ClientSettingString clientFolderPath = new ClientSettingString("client.folder", "./resourcepacks/1.11 R3D Craft 256x");
+  private static ClientSettingString clientFolderPath = new ClientSettingString("client.folder", "./resourcepacks/1.8_ R3D Craft 256x");
 
   static {
     put(clientFolderPath);

@@ -1,7 +1,5 @@
 package de.paxii.clarinet.module.combat;
 
-import com.google.common.base.Predicates;
-
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.game.IngameTickEvent;
@@ -11,16 +9,13 @@ import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSettings;
-import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.src.Reflector;
-import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -29,7 +24,7 @@ import java.util.List;
 
 public class ModuleTriggerbot extends Module {
   private final TimeManager timeManager;
-  private RayTraceResult objectMouseOver;
+  private MovingObjectPosition objectMouseOver;
 
   public ModuleTriggerbot() {
     super("Triggerbot", ModuleCategory.COMBAT);
@@ -37,13 +32,11 @@ public class ModuleTriggerbot extends Module {
     this.setCommand(true);
     this.setRegistered(true);
     this.setDescription("Automatically hits entities when you hover over them while holding the trigger key (default is left alt)");
-    this.setSyntax("triggerbot autospeed <true/false>");
 
     this.getModuleValues().put("clickSpeed", new ValueBase("Triggerbot Speed", 8.2F, 1F, 20F, "Speed"));
     this.getModuleValues().put("clickRange", new ValueBase("Triggerbot Range", 4.5F, 1F, 6.6F, "Range"));
     this.getModuleValues().put("randomness", new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true, "Randomness"));
     this.getModuleSettings().put("triggerKey", new ClientSettingInteger("Trigger Key", 56));
-    this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
 
     this.timeManager = new TimeManager();
     this.timeManager.setRandom(true);
@@ -60,7 +53,7 @@ public class ModuleTriggerbot extends Module {
 
         if (shouldAttack(pointedEntity) && this.isDelayComplete()) {
           Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), pointedEntity);
-          Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+          Wrapper.getPlayer().swingItem();
           this.timeManager.updateLast();
         }
       }
@@ -68,10 +61,6 @@ public class ModuleTriggerbot extends Module {
   }
 
   private boolean isDelayComplete() {
-    if (this.getValueOrDefault("autoDelay", Boolean.class, false)) {
-      return Wrapper.getPlayer().getCooledAttackStrength(0.0F) >= 1.0F;
-    }
-
     return this.timeManager.sleep((long) (1000L / this.getModuleValues().get("clickSpeed").getValue()));
   }
 
@@ -86,7 +75,7 @@ public class ModuleTriggerbot extends Module {
             .getModuleValues().get("clickRange").getValue()
             && Wrapper.getPlayer().canEntityBeSeen(entity)
             && !Wrapper.getFriendManager().isFriend(
-            entity.getName());
+            entity.getCommandSenderName());
   }
 
   private void getMouseOver(float partialTicks) {
@@ -95,68 +84,75 @@ public class ModuleTriggerbot extends Module {
 
     if (entity != null && Wrapper.getWorld() != null) {
       double d0 = (double) this.getModuleValues().get("clickRange").getValue();
-      this.objectMouseOver = entity.rayTrace(d0, partialTicks);
-      double d1 = d0;
-      Vec3d vec3d = entity.getPositionEyes(partialTicks);
+      double var3 = (double) Wrapper.getMinecraft().playerController.getBlockReachDistance();
+      this.objectMouseOver = entity.rayTrace(var3, partialTicks);
+      double var5 = var3;
+      Vec3 var7 = entity.getPositionEyes(partialTicks);
 
-      if (this.objectMouseOver != null) {
-        d1 = this.objectMouseOver.hitVec.distanceTo(vec3d);
+      if (Wrapper.getMinecraft().playerController.extendedReach()) {
+        var3 = 6.0D;
+        var5 = 6.0D;
+      } else {
+        if (var3 > 3.0D) {
+          var5 = 3.0D;
+        }
+
+        var3 = var5;
       }
 
-      Vec3d vec3d1 = entity.getLook(partialTicks);
-      Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0);
+      if (this.objectMouseOver != null) {
+        var5 = this.objectMouseOver.hitVec.distanceTo(var7);
+      }
+
+      Vec3 var8 = entity.getLook(partialTicks);
+      Vec3 var9 = var7.addVector(var8.xCoord * var3, var8.yCoord * var3, var8.zCoord * var3);
       pointedEntity = null;
-      Vec3d vec3d3 = null;
-      float f = 1.0F;
-      List<Entity> list = Wrapper.getWorld().getEntitiesInAABBexcluding(
-              entity,
-              entity.getEntityBoundingBox().addCoord(
-                      vec3d1.xCoord * d0,
-                      vec3d1.yCoord * d0,
-                      vec3d1.zCoord * d0).expand(
-                      (double) f,
-                      (double) f,
-                      (double) f),
-              Predicates.and(EntitySelectors.NOT_SPECTATING, (p_apply_1_) -> p_apply_1_ != null && p_apply_1_.canBeCollidedWith()));
+      Vec3 var10 = null;
+      float var11 = 1.0F;
+      List var12 = Wrapper.getWorld().getEntitiesWithinAABBExcludingEntity(entity, entity.getEntityBoundingBox().addCoord(var8.xCoord * var3, var8.yCoord * var3, var8.zCoord * var3).expand((double) var11, (double) var11, (double) var11));
+      double var13 = var5;
 
-      double d2 = d1;
+      for (int var15 = 0; var15 < var12.size(); ++var15) {
+        Entity var16 = (Entity) var12.get(var15);
 
-      for (Entity entity1 : list) {
-        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz((double) entity1.getCollisionBorderSize());
-        RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
+        if (var16.canBeCollidedWith()) {
+          float var17 = var16.getCollisionBorderSize();
+          AxisAlignedBB var18 = var16.getEntityBoundingBox().expand((double) var17, (double) var17, (double) var17);
+          MovingObjectPosition var19 = var18.calculateIntercept(var7, var9);
 
-        if (axisalignedbb.isVecInside(vec3d)) {
-          if (d2 >= 0.0D) {
-            pointedEntity = entity1;
-            vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;
-            d2 = 0.0D;
-          }
-        } else if (raytraceresult != null) {
-          double d3 = vec3d.distanceTo(raytraceresult.hitVec);
-
-          if (d3 < d2 || d2 == 0.0D) {
-            boolean flag1 = false;
-
-            if (Reflector.ForgeEntity_canRiderInteract.exists()) {
-              flag1 = Reflector.callBoolean(entity1, Reflector.ForgeEntity_canRiderInteract);
+          if (var18.isVecInside(var7)) {
+            if (0.0D < var13 || var13 == 0.0D) {
+              pointedEntity = var16;
+              var10 = var19 == null ? var7 : var19.hitVec;
+              var13 = 0.0D;
             }
+          } else if (var19 != null) {
+            double var20 = var7.distanceTo(var19.hitVec);
 
-            if (!flag1 && entity1.getLowestRidingEntity() == entity.getLowestRidingEntity()) {
-              if (d2 == 0.0D) {
-                pointedEntity = entity1;
-                vec3d3 = raytraceresult.hitVec;
+            if (var20 < var13 || var13 == 0.0D) {
+              boolean canRiderInteract = false;
+
+              if (Reflector.ForgeEntity_canRiderInteract.exists()) {
+                canRiderInteract = Reflector.callBoolean(var16, Reflector.ForgeEntity_canRiderInteract, new Object[0]);
               }
-            } else {
-              pointedEntity = entity1;
-              vec3d3 = raytraceresult.hitVec;
-              d2 = d3;
+
+              if (var16 == entity.ridingEntity && !canRiderInteract) {
+                if (var13 == 0.0D) {
+                  pointedEntity = var16;
+                  var10 = var19.hitVec;
+                }
+              } else {
+                pointedEntity = var16;
+                var10 = var19.hitVec;
+                var13 = var20;
+              }
             }
           }
         }
       }
 
-      if (pointedEntity != null && (d2 < d1 || this.objectMouseOver == null)) {
-        this.objectMouseOver = new RayTraceResult(pointedEntity, vec3d3);
+      if (pointedEntity != null && (var13 < var5 || this.objectMouseOver == null)) {
+        this.objectMouseOver = new MovingObjectPosition(pointedEntity, var10);
       }
     }
   }

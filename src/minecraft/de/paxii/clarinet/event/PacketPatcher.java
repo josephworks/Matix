@@ -5,8 +5,8 @@ import de.paxii.clarinet.event.events.player.PlayerSendChatMessageEvent;
 import de.paxii.clarinet.event.events.player.PlayerSwingItemEvent;
 
 import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketChatMessage;
+import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.client.C01PacketChatMessage;
 
 import java.util.ArrayList;
 
@@ -37,17 +37,17 @@ public class PacketPatcher {
       }
     }
 
-    if (packetIn instanceof CPacketAnimation) {
+    if (packetIn instanceof C0APacketAnimation) {
       EventManager.call(new PlayerSwingItemEvent());
     }
 
-    if (packetIn instanceof CPacketChatMessage) {
-      CPacketChatMessage tempPacket = (CPacketChatMessage) packetIn;
+    if (packetIn instanceof C01PacketChatMessage) {
+      C01PacketChatMessage tempPacket = (C01PacketChatMessage) packetIn;
       String bypassPrefix = "_PASS_";
 
       if (tempPacket.getMessage().startsWith(bypassPrefix)) {
         String chatMessage = tempPacket.getMessage().substring(bypassPrefix.length());
-        packetOut = new CPacketChatMessage(chatMessage);
+        packetOut = new C01PacketChatMessage(chatMessage);
       } else {
         PlayerSendChatMessageEvent messageEvent = new PlayerSendChatMessageEvent(tempPacket);
         EventManager.call(messageEvent);

@@ -8,9 +8,8 @@ import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 
 import net.minecraft.block.Block;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.util.BlockPos;
 
 public class ModuleNuker extends Module {
   private final TimeManager timeManager;
@@ -40,13 +39,13 @@ public class ModuleNuker extends Module {
             if (Wrapper.getWorld() != null && Block.getIdFromBlock(
                     Wrapper.getWorld().getBlock(blockPos.getX(), blockPos.getY(), blockPos.getZ())) != 0) {
               Wrapper.getSendQueue()
-                      .addToSendQueue(new CPacketPlayerDigging(
-                              CPacketPlayerDigging.Action.START_DESTROY_BLOCK, blockPos,
+                      .addToSendQueue(new C07PacketPlayerDigging(
+                              C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, blockPos,
                               Wrapper.getPlayer().getHorizontalFacing()));
               Wrapper.getSendQueue().addToSendQueue(
-                      new CPacketPlayerDigging(CPacketPlayerDigging.Action.STOP_DESTROY_BLOCK,
+                      new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK,
                               blockPos, Wrapper.getPlayer().getHorizontalFacing()));
-              Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+              Wrapper.getPlayer().swingItem();
             }
           }
         }

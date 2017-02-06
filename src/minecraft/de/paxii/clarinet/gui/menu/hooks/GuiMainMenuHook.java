@@ -21,8 +21,9 @@ public class GuiMainMenuHook extends GuiMainMenu {
 
     this.buttonList.add(new GuiButton(200, 2, this.height - 40, 100, 20, "AltManager"));
     this.buttonList.add(new GuiButton(201, this.width - 102, this.height - 40, 100, 20, "Plugins"));
-    if (ProtocolVersion.CompatibleVersion.values().length > 1) {
-      this.buttonList.add(protocolButton = new GuiButton(202, 2, this.height - 65, 100, 20, ProtocolVersion.getGameVersion()));
+    this.buttonList.add(protocolButton = new GuiButton(202, 2, this.height - 65, 100, 20, ProtocolVersion.getGameVersion()));
+    if (ProtocolVersion.CompatibleVersion.values().length <= 1) {
+      this.protocolButton.visible = false;
     }
   }
 

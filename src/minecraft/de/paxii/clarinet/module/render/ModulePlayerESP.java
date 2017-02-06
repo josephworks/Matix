@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.AxisAlignedBB;
 
 import org.lwjgl.opengl.GL11;
 
@@ -40,8 +40,8 @@ public class ModulePlayerESP extends Module {
 
       int boxColor = 0xFF0000;
       if (Wrapper.getFriendManager().isFriend(
-              entity.getName())) {
-        boxColor = Wrapper.getFriendManager().getFriendColor(entity.getName());
+              entity.getCommandSenderName())) {
+        boxColor = Wrapper.getFriendManager().getFriendColor(entity.getCommandSenderName());
       }
 
       AxisAlignedBB var11 = entity.getEntityBoundingBox();

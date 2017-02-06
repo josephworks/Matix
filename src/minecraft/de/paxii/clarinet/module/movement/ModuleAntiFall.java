@@ -9,7 +9,7 @@ import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 
 import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.BlockPos;
 
 public class ModuleAntiFall extends Module {
   private final TimeManager timeManager;

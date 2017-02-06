@@ -3,7 +3,7 @@ package de.paxii.clarinet.event.events.gui.sign;
 import de.paxii.clarinet.event.events.Event;
 
 import net.minecraft.tileentity.TileEntitySign;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.IChatComponent;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 public class StopEditSignEvent implements Event {
-  private ITextComponent[] signText;
+  private IChatComponent[] signText;
   private int editLine;
   private boolean closeGui;
 
