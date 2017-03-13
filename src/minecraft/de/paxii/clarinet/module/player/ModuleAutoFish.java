@@ -12,9 +12,12 @@ import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.EnumHand;
 
 public class ModuleAutoFish extends Module {
+  private ThreadAutoFish autoFishThread;
+
   public ModuleAutoFish() {
     super("AutoFish", ModuleCategory.PLAYER, -1);
 
+    this.autoFishThread = new ThreadAutoFish();
     this.setRegistered(true);
     this.setDescription("Autmatically fishes for you.");
   }
@@ -26,35 +29,28 @@ public class ModuleAutoFish extends Module {
     if (e instanceof EntityFishHook) {
       EntityFishHook fishHook = (EntityFishHook) e;
 
-      if (fishHook.getAngler().getEntityId() == Wrapper.getPlayer()
-              .getEntityId()) {
+      if (fishHook.getAngler().getEntityId() == Wrapper.getPlayer().getEntityId()) {
         if (event.getVelocityPacket().getMotionX() == 0
-                && event.getVelocityPacket().getMotionY() != 0
+                && event.getVelocityPacket().getMotionY() < -1000
                 && event.getVelocityPacket().getMotionZ() == 0) {
-          (new Thread(new ThreadAutoFish())).start();
+          new Thread(this.autoFishThread).start();
         }
       }
     }
   }
-}
 
-class ThreadAutoFish implements Runnable {
-  @Override
-  public void run() {
-    try {
-      Thread.sleep(200);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+  class ThreadAutoFish implements Runnable {
+    @Override
+    public void run() {
+      for (int i = 0; i < 2; i++) {
+        try {
+          Thread.sleep(200);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+
+        Wrapper.getSendQueue().addToSendQueue(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+      }
     }
-
-    Wrapper.getSendQueue().addToSendQueue(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-
-    try {
-      Thread.sleep(200);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    Wrapper.getSendQueue().addToSendQueue(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
   }
 }
