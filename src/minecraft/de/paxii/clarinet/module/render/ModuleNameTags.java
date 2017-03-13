@@ -19,6 +19,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -127,13 +128,19 @@ public class ModuleNameTags extends Module {
           String displayName = enchantmentEntry.getKey().getTranslatedName(enchantmentEntry.getValue());
           displayName = displayName.replaceAll("enchantment.level.[0-9]+", "");
           displayName = displayName.substring(0, 4).toLowerCase() + ": " + ChatColor.GREEN + enchantmentEntry.getValue();
-          fontRenderer.drawString(displayName, 75 - (xIndex * 50), -75 - (5 + (10 * yIndex)), 0xFFFFFFFF);
+          fontRenderer.drawString(displayName, 75 - (xIndex * 50), -90 - (5 + (10 * yIndex)), 0xFFFFFFFF);
 
           yIndex++;
         }
 
+        if (Item.getIdFromItem(itemStack.getItem()) != 0) {
+          GlStateManager.scale(2.0D, 2.0D, 2.0D);
+          fontRenderer.drawString(itemStack.getStackSize() + "x", (80 - (xIndex * 50) + 15) / 2, -10, 0xFFFFFFFF);
+          GlStateManager.scale(0.5D, 0.5D, 0.5D);
+        }
+
         GlStateManager.scale(-100F, -100F, 100F);
-        renderEntity.doRender(entityItem, -1D + (xIndex * 0.5D), 0, 0, Wrapper.getPlayer().rotationYaw, 0);
+        renderEntity.doRender(entityItem, -1D + (xIndex * 0.5D), 0.15D, 0, Wrapper.getPlayer().rotationYaw, 0);
         RenderHelper.disableStandardItemLighting();
       }
 
