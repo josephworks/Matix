@@ -1,6 +1,10 @@
 package de.paxii.clarinet.util.player;
 
+import de.paxii.clarinet.Wrapper;
+import de.paxii.clarinet.util.chat.ChatColor;
+
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 public class PlayerUtils {
@@ -12,5 +16,17 @@ public class PlayerUtils {
     }
 
     return var2;
+  }
+
+  public static EntityPlayer getPlayerByName(String playerName) {
+    playerName = ChatColor.stripColor(playerName);
+
+    for (EntityPlayer entityPlayer : Wrapper.getWorld().playerEntities) {
+      if (ChatColor.stripColor(entityPlayer.getName()).equals(playerName)) {
+        return entityPlayer;
+      }
+    }
+
+    return null;
   }
 }
