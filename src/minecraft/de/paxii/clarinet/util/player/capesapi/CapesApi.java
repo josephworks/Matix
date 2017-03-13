@@ -71,11 +71,12 @@ public class CapesApi {
       return false;
     }
 
-    return hasCape;
+    return hasCape && resourceLocation != null;
   }
 
   public static void reset() {
     CapesApi.capeMap.keySet().forEach((userId) -> CapesApi.capeMap.put(userId, null));
+    CapesApi.pendingRequests.clear();
   }
 
   private static boolean hasPendingRequests(GameProfile gameProfile) {
