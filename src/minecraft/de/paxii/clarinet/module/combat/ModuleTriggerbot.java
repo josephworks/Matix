@@ -37,7 +37,7 @@ public class ModuleTriggerbot extends Module {
     this.setCommand(true);
     this.setRegistered(true);
     this.setDescription("Automatically hits entities when you hover over them while holding the trigger key (default is left alt)");
-    this.setSyntax("triggerbot autospeed <true/false>");
+    this.setSyntax("triggerbot <autospeed/key> <true/false/code>");
 
     this.getModuleValues().put("clickSpeed", new ValueBase("Triggerbot Speed", 8.2F, 1F, 20F, "Speed"));
     this.getModuleValues().put("clickRange", new ValueBase("Triggerbot Range", 4.5F, 1F, 6.6F, "Range"));
@@ -172,6 +172,18 @@ public class ModuleTriggerbot extends Module {
           Chat.printClientMessage("TriggerBot auto speed mode has been set to " + autoSpeed + ".");
         } catch (Exception e) {
           Chat.printClientMessage("Invalid argument!");
+        }
+      } else if (args[0].equalsIgnoreCase("key")) {
+        try {
+          int keyCode = Integer.parseInt(args[1]);
+          this.setValue("triggerKey", keyCode);
+          Chat.printClientMessage(String.format(
+                  "TriggerBot Key has been set to %s.",
+                  (keyCode >= 0 ? Keyboard.getKeyName(keyCode) : Mouse.getButtonName(keyCode + 100)))
+          );
+        } catch (NumberFormatException exception) {
+          Chat.printClientMessage(String.format("\"%s\" is not a valid tigger key.", args[1]));
+          Chat.printChatMessage("Use lwjgl key codes (substract 100 for mouse keys. eg. -96 for MOUSE4)");
         }
       } else {
         Chat.printClientMessage("Invalid subcommand! Use \"" + ClientSettings.getValue("client.prefix", String.class) + "help triggerbot\"");
