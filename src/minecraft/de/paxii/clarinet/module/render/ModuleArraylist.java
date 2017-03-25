@@ -5,6 +5,9 @@ import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.game.IngameTickEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
+import de.paxii.clarinet.util.chat.font.FontManager;
+import de.paxii.clarinet.util.chat.font.TTF;
+import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -17,6 +20,8 @@ public class ModuleArraylist extends Module {
     this.setDescription("Renders a list of enabled modules on your screen.");
 
     this.setEnabled(true);
+
+    this.getModuleSettings().put("useTTF", new ClientSettingBoolean("Use TTF", true));
   }
 
   @EventHandler
@@ -35,12 +40,23 @@ public class ModuleArraylist extends Module {
             .toArray(Module[]::new);
 
     for (Module module : sortedModules) {
-      fontRenderer.drawStringWithShadow(
-              module.getName(),
-              (scaledResolution.getScaledWidth() - fontRenderer.getStringWidth(module.getName())) - 2,
-              indexY,
-              module.getCategory().getColor()
-      );
+      if (this.getValue("useTTF", Boolean.class)) {
+        FontManager.getDefaultFont().drawString(
+                module.getName(),
+                (scaledResolution.getScaledWidth() - FontManager.getDefaultFont().getStringWidth(module.getName())) - 2,
+                indexY - 2,
+                TTF.FontType.SHADOW_THIN,
+                module.getCategory().getColor(),
+                0xFF000000
+        );
+      } else {
+        fontRenderer.drawStringWithShadow(
+                module.getName(),
+                (scaledResolution.getScaledWidth() - fontRenderer.getStringWidth(module.getName())) - 2,
+                indexY,
+                module.getCategory().getColor()
+        );
+      }
 
       indexY += 10;
     }
