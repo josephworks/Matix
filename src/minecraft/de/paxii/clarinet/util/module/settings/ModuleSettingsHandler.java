@@ -10,6 +10,7 @@ import de.paxii.clarinet.event.events.game.LoadWorldEvent;
 import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.settings.ClientSettingSettingsObject;
+import de.paxii.clarinet.util.settings.ClientSettingValueManager;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import java.io.BufferedReader;
@@ -51,23 +52,8 @@ public class ModuleSettingsHandler {
             Wrapper.getModuleManager().getModuleList().values().forEach((module) -> {
               for (ModuleSettingsObject moduleSettings : moduleSettingsContainer.getModuleSettings()) {
                 if (moduleSettings.getModuleName().equals(module.getName())) {
-                  /*
-									 * FIXME Find some other way to handle this. Maybe using a JsonDeserializer?
-									 * This converts settings stored as doubles to int if the value stays the same
-									 * Gson uses Doubles rather than Integers when guessing data types.
-									 */
-                  moduleSettings.getModuleSettings().forEach((key, value) -> {
-                    if (value.getValue() instanceof Double) {
-                      double doubleValue = (double) value.getValue();
-
-                      int intValue = (int) ((long) doubleValue);
-                      if (doubleValue == intValue) {
-                        value.setValue(intValue);
-                      }
-                    }
-                  });
-
                   for (Entry<String, ClientSettingSettingsObject> settingsEntry : moduleSettings.getModuleSettings().entrySet()) {
+                    settingsEntry.getValue().setValue(ClientSettingValueManager.patchValue(settingsEntry.getValue().getValue()));
                     module.setValue(settingsEntry.getKey(), settingsEntry.getValue().getValue());
                   }
 

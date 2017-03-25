@@ -41,6 +41,7 @@ public class ClientSettingsHandler {
         if (clientSettingsContainer != null) {
           clientSettingsContainer.getClientSettings().forEach((k, v) -> {
             ClientSetting clientSetting = new ClientSetting<>(k, v);
+            clientSetting = ClientSettingValueManager.patchValue(clientSetting);
             ClientSettings.getClientSettings().put(k, clientSetting);
           });
         }
