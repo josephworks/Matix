@@ -88,7 +88,7 @@ public class GuiPanelManager {
     xIndex = 5;
     yIndex = clickableGui.getGuiPanel("Player").getPanelY() + clickableGui.getGuiPanel("Player").getPanelHeight() + 20;
 
-    clickableGui.getGuiPanels().add(new GuiPanel("Xray Blocks", xIndex, yIndex, 310, 200, false, false) {
+    clickableGui.getGuiPanels().add(new GuiPanel("Xray Blocks", xIndex, yIndex, 310, 200, false, true) {
       @Override
       public void addElements() {
         IntObject blockIndex = new IntObject(0);
