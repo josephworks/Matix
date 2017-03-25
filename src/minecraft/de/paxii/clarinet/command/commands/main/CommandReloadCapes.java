@@ -8,7 +8,7 @@ import de.paxii.clarinet.util.player.capesapi.CapesApi;
 /**
  * Created by Lars on 09.03.2017.
  */
-public class CommandResetCapes extends AClientCommand {
+public class CommandReloadCapes extends AClientCommand {
   @Override
   public String getCommand() {
     return "reloadcapes";
