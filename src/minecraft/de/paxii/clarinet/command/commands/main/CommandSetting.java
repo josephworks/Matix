@@ -51,6 +51,11 @@ public class CommandSetting extends AClientCommand {
                 settingValue = Double.parseDouble(value);
               } else if (type == String.class) {
                 settingValue = value;
+              } else if (type == Long.class) {
+                if (value.startsWith("0x")) {
+                  value = value.substring(2);
+                }
+                settingValue = Long.parseLong(value, 16);
               } else {
                 Chat.printClientMessage("Setting Type was not recognized. Please report this.");
                 return;

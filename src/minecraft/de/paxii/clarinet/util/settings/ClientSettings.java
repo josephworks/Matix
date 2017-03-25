@@ -1,6 +1,8 @@
 package de.paxii.clarinet.util.settings;
 
 import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
+import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
+import de.paxii.clarinet.util.settings.type.ClientSettingLong;
 import de.paxii.clarinet.util.settings.type.ClientSettingString;
 
 import java.util.HashMap;
@@ -23,6 +25,12 @@ public class ClientSettings {
     put(new ClientSettingString("client.guitheme", "Matix2HD"));
     put(new ClientSettingBoolean("client.hidden", false));
     put(new ClientSettingBoolean("client.update", true));
+    put(new ClientSettingLong("category.player", 0xFFD31EC2L));
+    put(new ClientSettingLong("category.world", 0xFF1EC0A8L));
+    put(new ClientSettingLong("category.combat", 0xFFBB0711L));
+    put(new ClientSettingLong("category.render", 0xFFA3F330L));
+    put(new ClientSettingLong("category.movement", 0xFFDEA225L));
+    put(new ClientSettingLong("category.other", 0xFF239991L));
   }
 
   public static void put(ClientSetting clientSetting) {
