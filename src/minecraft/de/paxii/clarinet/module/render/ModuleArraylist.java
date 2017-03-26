@@ -21,7 +21,7 @@ public class ModuleArraylist extends Module {
 
     this.setEnabled(true);
 
-    this.getModuleSettings().put("useTTF", new ClientSettingBoolean("Use TTF", true));
+    this.getModuleSettings().put("useTTF", new ClientSettingBoolean("Use TTF", false));
   }
 
   @EventHandler
