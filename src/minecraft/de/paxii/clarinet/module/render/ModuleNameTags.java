@@ -115,6 +115,7 @@ public class ModuleNameTags extends Module {
     ArrayList<ItemStack> itemList = new ArrayList<>();
     itemList.addAll(entityPlayer.inventory.armorInventory);
     itemList.add(entityPlayer.getHeldItemMainhand());
+    itemList.add(entityPlayer.getHeldItemOffhand());
 
     int xIndex = 0;
     for (ItemStack itemStack : itemList) {
