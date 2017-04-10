@@ -32,7 +32,6 @@ public class GuiMcLeaksLogin extends GuiScreen {
 
     this.buttonList.add(new GuiButton(0, this.width / 2 - 155, this.height - 25, 100, 20, "Cancel"));
     this.buttonList.add(new GuiButton(1, this.width / 2 + 55, this.height - 25, 100, 20, "Redeem"));
-    this.buttonList.add(new GuiButton(2, this.width / 2 - 50, this.height - 25, 100, 20, "Auto"));
   }
 
   @Override
@@ -86,15 +85,6 @@ public class GuiMcLeaksLogin extends GuiScreen {
           this.errorMessage = "There was an error when redeeming the token.";
           this.displayError = true;
         }
-      }
-    } else if (button.id == 2) {
-      this.displayError = false;
-
-      if (MCLeaksLoginBridge.loginWithNewToken() != null) {
-        Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
-      } else {
-        this.errorMessage = "There was an error when redeeming the token.";
-        this.displayError = true;
       }
     }
   }

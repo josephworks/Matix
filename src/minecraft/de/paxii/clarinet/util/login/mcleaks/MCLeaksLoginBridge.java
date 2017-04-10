@@ -35,6 +35,10 @@ public class MCLeaksLoginBridge {
     return null;
   }
 
+  /**
+   * @deprecated
+   * @return Session|null
+   */
   public static Session loginWithNewToken() {
     HashMap<String, String> requestProperties = new HashMap<>();
     requestProperties.put("Content-Type", "application/x-www-form-urlencoded");
