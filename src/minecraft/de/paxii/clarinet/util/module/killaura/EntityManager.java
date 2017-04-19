@@ -2,12 +2,14 @@ package de.paxii.clarinet.util.module.killaura;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.util.module.friends.FriendManager;
+import de.paxii.clarinet.util.player.PlayerUtils;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.Vec3d;
 
 public class EntityManager {
   private final AuraManager auraManager;
@@ -107,7 +109,8 @@ public class EntityManager {
       return false;
     }
 
-    if (!(Wrapper.getPlayer().canEntityBeSeen(entityLiving))) {
+
+    if (!(PlayerUtils.canEntityBeSeen(Wrapper.getPlayer(), entityLiving))) {
       return false;
     }
 

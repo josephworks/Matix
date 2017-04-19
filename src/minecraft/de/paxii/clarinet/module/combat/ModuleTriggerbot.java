@@ -10,6 +10,7 @@ import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.module.settings.ValueBase;
+import de.paxii.clarinet.util.player.PlayerUtils;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
@@ -84,7 +85,7 @@ public class ModuleTriggerbot extends Module {
     return !entity.isDead
             && Wrapper.getPlayer().getDistanceToEntity(entity) <= this
             .getModuleValues().get("clickRange").getValue()
-            && Wrapper.getPlayer().canEntityBeSeen(entity)
+            && PlayerUtils.canEntityBeSeen(Wrapper.getPlayer(), entity)
             && !Wrapper.getFriendManager().isFriend(
             entity.getName());
   }
