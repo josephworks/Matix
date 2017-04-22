@@ -12,6 +12,10 @@ public class ThreadChain {
     this.threadList = new ArrayList<>();
   }
 
+  public ThreadChain chainRunnable(Runnable runnable) {
+    return this.chainThread(new Thread(runnable));
+  }
+
   public ThreadChain chainThread(Thread thread) {
     this.threadList.add(thread);
 

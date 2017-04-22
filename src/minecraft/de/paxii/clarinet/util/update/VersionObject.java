@@ -7,9 +7,12 @@ public class VersionObject {
   private int clientBuild;
   @Getter
   private String gameVersion;
+  @Getter
+  private String url;
 
-  public VersionObject(int clientBuild, String gameVersion) {
+  public VersionObject(int clientBuild, String gameVersion, String url) {
     this.clientBuild = clientBuild;
     this.gameVersion = gameVersion;
+    this.url = url;
   }
 }
