@@ -3,6 +3,8 @@ package de.paxii.clarinet.module;
 import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.events.Event;
+import de.paxii.clarinet.util.chat.Chat;
+import de.paxii.clarinet.util.chat.ChatColor;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSetting;
 
@@ -137,6 +139,10 @@ public class Module implements Comparable<Module> {
 
   public ValueBase getValueBase(String valueName) {
     return this.getModuleValues().get(valueName);
+  }
+
+  protected void sendClientMessage(String message) {
+    Chat.printClientMessage(ChatColor.AQUA + "[" + this.getName() + "] " + ChatColor.RESET + message);
   }
 
   protected void register() {
