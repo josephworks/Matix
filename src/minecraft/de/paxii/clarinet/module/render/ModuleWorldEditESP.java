@@ -59,34 +59,30 @@ public class ModuleWorldEditESP extends Module {
   @EventHandler
   public void onReceiveChat(ReceiveChatEvent event) {
     try {
-      String message = event.getChatMessage();
+      String message = ChatColor.stripColor(event.getChatMessage());
 
-      if (message.startsWith(ChatColor.RESET + "" + ChatColor.LIGHT_PURPLE)) {
-        String weSelection = message.substring(4);
+      if (message.startsWith("First position set to (")) {
+        String[] split = message.split("\\(");
 
-        if (weSelection.startsWith("First position set to (")) {
-          String[] split = weSelection.split("\\(");
+        String[] blockPositions = split[1].split(",");
+        String zPos = blockPositions[2].split("\\)")[0];
 
-          String[] blockPositions = split[1].split(",");
-          String zPos = blockPositions[2].split("\\)")[0];
+        double posX = Double.parseDouble(blockPositions[0]);
+        double posY = Double.parseDouble(blockPositions[1]);
+        double posZ = Double.parseDouble(zPos);
 
-          double posX = Double.parseDouble(blockPositions[0]);
-          double posY = Double.parseDouble(blockPositions[1]);
-          double posZ = Double.parseDouble(zPos);
+        this.blockPos[0] = new BlockPos(posX, posY, posZ);
+      } else if (message.startsWith("Second position set to (")) {
+        String[] split = message.split("\\(");
 
-          this.blockPos[0] = new BlockPos(posX, posY, posZ);
-        } else if (weSelection.startsWith("Second position set to (")) {
-          String[] split = weSelection.split("\\(");
+        String[] blockPositions = split[1].split(",");
+        String zPos = blockPositions[2].split("\\)")[0];
 
-          String[] blockPositions = split[1].split(",");
-          String zPos = blockPositions[2].split("\\)")[0];
+        double posX = Double.parseDouble(blockPositions[0]);
+        double posY = Double.parseDouble(blockPositions[1]);
+        double posZ = Double.parseDouble(zPos);
 
-          double posX = Double.parseDouble(blockPositions[0]);
-          double posY = Double.parseDouble(blockPositions[1]);
-          double posZ = Double.parseDouble(zPos);
-
-          this.blockPos[1] = new BlockPos(posX, posY, posZ);
-        }
+        this.blockPos[1] = new BlockPos(posX, posY, posZ);
       }
     } catch (Exception x) {
       x.printStackTrace();
