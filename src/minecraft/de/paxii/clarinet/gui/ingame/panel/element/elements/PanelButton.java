@@ -6,15 +6,18 @@ import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.module.Module;
+import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSetting;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
+import java.util.function.Function;
 import net.minecraft.network.play.client.CPacketChatMessage;
 
 import java.util.ArrayList;
 
 import lombok.Getter;
+import org.lwjgl.input.Keyboard;
 
 public class PanelButton extends PanelElement {
   private final GuiPanel guiPanel;
@@ -35,7 +38,8 @@ public class PanelButton extends PanelElement {
     this.moduleSettings = new GuiPanelModuleSettings(this.module, 0, 0) {
       @Override
       public void addElements() {
-        ArrayList<ClientSetting> settings = new ArrayList<>(PanelButton.this.module.getModuleSettings().values());
+        Module module = PanelButton.this.module;
+        ArrayList<ClientSetting> settings = new ArrayList<>(module.getModuleSettings().values());
         settings.sort(null);
         settings.forEach(setting -> {
           if (setting.getValue().getClass().getName().equals("java.lang.Boolean")) {
@@ -54,11 +58,21 @@ public class PanelButton extends PanelElement {
             }
           }
         });
-        PanelButton.this.module.getModuleValues().forEach((valueName, value) -> {
+        module.getModuleValues().forEach((valueName, value) -> {
           PanelSlider panelSlider = new PanelSlider(value, value.isShouldRound());
           panelSlider.setElementWidth(90);
           this.getPanelElements().add(panelSlider);
         });
+        Function<Integer, String> caption = keyCode -> "Keybind: " + (keyCode != -1 ? Keyboard.getKeyName(keyCode) : "None");
+        this.getPanelElements().add(new PanelKeyBindButton(caption.apply(module.getKey()), (keyCode, self) -> {
+          if (keyCode == 1) {
+            keyCode = -1;
+          }
+          module.setKey(keyCode);
+          self.setCaption(caption.apply(keyCode));
+
+          return false;
+        }));
       }
     };
 
@@ -91,7 +105,7 @@ public class PanelButton extends PanelElement {
 
     Wrapper.getClickableGui()
             .getCurrentTheme()
-            .drawButton(module, elementX, elementY, this.getElementWidth(),
+            .drawModuleButton(module, elementX, elementY, this.getElementWidth(),
                     this.getElementHeight(), buttonHovered, hasSettings, displayHelp);
 
     super.drawElement(elementX, elementY, mouseX, mouseY);

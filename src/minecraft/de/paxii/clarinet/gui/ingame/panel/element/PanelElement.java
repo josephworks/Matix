@@ -2,6 +2,8 @@ package de.paxii.clarinet.gui.ingame.panel.element;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 
 public class PanelElement {
   @Getter
@@ -32,6 +34,10 @@ public class PanelElement {
   }
 
   public void mouseMovedOrUp(int mouseX, int mouseY, int buttonClicked) {
+  }
+
+  public EnumActionResult keyPressed(int keyCode) {
+    return EnumActionResult.PASS;
   }
 
   public boolean isMouseOverButton(int mouseX, int mouseY) {

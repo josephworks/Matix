@@ -77,6 +77,28 @@ public class Matix2HDTheme implements IClientTheme {
   }
 
   @Override
+  public void drawButton(String caption, int buttonX, int buttonY, int buttonWidth,
+      int buttonHeight, boolean active, boolean buttonHovered) {
+    int buttonColor = 0x55000000;
+    int textColor = 0xffffffff;
+
+    if (active) {
+      buttonColor = 0xff609E3C;
+
+      if (buttonHovered) {
+        buttonColor = 0xffAE8C31;
+      }
+    } else {
+      if (buttonHovered) {
+        buttonColor = 0x33000000;
+      }
+    }
+
+    GuiMethods.drawRect(buttonX, buttonY, buttonX + buttonWidth, buttonY + buttonHeight - 1, buttonColor);
+    FontManager.getDefaultFont().drawString(caption, buttonX + 3, buttonY - 2, textColor);
+  }
+
+  @Override
   public void drawModuleButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings, boolean displayHelp) {
     int buttonColor = 0x55000000;
     int textColor = 0xffffffff;

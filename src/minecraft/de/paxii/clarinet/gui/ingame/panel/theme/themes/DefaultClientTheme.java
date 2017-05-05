@@ -104,6 +104,16 @@ public class DefaultClientTheme implements IClientTheme {
   }
 
   @Override
+  public void drawButton(String caption, int buttonX, int buttonY, int buttonWidth,
+      int buttonHeight, boolean active, boolean buttonHovered) {
+    int buttonColor = active ?
+        buttonHovered ? this.currentColor.getButtonEnabledBackgroundHovered() : this.currentColor.getButtonEnabledBackground() :
+        buttonHovered ? this.currentColor.getButtonEnabledBackgroundHovered() : this.currentColor.getButtonDisabledBackground();
+    GuiMethods.drawRoundedRect(buttonX, buttonY, buttonX + buttonWidth, buttonY + buttonHeight - 1, buttonColor, buttonColor);
+    Wrapper.getFontRenderer().drawString(caption, buttonX + 5, buttonY + 2, this.currentColor.getTextColor());
+  }
+
+  @Override
   public void drawModuleButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings, boolean displayHelp) {
     int buttonColor = module.isEnabled() ? (buttonHovered ? this.currentColor.getButtonEnabledBackgroundHovered()
             : this.currentColor.getButtonEnabledBackground())

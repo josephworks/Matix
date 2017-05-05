@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.util.EnumActionResult;
 
 public class GuiPanel {
   @Getter
@@ -105,6 +106,20 @@ public class GuiPanel {
         panelElement.mouseClicked(mouseX, mouseY, buttonClicked);
       }
     }
+  }
+
+  public EnumActionResult keyPressed(int keyCode) {
+    EnumActionResult result = EnumActionResult.PASS;
+    if (this.isOpened()) {
+      for (PanelElement panelElement : this.getPanelElements()) {
+        EnumActionResult actionResult = panelElement.keyPressed(keyCode);
+        if (result == EnumActionResult.PASS) {
+          result = actionResult;
+        }
+      }
+    }
+
+    return result;
   }
 
   public void setOpened(boolean opened) {

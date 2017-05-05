@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import lombok.Getter;
+import net.minecraft.util.EnumActionResult;
 
 public class ClientClickableGui extends GuiScreen {
   private final GuiPanelManager panelManager;
@@ -146,6 +147,21 @@ public class ClientClickableGui extends GuiScreen {
     }
 
     super.mouseReleased(mouseX, mouseY, buttonReleased);
+  }
+
+  @Override
+  protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    EnumActionResult result = EnumActionResult.PASS;
+    for (GuiPanel guiPanel : this.getGuiPanels()) {
+      EnumActionResult actionResult = guiPanel.keyPressed(keyCode);
+      if (result == EnumActionResult.PASS) {
+        result = actionResult;
+      }
+    }
+
+    if (result == EnumActionResult.PASS) {
+      super.keyTyped(typedChar, keyCode);
+    }
   }
 
   public boolean doesPanelExist(String panelName) {
