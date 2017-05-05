@@ -77,7 +77,7 @@ public class Matix2HDTheme implements IClientTheme {
   }
 
   @Override
-  public void drawButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings, boolean displayHelp) {
+  public void drawModuleButton(Module module, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered, boolean hasSettings, boolean displayHelp) {
     int buttonColor = 0x55000000;
     int textColor = 0xffffffff;
 
