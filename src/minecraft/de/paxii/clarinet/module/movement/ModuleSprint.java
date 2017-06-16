@@ -18,7 +18,7 @@ public class ModuleSprint extends Module {
   @EventHandler
   public void onMove(PlayerMoveEvent event) {
     boolean canSprint =
-            (event.getPlayer().moveForward > 0) &&
+            (event.getPlayer().movementInput.field_192832_b > 0) &&
                     (event.getPlayer().getFoodStats().getFoodLevel() > 6 || event.getPlayer().capabilities.isCreativeMode) &&
                     !event.getPlayer().capabilities.isFlying && !event.getPlayer().isCollidedHorizontally;
     event.getPlayer().setSprinting(canSprint);

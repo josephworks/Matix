@@ -9,10 +9,10 @@ import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.enchantment.Enchantment;
@@ -75,7 +75,7 @@ public class ModuleNameTags extends Module {
     int i = fontRenderer.getStringWidth(nameTag) / 2;
     GlStateManager.disableTexture2D();
     Tessellator tessellator = Tessellator.getInstance();
-    VertexBuffer vertexbuffer = tessellator.getBuffer();
+    BufferBuilder vertexbuffer = tessellator.getBuffer();
     vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
     vertexbuffer.pos((double) (-i - 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
     vertexbuffer.pos((double) (-i - 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
@@ -102,6 +102,7 @@ public class ModuleNameTags extends Module {
 
   private static void drawArmor(EntityOtherPlayerMP entityPlayer, FontRenderer fontRenderer, float posX, float posY, float posZ, float playerViewY, float playerViewX, boolean thirdPersonView) {
     RenderEntityItem renderEntity = (RenderEntityItem) Wrapper.getMinecraft().getRenderManager().getEntityRenderMap().get(EntityItem.class);
+
 
     GL11.glPushMatrix();
     GlStateManager.translate(posX, posY, posZ);
@@ -136,7 +137,7 @@ public class ModuleNameTags extends Module {
 
         if (Item.getIdFromItem(itemStack.getItem()) != 0) {
           GlStateManager.scale(2.0D, 2.0D, 2.0D);
-          fontRenderer.drawString(itemStack.getStackSize() + "x", (80 - (xIndex * 50) + 15) / 2, -10, 0xFFFFFFFF);
+          fontRenderer.drawString(itemStack.getCount() + "x", (80 - (xIndex * 50) + 15) / 2, -10, 0xFFFFFFFF);
           GlStateManager.scale(0.5D, 0.5D, 0.5D);
         }
 

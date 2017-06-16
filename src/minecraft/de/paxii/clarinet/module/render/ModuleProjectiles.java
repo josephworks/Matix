@@ -110,9 +110,9 @@ public class ModuleProjectiles extends Module {
                   .rayTraceBlocks(var34, var35);
 
           if (var8 != null) {
-            var22 = (float) var8.hitVec.xCoord;
-            var23 = (float) var8.hitVec.yCoord;
-            var24 = (float) var8.hitVec.zCoord;
+            var22 = (float) var8.hitVec.x;
+            var23 = (float) var8.hitVec.y;
+            var24 = (float) var8.hitVec.z;
 
             var33 = false;
           } else if (var32 > 200) {

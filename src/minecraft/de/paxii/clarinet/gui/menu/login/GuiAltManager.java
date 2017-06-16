@@ -101,7 +101,7 @@ public class GuiAltManager extends GuiScreen {
       this.guiAltList.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    this.drawCenteredString(this.fontRendererObj, "AltManager",
+    this.drawCenteredString(this.fontRenderer, "AltManager",
             this.width / 2, 8, 16777215);
 
     this.drawString(Wrapper.getFontRenderer(), "Username: ", 5, 8, 0xffffff);

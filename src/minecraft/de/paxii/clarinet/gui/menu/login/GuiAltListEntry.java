@@ -21,12 +21,12 @@ public class GuiAltListEntry implements GuiListExtended.IGuiListEntry {
   }
 
   @Override
-  public void setSelected(int var1, int var2, int var3) {
+  public void func_192633_a(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
   }
 
   @Override
   public void drawEntry(int slotIndex, int x, int y, int listWidth,
-                        int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+                        int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
     GuiAltManager altManager = (GuiAltManager) parentScreen;
 
     this.x = x;
