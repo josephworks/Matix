@@ -157,7 +157,7 @@ public class GuiModuleStore extends GuiScreen {
       this.externalModuleList.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    this.drawCenteredString(this.fontRenderer, Client.getClientName()
+    this.drawCenteredString(this.fontRendererObj, Client.getClientName()
             + " Plugins", this.width / 2, 8, 16777215);
 
     super.drawScreen(mouseX, mouseY, partialTicks);

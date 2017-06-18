@@ -97,7 +97,7 @@ public class GuiKeybinds extends GuiScreen {
       this.keybindsList.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    this.drawCenteredString(this.fontRenderer, Client.getClientName() + " Keys", this.width / 2, 8, 16777215);
+    this.drawCenteredString(this.fontRendererObj, Client.getClientName() + " Keys", this.width / 2, 8, 16777215);
 
     super.drawScreen(mouseX, mouseY, partialTicks);
   }

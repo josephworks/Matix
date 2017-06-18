@@ -137,7 +137,7 @@ public class ModuleNameTags extends Module {
 
         if (Item.getIdFromItem(itemStack.getItem()) != 0) {
           GlStateManager.scale(2.0D, 2.0D, 2.0D);
-          fontRenderer.drawString(itemStack.getCount() + "x", (80 - (xIndex * 50) + 15) / 2, -10, 0xFFFFFFFF);
+          fontRenderer.drawString(itemStack.getStackSize() + "x", (80 - (xIndex * 50) + 15) / 2, -10, 0xFFFFFFFF);
           GlStateManager.scale(0.5D, 0.5D, 0.5D);
         }
 

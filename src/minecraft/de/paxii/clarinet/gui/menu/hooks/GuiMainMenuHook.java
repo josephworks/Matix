@@ -24,7 +24,7 @@ public class GuiMainMenuHook extends GuiMainMenu {
     this.pluginsButton = new GuiButton(201, this.width - 102, this.height - 40, 100, 20, "Plugins");
     this.protocolButton = new GuiButton(202, 2, this.height - 65, 100, 20, ProtocolVersion.getGameVersion());
 
-    this.pluginsButton.enabled = false;
+//    this.pluginsButton.enabled = false;
     this.buttonList.add(pluginsButton);
 
     if (ProtocolVersion.CompatibleVersion.values().length > 1) {

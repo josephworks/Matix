@@ -67,7 +67,7 @@ public class Wrapper {
   }
 
   public static FontRenderer getFontRenderer() {
-    return getMinecraft().fontRenderer;
+    return getMinecraft().fontRendererObj;
   }
 
   public static EntityRenderer getRenderer() {

@@ -16,6 +16,7 @@ import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.src.Reflector;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -104,16 +105,16 @@ public class ModuleTriggerbot extends Module {
       }
 
       Vec3d vec3d1 = entity.getLook(partialTicks);
-      Vec3d vec3d2 = vec3d.addVector(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
+      Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0);
       pointedEntity = null;
       Vec3d vec3d3 = null;
       float f = 1.0F;
       List<Entity> list = Wrapper.getWorld().getEntitiesInAABBexcluding(
               entity,
               entity.getEntityBoundingBox().expand(
-                      vec3d1.x * d0,
-                      vec3d1.y * d0,
-                      vec3d1.z * d0).expand(
+                      vec3d1.xCoord * d0,
+                      vec3d1.yCoord * d0,
+                      vec3d1.zCoord * d0).expand(
                       (double) f,
                       (double) f,
                       (double) f),
@@ -122,10 +123,10 @@ public class ModuleTriggerbot extends Module {
       double d2 = d1;
 
       for (Entity entity1 : list) {
-        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow((double) entity1.getCollisionBorderSize());
+        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz((double) entity1.getCollisionBorderSize());
         RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 
-        if (axisalignedbb.contains(vec3d)) {
+        if (axisalignedbb.isVecInside(vec3d)) {
           if (d2 >= 0.0D) {
             pointedEntity = entity1;
             vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;
@@ -137,9 +138,9 @@ public class ModuleTriggerbot extends Module {
           if (d3 < d2 || d2 == 0.0D) {
             boolean flag1 = false;
 
-//            if (Reflector.ForgeEntity_canRiderInteract.exists()) {
-//              flag1 = Reflector.callBoolean(entity1, Reflector.ForgeEntity_canRiderInteract);
-//            }
+            if (Reflector.ForgeEntity_canRiderInteract.exists()) {
+              flag1 = Reflector.callBoolean(entity1, Reflector.ForgeEntity_canRiderInteract);
+            }
 
             if (!flag1 && entity1.getLowestRidingEntity() == entity.getLowestRidingEntity()) {
               if (d2 == 0.0D) {
