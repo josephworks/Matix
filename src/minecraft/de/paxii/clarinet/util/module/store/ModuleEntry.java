@@ -10,5 +10,6 @@ public class ModuleEntry {
   private String module;
   private String description;
   private String version;
+  private String compatible;
   private int build;
 }
