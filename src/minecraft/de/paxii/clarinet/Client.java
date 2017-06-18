@@ -29,11 +29,11 @@ public class Client {
   @Getter
   private static final String clientName = "Matix";
   @Getter
-  private static final String clientVersion = "1.8.1B";
+  private static final String clientVersion = "1.8.2B";
   @Getter
-  private static final String gameVersion = "1.11.2";
+  private static final String gameVersion = "1.12";
   @Getter
-  private static final int clientBuild = 18100;
+  private static final int clientBuild = 18200;
   @Getter
   private static final String clientURL = "http://paxii.de/Matix/";
   @Getter
