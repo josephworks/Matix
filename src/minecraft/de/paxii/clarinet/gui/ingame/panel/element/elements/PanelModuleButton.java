@@ -6,7 +6,6 @@ import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.module.Module;
-import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSetting;
 import de.paxii.clarinet.util.settings.ClientSettings;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import org.lwjgl.input.Keyboard;
 
-public class PanelButton extends PanelElement {
+public class PanelModuleButton extends PanelElement {
   private final GuiPanel guiPanel;
   @Getter
   private final Module module;
@@ -28,7 +27,7 @@ public class PanelButton extends PanelElement {
   private TimeManager timeManager;
   private boolean wasHovered;
 
-  public PanelButton(Module module, GuiPanel guiPanel) {
+  public PanelModuleButton(Module module, GuiPanel guiPanel) {
     super(90, 12);
 
     this.guiPanel = guiPanel;
@@ -38,7 +37,7 @@ public class PanelButton extends PanelElement {
     this.moduleSettings = new GuiPanelModuleSettings(this.module, 0, 0) {
       @Override
       public void addElements() {
-        Module module = PanelButton.this.module;
+        Module module = PanelModuleButton.this.module;
         ArrayList<ClientSetting> settings = new ArrayList<>(module.getModuleSettings().values());
         settings.sort(null);
         settings.forEach(setting -> {
@@ -118,8 +117,8 @@ public class PanelButton extends PanelElement {
         this.module.toggle();
       } else if (clickedButton == 1) {
         this.guiPanel.getPanelElements().stream()
-                .filter(panelElement -> panelElement instanceof PanelButton && panelElement != this)
-                .forEach(panelElement -> ((PanelButton) panelElement).getModuleSettings().setVisible(false));
+                .filter(panelElement -> panelElement instanceof PanelModuleButton && panelElement != this)
+                .forEach(panelElement -> ((PanelModuleButton) panelElement).getModuleSettings().setVisible(false));
         this.moduleSettings.setOpened(true);
 
         if (this.getModuleSettings().getPanelElements().size() > 0) {

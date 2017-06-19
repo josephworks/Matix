@@ -2,7 +2,7 @@ package de.paxii.clarinet.gui.ingame.panel;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
-import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelModuleButton;
 
 import java.util.ArrayList;
 
@@ -77,7 +77,7 @@ public class GuiPanel {
       int index = 17;
 
       for (PanelElement panelElement : this.getPanelElements()) {
-        if (panelElement instanceof PanelButton) {
+        if (panelElement instanceof PanelModuleButton) {
           panelElement.setElementHeight(12);
           panelElement.setElementYOffset(0);
         }
@@ -125,11 +125,11 @@ public class GuiPanel {
   public void setOpened(boolean opened) {
     this.opened = opened;
 
-    this.getPanelElements().stream().filter(pE -> pE instanceof PanelButton).forEach(pE -> {
-      PanelButton panelButton = (PanelButton) pE;
+    this.getPanelElements().stream().filter(pE -> pE instanceof PanelModuleButton).forEach(pE -> {
+      PanelModuleButton panelModuleButton = (PanelModuleButton) pE;
 
-      if (panelButton.getModuleSettings() != null) {
-        panelButton.getModuleSettings().setVisible(false);
+      if (panelModuleButton.getModuleSettings() != null) {
+        panelModuleButton.getModuleSettings().setVisible(false);
       }
     });
   }
