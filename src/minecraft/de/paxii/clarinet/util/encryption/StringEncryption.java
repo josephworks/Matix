@@ -2,16 +2,14 @@ package de.paxii.clarinet.util.encryption;
 
 import de.paxii.clarinet.util.settings.ClientSettings;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
 
 public class StringEncryption {
   private final String DEFAULT_ENCODING = "UTF-8";
-  private final BASE64Encoder enc = new BASE64Encoder();
-  private final BASE64Decoder dec = new BASE64Decoder();
+  private final Base64.Encoder enc = Base64.getEncoder();
+  private final Base64.Decoder dec = Base64.getDecoder();
   private String encryptionKey;
 
   public StringEncryption(String encryptionKey) {
@@ -42,7 +40,7 @@ public class StringEncryption {
 
   private String base64encode(String text) {
     try {
-      return enc.encode(text.getBytes(DEFAULT_ENCODING));
+      return enc.encodeToString(text.getBytes(DEFAULT_ENCODING));
     } catch (UnsupportedEncodingException e) {
       return null;
     }
@@ -50,7 +48,7 @@ public class StringEncryption {
 
   private String base64decode(String text) {
     try {
-      return new String(dec.decodeBuffer(text), DEFAULT_ENCODING);
+      return new String(dec.decode(text), DEFAULT_ENCODING);
     } catch (IOException e) {
       return null;
     }
