@@ -7,12 +7,10 @@ import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
 import de.paxii.clarinet.event.events.game.KeyPressedEvent;
 import de.paxii.clarinet.module.external.ExternalModuleLoader;
 import de.paxii.clarinet.util.module.store.ModuleStore;
+import de.paxii.clarinet.util.reflection.ReflectionHelper;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
-import org.reflections.Reflections;
-
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import lombok.Getter;
@@ -40,18 +38,19 @@ public class ModuleManager {
       String packageName = "de.paxii.clarinet.module." + m.toString().toLowerCase();
       System.out.println("Searching for Modules in " + packageName);
 
-      Reflections reflections = new Reflections(packageName);
+      try {
+        Class<? extends Module>[] moduleClasses = ReflectionHelper.getClassesInPackageBySuperType(packageName, Module.class);
 
-      Set<Class<? extends Module>> allClasses =
-              reflections.getSubTypesOf(Module.class);
-
-      for (Class<? extends Module> c : allClasses) {
-        try {
-          Module newModule = c.newInstance();
-          this.addModule(newModule);
-        } catch (Exception x) {
-          x.printStackTrace();
+        for (Class<? extends Module> moduleClass : moduleClasses) {
+          try {
+            Module newModule = moduleClass.newInstance();
+            this.addModule(newModule);
+          } catch (Exception x) {
+            x.printStackTrace();
+          }
         }
+      } catch (Exception x) {
+        x.printStackTrace();
       }
     }
 
