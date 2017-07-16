@@ -7,6 +7,7 @@ import de.paxii.clarinet.Wrapper;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.src.CapeUtils;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.image.BufferedImage;
@@ -39,8 +40,7 @@ public class CapesApi {
     ThreadDownloadImageData threadDownloadImageData = new ThreadDownloadImageData(null, url, null, new IImageBuffer() {
       @Override
       public BufferedImage parseUserSkin(BufferedImage image) {
-//        return CapeUtils.parseCape(image);
-        return image;
+        return CapeUtils.parseCape(image);
       }
 
       @Override
