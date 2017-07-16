@@ -28,7 +28,9 @@ public class PanelKeyBindButton extends PanelElement {
 
   @Override
   public void mouseClicked(int mouseX, int mouseY, int buttonClicked) {
-    this.listening = !this.listening;
+    if (this.isMouseOverButton(mouseX, mouseY)) {
+      this.listening = !this.listening;
+    }
     super.mouseClicked(mouseX, mouseY, buttonClicked);
   }
 

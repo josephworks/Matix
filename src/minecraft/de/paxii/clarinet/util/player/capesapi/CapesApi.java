@@ -4,7 +4,6 @@ import com.mojang.authlib.GameProfile;
 
 import de.paxii.clarinet.Wrapper;
 
-import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.IImageBuffer;
 import net.minecraft.client.renderer.ThreadDownloadImageData;
 import net.minecraft.client.renderer.texture.TextureManager;

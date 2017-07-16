@@ -42,8 +42,19 @@ public class GuiListEntryExternalModule implements GuiListExtended.IGuiListEntry
     this.width = listWidth;
     this.height = slotHeight;
 
+    int background = 0;
+
+    switch (this.getModuleEntry().getCompatible()) {
+      case "may":
+        background = ModuleStore.COMPATIBLE_MAY;
+        break;
+      case "no":
+        background = ModuleStore.COMPATIBLE_NO;
+        break;
+    }
+
     if (guiModuleStore.getPressedButton() != null && guiModuleStore.getPressedButton().getModuleEntry().getModule().equals(this.getModuleEntry().getModule())) {
-      GuiMethods.drawBorderedRect(this.x, this.y, this.x + this.width, this.y + this.height, 2.0F, 0xffFF8800, 0x00000000);
+      GuiMethods.drawBorderedRect(this.x, this.y, this.x + this.width, this.y + this.height, 2.0F, 0xffFF8800, background);
     } else {
       int color = 0xffffffff;
 
@@ -55,7 +66,7 @@ public class GuiListEntryExternalModule implements GuiListExtended.IGuiListEntry
         color = 0xffff0000;
       }
 
-      GuiMethods.drawBorderedRect(this.x, this.y, this.x + this.width, this.y + this.height, 1.0F, color, 0x00000000);
+      GuiMethods.drawBorderedRect(this.x, this.y, this.x + this.width, this.y + this.height, 1.0F, color, background);
     }
 
     String displayName = this.getModuleEntry().getModule() + (this.getModuleEntry().getVersion() != null ? " - V" + this.getModuleEntry().getVersion() : "");

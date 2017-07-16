@@ -9,15 +9,13 @@ import de.paxii.clarinet.event.events.player.PlayerSendChatMessageEvent;
 import de.paxii.clarinet.gui.menu.chat.GuiChatConsole;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
+import de.paxii.clarinet.util.reflection.ReflectionHelper;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiSleepMP;
 
-import org.reflections.Reflections;
-
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 
 import lombok.Getter;
@@ -41,18 +39,19 @@ public class ClientConsole {
               + ca.toString().toLowerCase();
       System.out.println("Searching for Commands in " + packageName);
 
-      Reflections reflections = new Reflections(packageName);
+      try {
+        Class<? extends AClientCommand>[] commandClasses = ReflectionHelper.getClassesInPackageBySuperType(packageName, AClientCommand.class);
 
-      Set<Class<? extends AClientCommand>> allClasses = reflections
-              .getSubTypesOf(AClientCommand.class);
-
-      for (Class<? extends AClientCommand> c : allClasses) {
-        try {
-          AClientCommand newCommand = c.newInstance();
-          addCommand(newCommand);
-        } catch (Exception x) {
-          x.printStackTrace();
+        for (Class<? extends AClientCommand> commandClass : commandClasses) {
+          try {
+            AClientCommand newCommand = commandClass.newInstance();
+            addCommand(newCommand);
+          } catch (Exception x) {
+            x.printStackTrace();
+          }
         }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
     }
   }

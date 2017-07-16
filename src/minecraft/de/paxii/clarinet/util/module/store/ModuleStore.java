@@ -37,6 +37,8 @@ import lombok.Getter;
  * Created by Lars on 07.02.2016.
  */
 public class ModuleStore {
+  public static final int COMPATIBLE_MAY = 0x66E86717;
+  public static final int COMPATIBLE_NO = 0x66DB0F0F;
   private static final String moduleUrl = Client.getClientURL() + "modules/files/%s/%s/%s.jar";
   private static final TreeMap<String, ModuleEntry> moduleList = new TreeMap<>();
   @Getter
@@ -109,9 +111,8 @@ public class ModuleStore {
   }
 
   public static void fetchModules() {
-    String listPath = Client.getClientURL() + "modules/modules.php";
-
-    ModuleResponse moduleResponse = JsonFetcher.fetchData(listPath, ModuleResponse.class);
+    String listPath = Client.getClientURL() + "modules/modules.php?version=" + Client.getGameVersion();
+    ModuleResponse moduleResponse = JsonFetcher.get(listPath, ModuleResponse.class);
 
     if (moduleResponse != null) {
       moduleResponse.getModuleList().forEach((moduleEntry) -> moduleList.put(moduleEntry.getModule(), moduleEntry));

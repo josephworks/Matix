@@ -103,6 +103,7 @@ public class ModuleNameTags extends Module {
   private static void drawArmor(EntityOtherPlayerMP entityPlayer, FontRenderer fontRenderer, float posX, float posY, float posZ, float playerViewY, float playerViewX, boolean thirdPersonView) {
     RenderEntityItem renderEntity = (RenderEntityItem) Wrapper.getMinecraft().getRenderManager().getEntityRenderMap().get(EntityItem.class);
 
+
     GL11.glPushMatrix();
     GlStateManager.translate(posX, posY, posZ);
     GlStateManager.rotate(-playerViewY, 0.0F, 1.0F, 0.0F);

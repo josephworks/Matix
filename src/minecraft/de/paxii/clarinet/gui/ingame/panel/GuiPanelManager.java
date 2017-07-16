@@ -6,7 +6,7 @@ import de.paxii.clarinet.event.events.client.PostLoadPanelsEvent;
 import de.paxii.clarinet.gui.ingame.ClientClickableGui;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelBlockButton;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelBlockRow;
-import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelButton;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelModuleButton;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelColorButton;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
 import de.paxii.clarinet.module.Module;
@@ -46,7 +46,7 @@ public class GuiPanelManager {
         public void addElements() {
           sortedKeys.forEach((moduleName, module) -> {
             if (module.isDisplayedInGui()) {
-              this.getPanelElements().add(new PanelButton(module, this));
+              this.getPanelElements().add(new PanelModuleButton(module, this));
             }
           });
         }

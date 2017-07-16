@@ -111,14 +111,14 @@ public class ModuleTriggerbot extends Module {
       float f = 1.0F;
       List<Entity> list = Wrapper.getWorld().getEntitiesInAABBexcluding(
               entity,
-              entity.getEntityBoundingBox().addCoord(
+              entity.getEntityBoundingBox().expand(
                       vec3d1.xCoord * d0,
                       vec3d1.yCoord * d0,
                       vec3d1.zCoord * d0).expand(
                       (double) f,
                       (double) f,
                       (double) f),
-              Predicates.and(EntitySelectors.NOT_SPECTATING, (p_apply_1_) -> p_apply_1_ != null && p_apply_1_.canBeCollidedWith()));
+              Predicates.and(EntitySelectors.NOT_SPECTATING, (Entity e) -> e != null && e.canBeCollidedWith()));
 
       double d2 = d1;
 

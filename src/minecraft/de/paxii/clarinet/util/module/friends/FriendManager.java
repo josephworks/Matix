@@ -1,5 +1,7 @@
 package de.paxii.clarinet.util.module.friends;
 
+import de.paxii.clarinet.Wrapper;
+
 import java.awt.*;
 import java.util.HashMap;
 
@@ -36,7 +38,8 @@ public class FriendManager {
   }
 
   public boolean isFriend(String friendName) {
-    return this.friendList.containsKey(friendName);
+    return this.friendList.containsKey(friendName)
+            || friendName.equals(Wrapper.getPlayer().getName());
   }
 
   public int getFriendColor(String friendName) {
