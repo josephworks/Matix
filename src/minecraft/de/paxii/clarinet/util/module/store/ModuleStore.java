@@ -2,6 +2,7 @@ package de.paxii.clarinet.util.module.store;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import de.paxii.clarinet.Client;
@@ -92,7 +93,6 @@ public class ModuleStore {
         module.setEnabled(false);
         module.onShutdown();
         Wrapper.getModuleManager().removeModule(module);
-
         Wrapper.getClickableGui().loadPanels();
       }
 
@@ -102,8 +102,6 @@ public class ModuleStore {
     } catch (Exception e) {
       e.printStackTrace();
     }
-
-    modulesToDelete.forEach(System.out::println);
   }
 
   public static TreeMap<String, ModuleEntry> listModules() {
@@ -138,18 +136,18 @@ public class ModuleStore {
     File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
 
     if (modulesToDelete.exists()) {
-      String jsonString = "";
+      StringBuilder jsonString = new StringBuilder();
 
       try {
         Scanner sc = new Scanner(modulesToDelete);
         Gson gson = new Gson();
 
         while (sc.hasNextLine())
-          jsonString += sc.nextLine();
+          jsonString.append(sc.nextLine());
 
         sc.close();
 
-        ArrayList<String> modulesToRemove = gson.fromJson(jsonString, new TypeToken<ArrayList<String>>() {
+        ArrayList<String> modulesToRemove = gson.fromJson(jsonString.toString(), new TypeToken<ArrayList<String>>() {
         }.getType());
 
         if (modulesToRemove != null) {
@@ -169,7 +167,7 @@ public class ModuleStore {
         }
 
         modulesToDelete.delete();
-      } catch (FileNotFoundException e) {
+      } catch (IOException e) {
         e.printStackTrace();
       }
     }
