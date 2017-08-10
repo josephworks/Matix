@@ -3,6 +3,7 @@ package de.paxii.clarinet.gui.menu.login;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.util.gui.GuiPasswordField;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
+import de.paxii.clarinet.util.notifications.NotificationPriority;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -13,16 +14,12 @@ import java.util.ArrayList;
 
 public class GuiAddAlt extends GuiScreen {
   private final GuiAltManager altManager;
-  private final TimeManager timeManager;
   private GuiTextField userNameField;
   private GuiTextField emailField;
   private GuiPasswordField passwordField;
-  private String errorMessage;
-  private boolean displayError;
 
   public GuiAddAlt(GuiAltManager altManager) {
     this.altManager = altManager;
-    this.timeManager = new TimeManager();
   }
 
   @Override
@@ -46,22 +43,11 @@ public class GuiAddAlt extends GuiScreen {
     this.emailField.drawTextBox();
     this.passwordField.drawTextBox();
 
-    if (this.displayError) {
-      this.drawCenteredString(Wrapper.getFontRenderer(), this.errorMessage, this.width / 2, 30, 0xff0000);
-
-      if (this.timeManager.sleep(5000L)) {
-        this.displayError = false;
-      }
-    } else {
-      this.timeManager.updateLast();
-    }
-
     this.drawCenteredString(Wrapper.getFontRenderer(), "Add Alt", this.width / 2, 5, 0xffffff);
     this.drawCenteredString(Wrapper.getFontRenderer(), "Username:", this.width / 2, this.height / 2 - 65, 0xffffff);
     this.drawCenteredString(Wrapper.getFontRenderer(), "Email:", this.width / 2, this.height / 2 - 25, 0xffffff);
     this.drawCenteredString(Wrapper.getFontRenderer(), "Password:", this.width / 2, this.height / 2 + 15, 0xffffff);
 
-    this.timeManager.updateTimer();
     super.drawScreen(mouseX, mouseY, partialTicks);
   }
 
@@ -102,17 +88,18 @@ public class GuiAddAlt extends GuiScreen {
       String password = this.passwordField.getText();
 
       if (email.length() > 0 && password.length() == 0) {
-        this.errorMessage = "Invalid Password!";
-        this.displayError = true;
+        Wrapper.getClient().getNotificationManager().addNotification(
+                "Invalid Password", NotificationPriority.DANGER
+        );
       } else if (userName.length() == 0 && email.length() == 0 && password.length() == 0) {
-        this.errorMessage = "Invalid Credentials!";
-        this.displayError = true;
+        Wrapper.getClient().getNotificationManager().addNotification(
+                "Invalid Credentials", NotificationPriority.DANGER
+        );
       } else if (email.length() > 0 && !email.contains("@")) {
-        this.errorMessage = "Invalid Email!";
-        this.displayError = true;
+        Wrapper.getClient().getNotificationManager().addNotification(
+                "Invalid Email", NotificationPriority.DANGER
+        );
       } else {
-        this.displayError = false;
-
         ArrayList<AltObject> altObjects = this.altManager.guiAltList.getAltObjects();
         altObjects.add(new AltObject(userName, email, password));
         this.altManager.setupGuiAltList(altObjects);
