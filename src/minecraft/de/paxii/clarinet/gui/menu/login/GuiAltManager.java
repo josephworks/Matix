@@ -22,19 +22,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class GuiAltManager extends GuiScreen {
+
   private final GuiScreen parentScreen;
+
   private final GuiMainMenuHook mainMenuHook;
+
   private final File altFile;
-  private GuiAltList guiAltList;
+
+  GuiAltList guiAltList;
+
   @Getter
   @Setter
   private GuiAltListEntry pressedSlot;
-  @Getter
-  private ArrayList<AltObject> altList;
 
   public GuiAltManager(GuiScreen parentScreen) {
     this.parentScreen = parentScreen;
-    this.altList = new ArrayList<>();
 
     if (this.parentScreen instanceof GuiMainMenuHook)
       this.mainMenuHook = (GuiMainMenuHook) this.parentScreen;
@@ -47,6 +49,7 @@ public class GuiAltManager extends GuiScreen {
     } catch (IOException e) {
       e.printStackTrace();
     }
+    this.setupGuiAltList(this.loadAlts());
 
     Wrapper.getEventManager().register(this, DisplayGuiScreenEvent.class);
   }
@@ -63,10 +66,7 @@ public class GuiAltManager extends GuiScreen {
 
   @Override
   public void initGui() {
-    this.loadAlts();
-
-    this.guiAltList = new GuiAltList(this);
-
+    this.buttonList.clear();
     this.buttonList.add(new GuiButton(0, this.width / 2 - 50,
             this.height - 25, 100, 20, "Delete"));
     this.buttonList.add(new GuiButton(1, this.width / 2 - 160,
@@ -79,6 +79,10 @@ public class GuiAltManager extends GuiScreen {
             this.height - 50, 100, 20, "Direct"));
     this.buttonList.add(new GuiButton(5, this.width / 2 - 160,
             this.height - 50, 100, 20, "MCLeaks.net"));
+  }
+
+  public void setupGuiAltList(ArrayList<AltObject> altObjects) {
+    this.guiAltList = new GuiAltList(this, altObjects);
   }
 
   @Override
@@ -113,18 +117,14 @@ public class GuiAltManager extends GuiScreen {
 
   @Override
   protected void actionPerformed(GuiButton button) throws IOException {
-    if (button.id == 0) {
-      if (this.pressedSlot != null) {
-        this.getAltList().remove(this.getPressedSlot().getAlt());
-      }
+    if (button.id == 0 && this.pressedSlot != null) {
+      this.guiAltList.getEntryList().remove(this.getPressedSlot());
     } else if (button.id == 1) {
       Wrapper.getMinecraft().displayGuiScreen(new GuiAddAlt(this));
     } else if (button.id == 2) {
       Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
-    } else if (button.id == 3) {
-      if (this.pressedSlot != null) {
-        YggdrasilLoginBridge.loginWithAlt(this.getPressedSlot().getAlt());
-      }
+    } else if (button.id == 3 && this.pressedSlot != null) {
+      YggdrasilLoginBridge.loginWithAlt(this.getPressedSlot().getAlt());
     } else if (button.id == 4) {
       Wrapper.getMinecraft().displayGuiScreen(new GuiDirectLogin(this));
     } else if (button.id == 5) {
@@ -139,10 +139,8 @@ public class GuiAltManager extends GuiScreen {
   }
 
   @Override
-  protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-          throws IOException {
+  protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
     this.guiAltList.mouseClicked(mouseX, mouseY, mouseButton);
-
     super.mouseClicked(mouseX, mouseY, mouseButton);
   }
 
@@ -157,30 +155,31 @@ public class GuiAltManager extends GuiScreen {
     this.saveAlts();
   }
 
-  private void loadAlts() {
-    this.altList.clear();
-
+  private ArrayList<AltObject> loadAlts() {
+    ArrayList<AltObject> altObjects = new ArrayList<>(10);
     try {
       AltContainer altContainer = FileService.getFileContents(this.altFile, AltContainer.class);
       if (altContainer != null) {
         altContainer.getAltList().forEach(
                 alt -> alt.setPassword(Wrapper.getStringEncryption().decryptString(alt.getPassword())
         ));
-        this.altList.addAll(altContainer.getAltList());
+        altObjects = altContainer.getAltList();
       }
-      Collections.sort(this.altList);
     } catch (IOException e) {
       e.printStackTrace();
     }
+    Collections.sort(altObjects);
+
+    return altObjects;
   }
 
-  public void saveAlts() {
+  private void saveAlts() {
     try {
       if (this.altFile.exists() && !this.altFile.delete()) {
         return;
       }
 
-      AltContainer altContainer = new AltContainer(this.altList);
+      AltContainer altContainer = new AltContainer(this.guiAltList.getAltObjects());
       altContainer.getAltList().forEach(alt -> alt.setPassword(Wrapper.getStringEncryption().encryptString(alt.getPassword())));
       FileService.setFileContentsAsJson(this.altFile, altContainer);
     } catch (IOException e) {

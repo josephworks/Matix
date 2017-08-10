@@ -9,9 +9,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GuiAddAlt extends GuiScreen {
-  private final GuiScreen parentScreen;
+  private final GuiAltManager altManager;
   private final TimeManager timeManager;
   private GuiTextField userNameField;
   private GuiTextField emailField;
@@ -19,9 +20,8 @@ public class GuiAddAlt extends GuiScreen {
   private String errorMessage;
   private boolean displayError;
 
-  public GuiAddAlt(GuiScreen parentScreen) {
-    this.parentScreen = parentScreen;
-
+  public GuiAddAlt(GuiAltManager altManager) {
+    this.altManager = altManager;
     this.timeManager = new TimeManager();
   }
 
@@ -95,7 +95,7 @@ public class GuiAddAlt extends GuiScreen {
   @Override
   protected void actionPerformed(GuiButton button) throws IOException {
     if (button.id == 0) {
-      Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
+      Wrapper.getMinecraft().displayGuiScreen(this.altManager);
     } else if (button.id == 1) {
       String userName = this.userNameField.getText();
       String email = this.emailField.getText();
@@ -113,12 +113,11 @@ public class GuiAddAlt extends GuiScreen {
       } else {
         this.displayError = false;
 
-        GuiAltManager altManager = (GuiAltManager) this.parentScreen;
-
-        altManager.getAltList().add(new AltObject(userName, email, password));
-        altManager.saveAlts();
-        Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
-        altManager.initGui();
+        ArrayList<AltObject> altObjects = this.altManager.guiAltList.getAltObjects();
+        altObjects.add(new AltObject(userName, email, password));
+        this.altManager.setupGuiAltList(altObjects);
+        this.altManager.initGui();
+        Wrapper.getMinecraft().displayGuiScreen(this.altManager);
       }
     }
   }
