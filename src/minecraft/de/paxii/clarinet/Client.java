@@ -10,7 +10,6 @@ import de.paxii.clarinet.module.ModuleManager;
 import de.paxii.clarinet.util.chat.font.FontManager;
 import de.paxii.clarinet.util.encryption.StringEncryption;
 import de.paxii.clarinet.util.login.mcleaks.MCLeaksManager;
-import de.paxii.clarinet.util.module.file.FileManager;
 import de.paxii.clarinet.util.module.friends.FriendManager;
 import de.paxii.clarinet.util.module.friends.FriendSettingsHandler;
 import de.paxii.clarinet.util.module.settings.ModuleSettingsHandler;
@@ -40,7 +39,6 @@ public class Client {
   private static Client clientInstance;
   private EventManager eventManager;
   private ModuleManager moduleManager;
-  private FileManager fileManager;
   private FriendManager friendManager;
   private NotificationManager notificationManager;
   private FontManager fontManager;
@@ -79,7 +77,6 @@ public class Client {
     this.moduleStore = new ModuleStore();
 
     this.moduleManager = new ModuleManager();
-    this.fileManager = new FileManager();
     this.friendManager = new FriendManager();
     this.notificationManager = new NotificationManager();
     this.fontManager = new FontManager();

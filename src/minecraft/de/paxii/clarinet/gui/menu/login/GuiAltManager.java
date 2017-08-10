@@ -1,13 +1,11 @@
 package de.paxii.clarinet.gui.menu.login;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.gui.DisplayGuiScreenEvent;
 import de.paxii.clarinet.gui.menu.hooks.GuiMainMenuHook;
 import de.paxii.clarinet.util.alt.AltContainer;
+import de.paxii.clarinet.util.file.FileService;
 import de.paxii.clarinet.util.login.YggdrasilLoginBridge;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
@@ -15,10 +13,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,13 +62,6 @@ public class GuiAltManager extends GuiScreen {
   }
 
   @Override
-  protected void keyTyped(char typedChar, int keyCode) throws IOException {
-    if (keyCode == 1) {
-      Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
-    }
-  }
-
-  @Override
   public void initGui() {
     this.loadAlts();
 
@@ -91,6 +79,13 @@ public class GuiAltManager extends GuiScreen {
             this.height - 50, 100, 20, "Direct"));
     this.buttonList.add(new GuiButton(5, this.width / 2 - 160,
             this.height - 50, 100, 20, "MCLeaks.net"));
+  }
+
+  @Override
+  protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    if (keyCode == 1) {
+      Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
+    }
   }
 
   @Override
@@ -121,17 +116,6 @@ public class GuiAltManager extends GuiScreen {
     if (button.id == 0) {
       if (this.pressedSlot != null) {
         this.getAltList().remove(this.getPressedSlot().getAlt());
-        this.saveAlts();
-
-        new Thread(() -> {
-          try {
-            Thread.sleep(150L);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-
-          GuiAltManager.this.initGui();
-        }).start();
       }
     } else if (button.id == 1) {
       Wrapper.getMinecraft().displayGuiScreen(new GuiAddAlt(this));
@@ -168,60 +152,38 @@ public class GuiAltManager extends GuiScreen {
     super.mouseReleased(mouseX, mouseY, state);
   }
 
+  @Override
+  public void onGuiClosed() {
+    this.saveAlts();
+  }
+
   private void loadAlts() {
     this.altList.clear();
 
     try {
-      Gson gson = new Gson();
-
-      if (this.altFile.exists()) {
-        BufferedReader br = new BufferedReader(new FileReader(
-                this.altFile));
-
-        String line, jsonString = "";
-
-        while ((line = br.readLine()) != null) {
-          jsonString += line;
-        }
-
-        AltContainer altContainer = gson.fromJson(jsonString, AltContainer.class);
-
-        if (altContainer != null) {
-          altContainer.getAltList().forEach((alt) -> {
-            alt.setPassword((alt.getPassword().length() > 0) ? Wrapper.getStringEncryption().decryptString(alt.getPassword()) : "");
-
-            this.altList.add(alt);
-          });
-        }
-
-        br.close();
-        Collections.sort(this.altList);
+      AltContainer altContainer = FileService.getFileContents(this.altFile, AltContainer.class);
+      if (altContainer != null) {
+        altContainer.getAltList().forEach(
+                alt -> alt.setPassword(Wrapper.getStringEncryption().decryptString(alt.getPassword())
+        ));
+        this.altList.addAll(altContainer.getAltList());
       }
-    } catch (Exception e) {
+      Collections.sort(this.altList);
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
   public void saveAlts() {
     try {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
       if (this.altFile.exists() && !this.altFile.delete()) {
         return;
       }
 
-      if (this.altFile.createNewFile()) {
-        FileWriter fw = new FileWriter(this.altFile);
-        AltContainer altContainer = new AltContainer(this.altList);
-
-        altContainer.getAltList().forEach((alt) -> alt.setPassword((alt.getPassword().length() > 0) ? Wrapper.getStringEncryption().encryptString(alt.getPassword()) : ""));
-
-        String jsonString = gson.toJson(altContainer);
-        fw.write(jsonString);
-
-        fw.close();
-      }
-    } catch (Exception e) {
+      AltContainer altContainer = new AltContainer(this.altList);
+      altContainer.getAltList().forEach(alt -> alt.setPassword(Wrapper.getStringEncryption().encryptString(alt.getPassword())));
+      FileService.setFileContentsAsJson(this.altFile, altContainer);
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
