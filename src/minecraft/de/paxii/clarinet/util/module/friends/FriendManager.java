@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import de.paxii.clarinet.event.EventManager;
 import de.paxii.clarinet.event.events.client.AddFriendEvent;
+import de.paxii.clarinet.event.events.client.RemoveFriendEvent;
 import lombok.Setter;
 
 public class FriendManager {
@@ -34,6 +35,7 @@ public class FriendManager {
   public boolean removeFriend(String friendName) {
     if (this.friendList.containsKey(friendName)) {
       this.friendList.remove(friendName);
+      EventManager.call(new RemoveFriendEvent(friendName));
       return true;
     }
 
