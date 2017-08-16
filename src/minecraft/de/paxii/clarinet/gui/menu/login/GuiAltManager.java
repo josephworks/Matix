@@ -68,6 +68,7 @@ public class GuiAltManager extends GuiScreen {
 
   @Override
   public void initGui() {
+    this.setupGuiAltList(this.guiAltList.getAltObjects());
     this.buttonList.clear();
     this.buttonList.add(new GuiButton(0, this.width / 2 - 50,
             this.height - 25, 100, 20, "Delete"));

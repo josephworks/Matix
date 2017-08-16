@@ -1,88 +1,56 @@
 package de.paxii.clarinet.gui.menu.login;
 
 import de.paxii.clarinet.Wrapper;
-import de.paxii.clarinet.util.gui.GuiPasswordField;
-import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.notifications.NotificationPriority;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GuiAddAlt extends GuiScreen {
-  private final GuiAltManager altManager;
-  private GuiTextField userNameField;
-  private GuiTextField emailField;
-  private GuiPasswordField passwordField;
+public class GuiAddAlt extends GuiDirectLogin {
+  protected GuiTextField emailField;
 
   public GuiAddAlt(GuiAltManager altManager) {
-    this.altManager = altManager;
+    super(altManager);
+    this.displayTitle = "Add Alt";
   }
 
   @Override
   public void initGui() {
+    super.initGui();
     int startX = this.width / 2 - 100;
-    int width = 200;
 
-    this.userNameField = new GuiTextField(3, Wrapper.getFontRenderer(), startX, this.height / 2 - 50, width, 20);
-    this.emailField = new GuiTextField(4, Wrapper.getFontRenderer(), startX, this.height / 2 - 10, width, 20);
-    this.passwordField = new GuiPasswordField(5, Wrapper.getFontRenderer(), startX, this.height / 2 + 30, width, 20);
-
-    this.buttonList.add(new GuiButton(0, this.width / 2 - 105, this.height - 25, 100, 20, "Cancel"));
-    this.buttonList.add(new GuiButton(1, this.width / 2 + 5, this.height - 25, 100, 20, "Done"));
+    this.passwordField.xPosition = startX;
+    this.passwordField.yPosition = this.height / 2 + 30;
+    this.textFieldList.add(
+            this.emailField = new GuiTextField(4, Wrapper.getFontRenderer(), startX, this.height / 2 - 10, this.buttonWidth, 20)
+    );
+    this.loginButton.displayString = "Save";
   }
 
   @Override
-  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-    this.drawDefaultBackground();
-
-    this.userNameField.drawTextBox();
-    this.emailField.drawTextBox();
-    this.passwordField.drawTextBox();
-
-    this.drawCenteredString(Wrapper.getFontRenderer(), "Add Alt", this.width / 2, 5, 0xffffff);
+  protected void drawTextFieldLabels() {
     this.drawCenteredString(Wrapper.getFontRenderer(), "Username:", this.width / 2, this.height / 2 - 65, 0xffffff);
     this.drawCenteredString(Wrapper.getFontRenderer(), "Email:", this.width / 2, this.height / 2 - 25, 0xffffff);
     this.drawCenteredString(Wrapper.getFontRenderer(), "Password:", this.width / 2, this.height / 2 + 15, 0xffffff);
-
-    super.drawScreen(mouseX, mouseY, partialTicks);
   }
 
   @Override
-  protected void keyTyped(char typedChar, int keyCode) throws IOException {
-    if (keyCode == 15) {
-      if (this.userNameField.isFocused()) {
-        this.emailField.setFocused(true);
-        this.userNameField.setFocused(false);
-        this.passwordField.setFocused(false);
-      } else if (this.emailField.isFocused()) {
-        this.emailField.setFocused(false);
-        this.userNameField.setFocused(false);
-        this.passwordField.setFocused(true);
-      } else if (this.passwordField.isFocused()) {
-        this.emailField.setFocused(false);
-        this.userNameField.setFocused(true);
-        this.passwordField.setFocused(false);
-      } else {
-        this.emailField.setFocused(false);
-        this.userNameField.setFocused(true);
-        this.passwordField.setFocused(false);
-      }
+  protected void cycleSelection() {
+    if (this.userNameField.isFocused()) {
+      this.setTextFieldFocused(this.emailField);
+    } else if (this.emailField.isFocused()) {
+      this.setTextFieldFocused(this.passwordField);
+    } else {
+      super.cycleSelection();
     }
-
-    this.userNameField.textboxKeyTyped(typedChar, keyCode);
-    this.emailField.textboxKeyTyped(typedChar, keyCode);
-    this.passwordField.textboxKeyTyped(typedChar, keyCode);
   }
 
   @Override
   protected void actionPerformed(GuiButton button) throws IOException {
-    if (button.id == 0) {
-      Wrapper.getMinecraft().displayGuiScreen(this.altManager);
-    } else if (button.id == 1) {
+    if (button == this.loginButton) {
       String userName = this.userNameField.getText();
       String email = this.emailField.getText();
       String password = this.passwordField.getText();
@@ -106,16 +74,8 @@ public class GuiAddAlt extends GuiScreen {
         this.altManager.initGui();
         Wrapper.getMinecraft().displayGuiScreen(this.altManager);
       }
+    } else {
+      super.actionPerformed(button);
     }
-  }
-
-  @Override
-  protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
-          throws IOException {
-    this.userNameField.mouseClicked(mouseX, mouseY, mouseButton);
-    this.emailField.mouseClicked(mouseX, mouseY, mouseButton);
-    this.passwordField.mouseClicked(mouseX, mouseY, mouseButton);
-
-    super.mouseClicked(mouseX, mouseY, mouseButton);
   }
 }
