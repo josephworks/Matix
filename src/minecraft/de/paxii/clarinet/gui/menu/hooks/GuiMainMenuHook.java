@@ -2,7 +2,6 @@ package de.paxii.clarinet.gui.menu.hooks;
 
 import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
-import de.paxii.clarinet.gui.menu.login.GuiAltManager;
 import de.paxii.clarinet.gui.menu.store.module.GuiModuleStore;
 import de.paxii.clarinet.util.protocol.ProtocolVersion;
 
@@ -37,7 +36,7 @@ public class GuiMainMenuHook extends GuiMainMenu {
     super.actionPerformed(button);
 
     if (button.id == 200) {
-      Wrapper.getMinecraft().displayGuiScreen(new GuiAltManager(this));
+      Wrapper.getMinecraft().displayGuiScreen(Wrapper.getClient().getAltManger());
     }
     if (button.id == 201) {
       Wrapper.getMinecraft().displayGuiScreen(new GuiModuleStore(this));

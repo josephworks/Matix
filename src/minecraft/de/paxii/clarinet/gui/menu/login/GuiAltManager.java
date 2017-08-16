@@ -7,6 +7,7 @@ import de.paxii.clarinet.gui.menu.hooks.GuiMainMenuHook;
 import de.paxii.clarinet.util.alt.AltContainer;
 import de.paxii.clarinet.util.file.FileService;
 import de.paxii.clarinet.util.login.YggdrasilLoginBridge;
+import de.paxii.clarinet.util.notifications.NotificationPriority;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import net.minecraft.client.gui.GuiButton;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -124,7 +126,11 @@ public class GuiAltManager extends GuiScreen {
     } else if (button.id == 2) {
       Wrapper.getMinecraft().displayGuiScreen(this.parentScreen);
     } else if (button.id == 3 && this.pressedSlot != null) {
-      YggdrasilLoginBridge.loginWithAlt(this.getPressedSlot().getAlt());
+      if (YggdrasilLoginBridge.loginWithAlt(this.getPressedSlot().getAlt()) == null) {
+        Wrapper.getClient().getNotificationManager().addNotification(
+                "Invalid Credentials!", NotificationPriority.DANGER
+        );
+      }
     } else if (button.id == 4) {
       Wrapper.getMinecraft().displayGuiScreen(new GuiDirectLogin(this));
     } else if (button.id == 5) {
@@ -160,15 +166,14 @@ public class GuiAltManager extends GuiScreen {
     try {
       AltContainer altContainer = FileService.getFileContents(this.altFile, AltContainer.class);
       if (altContainer != null) {
-        altContainer.getAltList().forEach(
-                alt -> alt.setPassword(Wrapper.getStringEncryption().decryptString(alt.getPassword())
-        ));
-        altObjects = altContainer.getAltList();
+        altObjects = altContainer.getAltList().stream()
+                .sorted()
+                .peek(alt -> alt.setPassword(Wrapper.getStringEncryption().decryptString(alt.getPassword())))
+                .collect(Collectors.toCollection(ArrayList::new));
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
-    Collections.sort(altObjects);
 
     return altObjects;
   }
@@ -179,8 +184,11 @@ public class GuiAltManager extends GuiScreen {
         return;
       }
 
-      AltContainer altContainer = new AltContainer(this.guiAltList.getAltObjects());
-      altContainer.getAltList().forEach(alt -> alt.setPassword(Wrapper.getStringEncryption().encryptString(alt.getPassword())));
+      AltContainer altContainer = new AltContainer(this.guiAltList.getAltObjects().stream()
+              .map(AltObject::copy)
+              .peek(alt -> alt.setPassword(Wrapper.getStringEncryption().encryptString(alt.getPassword())))
+              .collect(Collectors.toCollection(ArrayList::new))
+      );
       FileService.setFileContentsAsJson(this.altFile, altContainer);
     } catch (IOException e) {
       e.printStackTrace();

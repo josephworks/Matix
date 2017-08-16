@@ -34,4 +34,8 @@ public class AltObject implements Comparable<AltObject> {
   public int compareTo(AltObject o) {
     return this.getUserName().compareToIgnoreCase(o.getUserName());
   }
+
+  public AltObject copy() {
+    return new AltObject(this.userName, this.email, this.password);
+  }
 }

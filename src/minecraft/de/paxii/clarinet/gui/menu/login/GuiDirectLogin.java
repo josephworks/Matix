@@ -40,7 +40,7 @@ public class GuiDirectLogin extends GuiScreen {
     this.userNameField.drawTextBox();
     this.passwordField.drawTextBox();
 
-    this.drawCenteredString(Wrapper.getFontRenderer(), "Add Alt", this.width / 2, 5, 0xffffff);
+    this.drawCenteredString(Wrapper.getFontRenderer(), "Login", this.width / 2, 5, 0xffffff);
     this.drawCenteredString(Wrapper.getFontRenderer(), "Username:", this.width / 2, this.height / 2 - 65, 0xffffff);
     this.drawCenteredString(Wrapper.getFontRenderer(), "Password:", this.width / 2, this.height / 2 - 25, 0xffffff);
 
@@ -74,11 +74,7 @@ public class GuiDirectLogin extends GuiScreen {
       String userName = this.userNameField.getText();
       String password = this.passwordField.getText();
 
-      if (userName.length() > 0 && password.length() == 0) {
-        Wrapper.getClient().getNotificationManager().addNotification(
-                "Invalid Password", NotificationPriority.DANGER
-        );
-      } else if (userName.length() == 0 && password.length() == 0) {
+      if (userName.length() == 0 && password.length() == 0) {
         Wrapper.getClient().getNotificationManager().addNotification(
                 "Invalid Credentials", NotificationPriority.DANGER
         );
@@ -86,6 +82,10 @@ public class GuiDirectLogin extends GuiScreen {
         AltObject altObject = new AltObject(userName.contains("@") ? "" : userName, userName.contains("@") ? userName : "", password);
         if (YggdrasilLoginBridge.loginWithAlt(altObject) != null) {
           Wrapper.getMinecraft().displayGuiScreen(this.altManager);
+        } else {
+          Wrapper.getClient().getNotificationManager().addNotification(
+                  "Invalid Credentials", NotificationPriority.DANGER
+          );
         }
       }
     }
