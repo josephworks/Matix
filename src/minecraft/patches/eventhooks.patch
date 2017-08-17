@@ -1,8 +1,11 @@
-diff --git a/net/minecraft/block/Block.java b/net/minecraft/block/Block.java
-index 6d7a6ee..b415aa9 100644
---- a/net/minecraft/block/Block.java
-+++ b/net/minecraft/block/Block.java
-@@ -2,6 +2,9 @@ package net.minecraft.block;
+Index: src/minecraft/net/minecraft/block/Block.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/block/Block.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/block/Block.java	(date 1502999984000)
+@@ -2,6 +2,9 @@
  
  import com.google.common.collect.Sets;
  import com.google.common.collect.UnmodifiableIterator;
@@ -12,7 +15,7 @@ index 6d7a6ee..b415aa9 100644
  import java.util.List;
  import java.util.Random;
  import java.util.Set;
-@@ -487,6 +490,14 @@ public class Block
+@@ -506,6 +509,13 @@
      @Deprecated
      public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side)
      {
@@ -23,11 +26,10 @@ index 6d7a6ee..b415aa9 100644
 +                }
 +            }
 +        //
-+
          AxisAlignedBB axisalignedbb = blockState.getBoundingBox(blockAccess, pos);
  
          switch (side)
-@@ -799,6 +810,16 @@ public class Block
+@@ -828,6 +838,16 @@
  
      public BlockRenderLayer getBlockLayer()
      {
@@ -44,21 +46,24 @@ index 6d7a6ee..b415aa9 100644
          return BlockRenderLayer.SOLID;
      }
  
-@@ -1462,4 +1483,10 @@ public class Block
+@@ -1526,4 +1546,10 @@
          XZ,
          XYZ;
      }
 +
 +    //TODO: Client
 +        public Material getMaterial() {
-+        return this.blockMaterial;
-+    }
++            return this.blockMaterial;
++        }
 +    //
  }
-diff --git a/net/minecraft/block/BlockBush.java b/net/minecraft/block/BlockBush.java
-index e991d85..153d1a8 100644
---- a/net/minecraft/block/BlockBush.java
-+++ b/net/minecraft/block/BlockBush.java
+Index: src/minecraft/net/minecraft/block/BlockBush.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/block/BlockBush.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/block/BlockBush.java	(date 1502999984000)
 @@ -1,5 +1,7 @@
  package net.minecraft.block;
  
@@ -67,32 +72,7 @@ index e991d85..153d1a8 100644
  import java.util.Random;
  import javax.annotation.Nullable;
  import net.minecraft.block.material.MapColor;
-@@ -103,6 +105,12 @@ public class BlockBush extends Block
- 
-     public BlockRenderLayer getBlockLayer()
-     {
-+        //TODO: Client
-+            if (ModuleXray.isActive()) {
-+                return super.getBlockLayer();
-+            }
-+        //
-+
-         return BlockRenderLayer.CUTOUT;
-     }
- }
-diff --git a/net/minecraft/block/BlockCactus.java b/net/minecraft/block/BlockCactus.java
-index f170b8b..f6f152b 100644
---- a/net/minecraft/block/BlockCactus.java
-+++ b/net/minecraft/block/BlockCactus.java
-@@ -1,5 +1,7 @@
- package net.minecraft.block;
- 
-+import de.paxii.clarinet.module.render.ModuleXray;
-+
- import java.util.Random;
- import net.minecraft.block.material.Material;
- import net.minecraft.block.properties.IProperty;
-@@ -130,6 +132,12 @@ public class BlockCactus extends Block
+@@ -105,6 +107,12 @@
  
      public BlockRenderLayer getBlockLayer()
      {
@@ -105,10 +85,13 @@ index f170b8b..f6f152b 100644
          return BlockRenderLayer.CUTOUT;
      }
  
-diff --git a/net/minecraft/block/BlockGrass.java b/net/minecraft/block/BlockGrass.java
-index 3d09278..52145cb 100644
---- a/net/minecraft/block/BlockGrass.java
-+++ b/net/minecraft/block/BlockGrass.java
+Index: src/minecraft/net/minecraft/block/BlockCactus.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/block/BlockCactus.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/block/BlockCactus.java	(date 1502999984000)
 @@ -1,5 +1,7 @@
  package net.minecraft.block;
  
@@ -117,7 +100,35 @@ index 3d09278..52145cb 100644
  import java.util.Random;
  import net.minecraft.block.material.Material;
  import net.minecraft.block.properties.IProperty;
-@@ -145,6 +147,12 @@ public class BlockGrass extends Block implements IGrowable
+@@ -134,6 +136,12 @@
+ 
+     public BlockRenderLayer getBlockLayer()
+     {
++        //TODO: Client
++            if (ModuleXray.isActive()) {
++                return super.getBlockLayer();
++            }
++        //
++
+         return BlockRenderLayer.CUTOUT;
+     }
+ 
+Index: src/minecraft/net/minecraft/block/BlockGrass.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/block/BlockGrass.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/block/BlockGrass.java	(date 1502999984000)
+@@ -1,5 +1,7 @@
+ package net.minecraft.block;
+ 
++import de.paxii.clarinet.module.render.ModuleXray;
++
+ import java.util.Random;
+ import net.minecraft.block.material.Material;
+ import net.minecraft.block.properties.IProperty;
+@@ -145,6 +147,12 @@
  
      public BlockRenderLayer getBlockLayer()
      {
@@ -130,10 +141,13 @@ index 3d09278..52145cb 100644
          return BlockRenderLayer.CUTOUT_MIPPED;
      }
  
-diff --git a/net/minecraft/block/BlockLeaves.java b/net/minecraft/block/BlockLeaves.java
-index 3a41636..18721d9 100644
---- a/net/minecraft/block/BlockLeaves.java
-+++ b/net/minecraft/block/BlockLeaves.java
+Index: src/minecraft/net/minecraft/block/BlockLeaves.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/block/BlockLeaves.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/block/BlockLeaves.java	(date 1502999984000)
 @@ -1,5 +1,7 @@
  package net.minecraft.block;
  
@@ -142,7 +156,7 @@ index 3a41636..18721d9 100644
  import java.util.Random;
  import net.minecraft.block.material.Material;
  import net.minecraft.block.properties.PropertyBool;
-@@ -277,6 +279,12 @@ public abstract class BlockLeaves extends Block
+@@ -277,6 +279,12 @@
  
      public BlockRenderLayer getBlockLayer()
      {
@@ -155,11 +169,14 @@ index 3a41636..18721d9 100644
          return this.leavesFancy ? BlockRenderLayer.CUTOUT_MIPPED : BlockRenderLayer.SOLID;
      }
  
-diff --git a/net/minecraft/client/Minecraft.java b/net/minecraft/client/Minecraft.java
-index 20bd020..6199aa4 100644
---- a/net/minecraft/client/Minecraft.java
-+++ b/net/minecraft/client/Minecraft.java
-@@ -13,6 +13,12 @@ import com.mojang.authlib.GameProfileRepository;
+Index: src/minecraft/net/minecraft/client/Minecraft.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/Minecraft.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/Minecraft.java	(date 1502999984000)
+@@ -13,6 +13,13 @@
  import com.mojang.authlib.minecraft.MinecraftSessionService;
  import com.mojang.authlib.properties.PropertyMap;
  import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
@@ -168,11 +185,12 @@ index 20bd020..6199aa4 100644
 +import de.paxii.clarinet.event.EventManager;
 +import de.paxii.clarinet.event.events.game.StartGameEvent;
 +import de.paxii.clarinet.event.events.gui.DisplayGuiScreenEvent;
++import de.paxii.clarinet.util.protocol.ProtocolVersion;
 +
  import java.awt.image.BufferedImage;
  import java.io.File;
  import java.io.IOException;
-@@ -200,6 +206,9 @@ import org.lwjgl.opengl.OpenGLException;
+@@ -218,6 +225,9 @@
  import org.lwjgl.opengl.PixelFormat;
  import org.lwjgl.util.glu.GLU;
  
@@ -182,7 +200,7 @@ index 20bd020..6199aa4 100644
  public class Minecraft implements IThreadListener, ISnooperInfo
  {
      private static final Logger LOGGER = LogManager.getLogger();
-@@ -236,7 +245,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -252,7 +262,11 @@
  
      /** True if the player is connected to a realms server */
      private boolean connectedToRealms;
@@ -195,10 +213,10 @@ index 20bd020..6199aa4 100644
  
      /** Instance of PlayerUsageSnooper. */
      private final Snooper usageSnooper = new Snooper("client", this, MinecraftServer.getCurrentTimeMillis());
-@@ -250,7 +263,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
-     private Entity renderViewEntity;
-     public Entity pointedEntity;
-     public ParticleManager effectRenderer;
+@@ -269,7 +283,10 @@
+ 
+     /** Manages all search trees */
+     private SearchTreeManager searchTreeManager = new SearchTreeManager();
 -    private final Session session;
 +    //TODO: Client
 +        @Setter
@@ -206,11 +224,11 @@ index 20bd020..6199aa4 100644
 +    //
      private boolean isGamePaused;
  
-     /** The font renderer used for displaying and measuring text */
-@@ -279,7 +295,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+     /**
+@@ -301,7 +318,11 @@
  
-     /** Gui achievement */
-     public GuiAchievement guiAchievement;
+     /** Instance of IntegratedServer. */
+     private IntegratedServer integratedServer;
 -    public GuiIngame ingameGUI;
 +
 +    //TODO: Client
@@ -220,7 +238,7 @@ index 20bd020..6199aa4 100644
  
      /** Skip render world */
      public boolean skipRenderWorld;
-@@ -308,7 +328,11 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -331,7 +352,11 @@
      /**
       * When you place a block, it's set to 6, decremented once per tick, when it's 0, you can place another block.
       */
@@ -233,7 +251,7 @@ index 20bd020..6199aa4 100644
      private String serverName;
      private int serverPort;
  
-@@ -592,6 +616,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -608,6 +633,10 @@
          this.checkGLError("Post startup");
          this.ingameGUI = new GuiIngame(this);
  
@@ -244,7 +262,7 @@ index 20bd020..6199aa4 100644
          if (this.serverName != null)
          {
              this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
-@@ -622,6 +650,10 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -638,6 +667,10 @@
          }
  
          this.renderGlobal.makeEntityOutlineShader();
@@ -254,8 +272,8 @@ index 20bd020..6199aa4 100644
 +        //
      }
  
-     private void registerMetadataSerializers()
-@@ -996,6 +1028,12 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+     /**
+@@ -1060,6 +1093,12 @@
       */
      public void displayGuiScreen(@Nullable GuiScreen guiScreenIn)
      {
@@ -268,26 +286,99 @@ index 20bd020..6199aa4 100644
          if (this.currentScreen != null)
          {
              this.currentScreen.onGuiClosed();
-@@ -3271,9 +3309,12 @@ public class Minecraft implements IThreadListener, ISnooperInfo
+@@ -3397,7 +3436,12 @@
+                     }
+                     else if (i == this.gameSettings.keyBindScreenshot.getKeyCode())
                      {
-                         this.toggleFullscreen();
-                     }
--                    else if (i == this.gameSettings.keyBindScreenshot.getKeyCode())
--                    {
 -                        this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
-+                    else if (i == this.gameSettings.keyBindScreenshot.getKeyCode()) {
 +                        //TODO: Client
-+                        //Fix Screenshot bug when pressing '<' on german keyboards in chat
-+                        if (Keyboard.getEventKey() != 0) {
-+                            this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
-+                        }
++                            //Fix Screenshot bug when pressing '<' on german keyboards in chat
++                            if (Keyboard.getEventKey() != 0) {
++                                this.ingameGUI.getChatGUI().printChatMessage(ScreenShotHelper.saveScreenshot(this.mcDataDir, this.displayWidth, this.displayHeight, this.framebufferMc));
++                            }
++                        //
                      }
-                 }
-             }
-diff --git a/net/minecraft/client/entity/EntityPlayerSP.java b/net/minecraft/client/entity/EntityPlayerSP.java
-index 0728387..fdfe0fc 100644
---- a/net/minecraft/client/entity/EntityPlayerSP.java
-+++ b/net/minecraft/client/entity/EntityPlayerSP.java
+                     else if (i == 48 && GuiScreen.isCtrlKeyDown() && (this.currentScreen == null || this.currentScreen != null && !this.currentScreen.isFocused()))
+                     {
+Index: src/minecraft/net/minecraft/client/audio/SoundHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/audio/SoundHandler.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/audio/SoundHandler.java	(date 1502999984000)
+@@ -30,6 +30,8 @@
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
+ 
++import lombok.Getter;
++
+ public class SoundHandler implements IResourceManagerReloadListener, ITickable
+ {
+     public static final Sound MISSING_SOUND = new Sound("meta:missing_sound", 1.0F, 1.0F, 1, Sound.Type.FILE, false);
+@@ -51,9 +53,14 @@
+         }
+     };
+     private final SoundRegistry soundRegistry = new SoundRegistry();
+-    private final SoundManager sndManager;
++
+     private final IResourceManager mcResourceManager;
+ 
++    //TODO: Client
++        @Getter
++        private final SoundManager sndManager;
++    //
++
+     public SoundHandler(IResourceManager manager, GameSettings gameSettingsIn)
+     {
+         this.mcResourceManager = manager;
+Index: src/minecraft/net/minecraft/client/entity/AbstractClientPlayer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/entity/AbstractClientPlayer.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/entity/AbstractClientPlayer.java	(date 1502999984000)
+@@ -1,6 +1,9 @@
+ package net.minecraft.client.entity;
+ 
+ import com.mojang.authlib.GameProfile;
++
++import de.paxii.clarinet.util.player.capesapi.CapesApi;
++
+ import java.io.File;
+ import javax.annotation.Nullable;
+ import net.minecraft.client.Minecraft;
+@@ -43,6 +46,9 @@
+             this.nameClear = StringUtils.stripControlCodes(this.nameClear);
+         }
+ 
++        // TODO: Client
++            CapesApi.loadCape(this.getGameProfile());
++        //
+         CapeUtils.downloadCape(this);
+         PlayerConfigurations.getPlayerConfiguration(this);
+     }
+@@ -106,6 +112,12 @@
+         {
+             return null;
+         }
++        // TODO: Client
++            else if (CapesApi.hasCape(this.getGameProfile()))
++            {
++                return CapesApi.getCape(this.getGameProfile());
++            }
++        //
+         else if (this.locationOfCape != null)
+         {
+             return this.locationOfCape;
+Index: src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/entity/EntityPlayerSP.java	(date 1502999984000)
 @@ -1,5 +1,12 @@
  package net.minecraft.client.entity;
  
@@ -301,7 +392,7 @@ index 0728387..fdfe0fc 100644
  import java.util.List;
  import javax.annotation.Nullable;
  import net.minecraft.block.state.IBlockState;
-@@ -224,10 +231,36 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -232,10 +239,37 @@
       */
      public void onUpdate()
      {
@@ -322,6 +413,7 @@ index 0728387..fdfe0fc 100644
 +                this.posZ = moveEvent.getPosZ();
 +            }
 +        //
++
          if (this.world.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
          {
              super.onUpdate();
@@ -338,7 +430,7 @@ index 0728387..fdfe0fc 100644
              if (this.isRiding())
              {
                  this.connection.sendPacket(new CPacketPlayer.Rotation(this.rotationYaw, this.rotationPitch, this.onGround));
-@@ -243,6 +276,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -251,6 +285,11 @@
              {
                  this.onUpdateWalkingPlayer();
              }
@@ -350,7 +442,7 @@ index 0728387..fdfe0fc 100644
          }
      }
  
-@@ -295,6 +333,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -303,6 +342,12 @@
              boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
              boolean flag3 = d3 != 0.0D || d4 != 0.0D;
  
@@ -363,7 +455,7 @@ index 0728387..fdfe0fc 100644
              if (this.isRiding())
              {
                  this.connection.sendPacket(new CPacketPlayer.PositionRotation(this.motionX, -999.0D, this.motionZ, this.rotationYaw, this.rotationPitch, this.onGround));
-@@ -947,9 +991,13 @@ public class EntityPlayerSP extends AbstractClientPlayer
+@@ -973,9 +1018,13 @@
  
          if (this.isHandActive() && !this.isRiding())
          {
@@ -380,11 +472,14 @@ index 0728387..fdfe0fc 100644
          }
  
          boolean flag3 = false;
-diff --git a/net/minecraft/client/gui/FontRenderer.java b/net/minecraft/client/gui/FontRenderer.java
-index 565f500..fd9c791 100644
---- a/net/minecraft/client/gui/FontRenderer.java
-+++ b/net/minecraft/client/gui/FontRenderer.java
-@@ -28,6 +28,8 @@ import net.minecraft.src.FontUtils;
+Index: src/minecraft/net/minecraft/client/gui/FontRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/FontRenderer.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/FontRenderer.java	(date 1502999984000)
+@@ -29,6 +29,8 @@
  import net.minecraft.util.ResourceLocation;
  import org.apache.commons.io.IOUtils;
  
@@ -393,7 +488,7 @@ index 565f500..fd9c791 100644
  public class FontRenderer implements IResourceManagerReloadListener
  {
      private static final ResourceLocation[] UNICODE_PAGE_LOCATIONS = new ResourceLocation[256];
-@@ -48,7 +50,10 @@ public class FontRenderer implements IResourceManagerReloadListener
+@@ -49,7 +51,10 @@
       * Array of RGB triplets defining the 16 standard chat colors followed by 16 darker version of the same colors for
       * drop shadows.
       */
@@ -405,31 +500,38 @@ index 565f500..fd9c791 100644
      private ResourceLocation locationFontTexture;
  
      /** The RenderEngine used to load and setup glyph textures. */
-diff --git a/net/minecraft/client/gui/Gui.java b/net/minecraft/client/gui/Gui.java
-index 58e6a77..19c42c0 100644
---- a/net/minecraft/client/gui/Gui.java
-+++ b/net/minecraft/client/gui/Gui.java
-@@ -17,7 +17,7 @@ public class Gui
+Index: src/minecraft/net/minecraft/client/gui/Gui.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/Gui.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/Gui.java	(date 1502999984000)
+@@ -17,7 +17,9 @@
      /**
       * Draws a thin horizontal line between two points.
       */
 -    protected void drawHorizontalLine(int startX, int endX, int y, int color)
-+    protected static void drawHorizontalLine(int startX, int endX, int y, int color)
++    // TODO: Client
++        protected static void drawHorizontalLine(int startX, int endX, int y, int color)
++    //
      {
          if (endX < startX)
          {
-@@ -32,7 +32,7 @@ public class Gui
+@@ -32,7 +34,9 @@
      /**
       * Draw a 1 pixel wide vertical line. Args : x, y1, y2, color
       */
 -    protected void drawVerticalLine(int x, int startY, int endY, int color)
-+    protected static void drawVerticalLine(int x, int startY, int endY, int color)
++    // TODO: Client
++        protected static void drawVerticalLine(int x, int startY, int endY, int color)
++    //
      {
          if (endY < startY)
          {
-@@ -79,6 +79,9 @@ public class Gui
-         vertexbuffer.pos((double)right, (double)top, 0.0D).endVertex();
-         vertexbuffer.pos((double)left, (double)top, 0.0D).endVertex();
+@@ -79,6 +83,9 @@
+         bufferbuilder.pos((double)right, (double)top, 0.0D).endVertex();
+         bufferbuilder.pos((double)left, (double)top, 0.0D).endVertex();
          tessellator.draw();
 +        //TODO: Client
 +            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -437,11 +539,14 @@ index 58e6a77..19c42c0 100644
          GlStateManager.enableTexture2D();
          GlStateManager.disableBlend();
      }
-diff --git a/net/minecraft/client/gui/GuiChat.java b/net/minecraft/client/gui/GuiChat.java
-index 968b82d..46304ad 100644
---- a/net/minecraft/client/gui/GuiChat.java
-+++ b/net/minecraft/client/gui/GuiChat.java
-@@ -15,6 +15,9 @@ import org.apache.logging.log4j.Logger;
+Index: src/minecraft/net/minecraft/client/gui/GuiChat.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/GuiChat.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/GuiChat.java	(date 1502999984000)
+@@ -15,6 +15,9 @@
  import org.lwjgl.input.Keyboard;
  import org.lwjgl.input.Mouse;
  
@@ -451,7 +556,7 @@ index 968b82d..46304ad 100644
  public class GuiChat extends GuiScreen implements ITabCompleter
  {
      private static final Logger LOGGER = LogManager.getLogger();
-@@ -33,7 +36,11 @@ public class GuiChat extends GuiScreen implements ITabCompleter
+@@ -33,7 +36,11 @@
      /**
       * is the text that appears when you press the chat key and the input box appears pre-filled
       */
@@ -464,11 +569,14 @@ index 968b82d..46304ad 100644
  
      public GuiChat()
      {
-diff --git a/net/minecraft/client/gui/GuiScreen.java b/net/minecraft/client/gui/GuiScreen.java
-index 85d2c91..c82372d 100644
---- a/net/minecraft/client/gui/GuiScreen.java
-+++ b/net/minecraft/client/gui/GuiScreen.java
-@@ -3,6 +3,10 @@ package net.minecraft.client.gui;
+Index: src/minecraft/net/minecraft/client/gui/GuiScreen.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/GuiScreen.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/GuiScreen.java	(date 1502999984000)
+@@ -3,6 +3,10 @@
  import com.google.common.base.Splitter;
  import com.google.common.collect.Lists;
  import com.google.common.collect.Sets;
@@ -479,7 +587,7 @@ index 85d2c91..c82372d 100644
  import java.awt.Toolkit;
  import java.awt.datatransfer.ClipboardOwner;
  import java.awt.datatransfer.DataFlavor;
-@@ -84,6 +88,11 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback
+@@ -82,6 +86,11 @@
       */
      public void drawScreen(int mouseX, int mouseY, float partialTicks)
      {
@@ -490,12 +598,15 @@ index 85d2c91..c82372d 100644
 +
          for (int i = 0; i < this.buttonList.size(); ++i)
          {
-             ((GuiButton)this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY);
-diff --git a/net/minecraft/client/gui/GuiSlot.java b/net/minecraft/client/gui/GuiSlot.java
-index 52bc9a8..9415051 100644
---- a/net/minecraft/client/gui/GuiSlot.java
-+++ b/net/minecraft/client/gui/GuiSlot.java
-@@ -23,7 +23,9 @@ public abstract class GuiSlot
+             ((GuiButton)this.buttonList.get(i)).drawButton(this.mc, mouseX, mouseY, partialTicks);
+Index: src/minecraft/net/minecraft/client/gui/GuiSlot.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/GuiSlot.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/GuiSlot.java	(date 1502999984000)
+@@ -23,7 +23,9 @@
      protected int left;
  
      /** The height of a slot. */
@@ -506,122 +617,135 @@ index 52bc9a8..9415051 100644
  
      /** The buttonID of the button used to scroll up */
      private int scrollUpButtonID;
-diff --git a/net/minecraft/client/gui/GuiTextField.java b/net/minecraft/client/gui/GuiTextField.java
-index db51c82..9e4363a 100644
---- a/net/minecraft/client/gui/GuiTextField.java
-+++ b/net/minecraft/client/gui/GuiTextField.java
-@@ -11,51 +11,53 @@ import net.minecraft.util.math.MathHelper;
+Index: src/minecraft/net/minecraft/client/gui/GuiTextField.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/GuiTextField.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/GuiTextField.java	(date 1502999984000)
+@@ -10,53 +10,56 @@
+ import net.minecraft.util.ChatAllowedCharacters;
+ import net.minecraft.util.math.MathHelper;
  
++/**
++ * TODO: Client
++ */
  public class GuiTextField extends Gui
  {
 -    private final int id;
--    private final FontRenderer fontRendererInstance;
--    public int xPosition;
--    public int yPosition;
--
--    /** The width of this text field. */
+-    private final FontRenderer fontRenderer;
++    protected final int id;
++    protected final FontRenderer fontRenderer;
+     public int x;
+     public int y;
+ 
+     /** The width of this text field. */
 -    private final int width;
 -    private final int height;
--
--    /** Has the current text being edited on the textbox. */
++    protected final int width;
++    protected final int height;
+ 
+     /** Has the current text being edited on the textbox. */
 -    private String text = "";
 -    private int maxStringLength = 32;
 -    private int cursorCounter;
 -    private boolean enableBackgroundDrawing = true;
--
--    /**
--     * if true the textbox can lose focus by clicking elsewhere on the screen
--     */
++    protected String text = "";
++    protected int maxStringLength = 32;
++    protected int cursorCounter;
++    protected boolean enableBackgroundDrawing = true;
+ 
+     /**
+      * if true the textbox can lose focus by clicking elsewhere on the screen
+      */
 -    private boolean canLoseFocus = true;
--
--    /**
--     * If this value is true along with isEnabled, keyTyped will process the keys.
--     */
++    protected boolean canLoseFocus = true;
+ 
+     /**
+      * If this value is true along with isEnabled, keyTyped will process the keys.
+      */
 -    private boolean isFocused;
--
--    /**
--     * If this value is true along with isFocused, keyTyped will process the keys.
--     */
++    protected boolean isFocused;
+ 
+     /**
+      * If this value is true along with isFocused, keyTyped will process the keys.
+      */
 -    private boolean isEnabled = true;
--
--    /**
--     * The current character index that should be used as start of the rendered text.
--     */
++    protected boolean isEnabled = true;
+ 
+     /**
+      * The current character index that should be used as start of the rendered text.
+      */
 -    private int lineScrollOffset;
 -    private int cursorPosition;
--
--    /** other selection position, maybe the same as the cursor */
++    protected int lineScrollOffset;
++    protected int cursorPosition;
+ 
+     /** other selection position, maybe the same as the cursor */
 -    private int selectionEnd;
 -    private int enabledColor = 14737632;
 -    private int disabledColor = 7368816;
--
--    /** True if this textbox is visible */
++    protected int selectionEnd;
++    protected int enabledColor = 14737632;
++    protected int disabledColor = 7368816;
+ 
+     /** True if this textbox is visible */
 -    private boolean visible = true;
 -    private GuiPageButtonList.GuiResponder guiResponder;
 -    private Predicate<String> validator = Predicates.<String>alwaysTrue();
-+    // TODO: Client
-+        protected final int id;
-+        protected final FontRenderer fontRendererInstance;
-+        public int xPosition;
-+        public int yPosition;
-+
-+        /** The width of this text field. */
-+        protected final int width;
-+        protected final int height;
-+
-+        /** Has the current text being edited on the textbox. */
-+        protected String text = "";
-+        protected int maxStringLength = 32;
-+        protected int cursorCounter;
-+        protected boolean enableBackgroundDrawing = true;
-+
-+        /**
-+         * if true the textbox can lose focus by clicking elsewhere on the screen
-+         */
-+        protected boolean canLoseFocus = true;
-+
-+        /**
-+         * If this value is true along with isEnabled, keyTyped will process the keys.
-+         */
-+        protected boolean isFocused;
-+
-+        /**
-+         * If this value is true along with isFocused, keyTyped will process the keys.
-+         */
-+        protected boolean isEnabled = true;
-+
-+        /**
-+         * The current character index that should be used as start of the rendered text.
-+         */
-+        protected int lineScrollOffset;
-+        protected int cursorPosition;
-+
-+        /** other selection position, maybe the same as the cursor */
-+        protected int selectionEnd;
-+        protected int enabledColor = 14737632;
-+        protected int disabledColor = 7368816;
-+
-+        /** True if this textbox is visible */
-+        protected boolean visible = true;
-+        protected GuiPageButtonList.GuiResponder guiResponder;
-+        protected Predicate<String> validator = Predicates.<String>alwaysTrue();
-+    //
++    protected boolean visible = true;
++    protected GuiPageButtonList.GuiResponder guiResponder;
++    protected Predicate<String> validator = Predicates.<String>alwaysTrue();
  
      public GuiTextField(int componentId, FontRenderer fontrendererObj, int x, int y, int par5Width, int par6Height)
      {
-@@ -603,7 +605,7 @@ public class GuiTextField extends Gui
+@@ -612,7 +615,7 @@
      /**
-      * Draws the current selection and a vertical line cursor in the text box.
+      * Draws the blue selection box.
       */
--    private void drawCursorVertical(int startX, int startY, int endX, int endY)
-+    protected void drawCursorVertical(int startX, int startY, int endX, int endY)
+-    private void drawSelectionBox(int startX, int startY, int endX, int endY)
++    protected void drawSelectionBox(int startX, int startY, int endX, int endY)
      {
          if (startX < endX)
          {
-diff --git a/net/minecraft/client/gui/inventory/GuiEditSign.java b/net/minecraft/client/gui/inventory/GuiEditSign.java
-index 45afaf7..5636f30 100644
---- a/net/minecraft/client/gui/inventory/GuiEditSign.java
-+++ b/net/minecraft/client/gui/inventory/GuiEditSign.java
+Index: src/minecraft/net/minecraft/client/gui/ServerListEntryNormal.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/ServerListEntryNormal.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/ServerListEntryNormal.java	(date 1502999984000)
+@@ -1,6 +1,9 @@
+ package net.minecraft.client.gui;
+ 
+ import com.google.common.util.concurrent.ThreadFactoryBuilder;
++
++import de.paxii.clarinet.util.protocol.ProtocolVersion;
++
+ import io.netty.buffer.ByteBuf;
+ import io.netty.buffer.ByteBufInputStream;
+ import io.netty.buffer.Unpooled;
+@@ -76,8 +79,10 @@
+             });
+         }
+ 
+-        boolean flag = this.server.version > 338;
+-        boolean flag1 = this.server.version < 338;
++        // TODO: Client
++            boolean flag = this.server.version > ProtocolVersion.getProtocolVersion();
++            boolean flag1 = this.server.version < ProtocolVersion.getProtocolVersion();
++        //
+         boolean flag2 = flag || flag1;
+         this.mc.fontRenderer.drawString(this.server.serverName, x + 32 + 3, y + 1, 16777215);
+         List<String> list = this.mc.fontRenderer.listFormattedStringToWidth(this.server.serverMOTD, listWidth - 32 - 2);
+Index: src/minecraft/net/minecraft/client/gui/inventory/GuiEditSign.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/gui/inventory/GuiEditSign.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/gui/inventory/GuiEditSign.java	(date 1502999984000)
 @@ -1,5 +1,9 @@
  package net.minecraft.client.gui.inventory;
  
@@ -632,9 +756,9 @@ index 45afaf7..5636f30 100644
  import java.io.IOException;
  import net.minecraft.block.Block;
  import net.minecraft.client.gui.GuiButton;
-@@ -44,6 +48,22 @@ public class GuiEditSign extends GuiScreen
+@@ -44,6 +48,22 @@
          Keyboard.enableRepeatEvents(true);
-         this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done", new Object[0])));
+         this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done")));
          this.tileSign.setEditable(false);
 +
 +        // TODO: Client
@@ -655,7 +779,7 @@ index 45afaf7..5636f30 100644
      }
  
      /**
-@@ -51,6 +71,17 @@ public class GuiEditSign extends GuiScreen
+@@ -51,6 +71,17 @@
       */
      public void onGuiClosed()
      {
@@ -673,10 +797,13 @@ index 45afaf7..5636f30 100644
          Keyboard.enableRepeatEvents(false);
          NetHandlerPlayClient nethandlerplayclient = this.mc.getConnection();
  
-diff --git a/net/minecraft/client/multiplayer/PlayerControllerMP.java b/net/minecraft/client/multiplayer/PlayerControllerMP.java
-index 82169d6..c003c16 100644
---- a/net/minecraft/client/multiplayer/PlayerControllerMP.java
-+++ b/net/minecraft/client/multiplayer/PlayerControllerMP.java
+Index: src/minecraft/net/minecraft/client/multiplayer/PlayerControllerMP.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/multiplayer/PlayerControllerMP.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/multiplayer/PlayerControllerMP.java	(date 1502999984000)
 @@ -1,5 +1,11 @@
  package net.minecraft.client.multiplayer;
  
@@ -689,7 +816,7 @@ index 82169d6..c003c16 100644
  import io.netty.buffer.Unpooled;
  import net.minecraft.block.Block;
  import net.minecraft.block.BlockCommandBlock;
-@@ -170,6 +176,11 @@ public class PlayerControllerMP
+@@ -174,6 +180,11 @@
              }
              else
              {
@@ -701,7 +828,7 @@ index 82169d6..c003c16 100644
                  world.playEvent(2001, pos, Block.getStateId(iblockstate));
                  block.onBlockHarvested(world, pos, iblockstate, this.mc.player);
                  boolean flag = world.setBlockState(pos, Blocks.AIR.getDefaultState(), 11);
-@@ -206,6 +217,15 @@ public class PlayerControllerMP
+@@ -210,6 +221,15 @@
       */
      public boolean clickBlock(BlockPos loc, EnumFacing face)
      {
@@ -717,7 +844,7 @@ index 82169d6..c003c16 100644
          if (this.currentGameType.isAdventure())
          {
              if (this.currentGameType == GameType.SPECTATOR)
-@@ -521,6 +541,17 @@ public class PlayerControllerMP
+@@ -530,6 +550,17 @@
       */
      public void attackEntity(EntityPlayer playerIn, Entity targetEntity)
      {
@@ -735,7 +862,7 @@ index 82169d6..c003c16 100644
          this.syncCurrentPlayItem();
          this.connection.sendPacket(new CPacketUseEntity(targetEntity));
  
-@@ -529,6 +560,11 @@ public class PlayerControllerMP
+@@ -538,6 +569,11 @@
              playerIn.attackTargetEntityWithCurrentItem(targetEntity);
              playerIn.resetCooldown();
          }
@@ -747,10 +874,39 @@ index 82169d6..c003c16 100644
      }
  
      /**
-diff --git a/net/minecraft/client/multiplayer/WorldClient.java b/net/minecraft/client/multiplayer/WorldClient.java
-index 5f10479..def1954 100644
---- a/net/minecraft/client/multiplayer/WorldClient.java
-+++ b/net/minecraft/client/multiplayer/WorldClient.java
+Index: src/minecraft/net/minecraft/client/multiplayer/ServerData.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/multiplayer/ServerData.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/multiplayer/ServerData.java	(date 1502999984000)
+@@ -1,5 +1,7 @@
+ package net.minecraft.client.multiplayer;
+ 
++import de.paxii.clarinet.util.protocol.ProtocolVersion;
++
+ import net.minecraft.nbt.NBTTagCompound;
+ import net.minecraft.util.text.ITextComponent;
+ import net.minecraft.util.text.TextComponentTranslation;
+@@ -23,7 +25,9 @@
+ 
+     /** last server ping that showed up in the server browser */
+     public long pingToServer;
+-    public int version = 338;
++    // TODO: Client
++        public int version = ProtocolVersion.getProtocolVersion();
++    //
+ 
+     /** Game version for this server. */
+     public String gameVersion = "1.12.1";
+Index: src/minecraft/net/minecraft/client/multiplayer/WorldClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/multiplayer/WorldClient.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/multiplayer/WorldClient.java	(date 1502999984000)
 @@ -1,6 +1,10 @@
  package net.minecraft.client.multiplayer;
  
@@ -762,7 +918,7 @@ index 5f10479..def1954 100644
  import java.util.Random;
  import java.util.Set;
  import javax.annotation.Nullable;
-@@ -349,6 +353,10 @@ public class WorldClient extends World
+@@ -349,6 +353,10 @@
       */
      public void sendQuittingDisconnectingPacket()
      {
@@ -773,11 +929,14 @@ index 5f10479..def1954 100644
          this.connection.getNetworkManager().closeChannel(new TextComponentString("Quitting"));
      }
  
-diff --git a/net/minecraft/client/network/NetHandlerPlayClient.java b/net/minecraft/client/network/NetHandlerPlayClient.java
-index 966ee81..af9f9d7 100644
---- a/net/minecraft/client/network/NetHandlerPlayClient.java
-+++ b/net/minecraft/client/network/NetHandlerPlayClient.java
-@@ -5,6 +5,12 @@ import com.google.common.collect.Maps;
+Index: src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/network/NetHandlerPlayClient.java	(date 1502999984000)
+@@ -4,6 +4,12 @@
  import com.google.common.util.concurrent.FutureCallback;
  import com.google.common.util.concurrent.Futures;
  import com.mojang.authlib.GameProfile;
@@ -790,7 +949,7 @@ index 966ee81..af9f9d7 100644
  import io.netty.buffer.Unpooled;
  import java.io.File;
  import java.io.IOException;
-@@ -559,6 +565,17 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
+@@ -574,6 +580,17 @@
       */
      public void handleEntityVelocity(SPacketEntityVelocity packetIn)
      {
@@ -808,7 +967,7 @@ index 966ee81..af9f9d7 100644
          PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
          Entity entity = this.clientWorldController.getEntityByID(packetIn.getEntityID());
  
-@@ -878,9 +895,23 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
+@@ -893,9 +910,23 @@
  
      public void sendPacket(Packet<?> packetIn)
      {
@@ -825,14 +984,14 @@ index 966ee81..af9f9d7 100644
  
 +    //TODO: Client
 +        public void addToSendQueue(Packet<?> packetIn) {
-+        this.sendPacket(packetIn);
-+    }
++            this.sendPacket(packetIn);
++        }
 +    //
 +
      public void handleCollectItem(SPacketCollectItem packetIn)
      {
          PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
-@@ -918,6 +949,20 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
+@@ -933,6 +964,20 @@
       */
      public void handleChat(SPacketChat packetIn)
      {
@@ -851,13 +1010,87 @@ index 966ee81..af9f9d7 100644
 +        //
 +
          PacketThreadUtil.checkThreadAndEnqueue(packetIn, this, this.gameController);
+         this.gameController.ingameGUI.addChatMessage(packetIn.getType(), packetIn.getChatComponent());
+     }
+Index: src/minecraft/net/minecraft/client/renderer/BufferBuilder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/renderer/BufferBuilder.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/renderer/BufferBuilder.java	(date 1502999984000)
+@@ -1,6 +1,9 @@
+ package net.minecraft.client.renderer;
  
-         if (packetIn.getType() == 2)
-diff --git a/net/minecraft/client/renderer/EntityRenderer.java b/net/minecraft/client/renderer/EntityRenderer.java
-index 7b9e05f..5c9c968 100644
---- a/net/minecraft/client/renderer/EntityRenderer.java
-+++ b/net/minecraft/client/renderer/EntityRenderer.java
-@@ -3,6 +3,11 @@ package net.minecraft.client.renderer;
+ import com.google.common.primitives.Floats;
++
++import de.paxii.clarinet.module.render.ModuleXray;
++
+ import java.nio.ByteBuffer;
+ import java.nio.ByteOrder;
+ import java.nio.FloatBuffer;
+@@ -430,27 +433,33 @@
+         int i = this.getColorIndex(vertexIndex);
+         int j = -1;
+ 
+-        if (!this.noColor)
+-        {
+-            j = this.rawIntBuffer.get(i);
++        // TODO: Client
++            if (ModuleXray.isActive()) {
++                j = ModuleXray.getXrayOpacity();
++            } else {
++                if (!this.noColor)
++                {
++                    j = this.rawIntBuffer.get(i);
+ 
+-            if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
+-            {
+-                int k = (int)((float)(j & 255) * red);
+-                int l = (int)((float)(j >> 8 & 255) * green);
+-                int i1 = (int)((float)(j >> 16 & 255) * blue);
+-                j = j & -16777216;
+-                j = j | i1 << 16 | l << 8 | k;
+-            }
+-            else
+-            {
+-                int j1 = (int)((float)(j >> 24 & 255) * red);
+-                int k1 = (int)((float)(j >> 16 & 255) * green);
+-                int l1 = (int)((float)(j >> 8 & 255) * blue);
+-                j = j & 255;
+-                j = j | j1 << 24 | k1 << 16 | l1 << 8;
+-            }
+-        }
++                    if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
++                    {
++                        int k = (int)((float)(j & 255) * red);
++                        int l = (int)((float)(j >> 8 & 255) * green);
++                        int i1 = (int)((float)(j >> 16 & 255) * blue);
++                        j = j & -16777216;
++                        j = j | i1 << 16 | l << 8 | k;
++                    }
++                    else
++                    {
++                        int j1 = (int)((float)(j >> 24 & 255) * red);
++                        int k1 = (int)((float)(j >> 16 & 255) * green);
++                        int l1 = (int)((float)(j >> 8 & 255) * blue);
++                        j = j & 255;
++                        j = j | j1 << 24 | k1 << 16 | l1 << 8;
++                    }
++                }
++            }
++        //
+ 
+         this.rawIntBuffer.put(i, j);
+     }
+Index: src/minecraft/net/minecraft/client/renderer/EntityRenderer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/renderer/EntityRenderer.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/renderer/EntityRenderer.java	(date 1502999984000)
+@@ -3,6 +3,11 @@
  import com.google.common.base.Predicate;
  import com.google.common.base.Predicates;
  import com.google.gson.JsonSyntaxException;
@@ -869,7 +1102,7 @@ index 7b9e05f..5c9c968 100644
  import java.awt.Graphics;
  import java.awt.image.BufferedImage;
  import java.awt.image.ImageObserver;
-@@ -93,6 +98,8 @@ import org.lwjgl.opengl.GL11;
+@@ -95,6 +100,8 @@
  import org.lwjgl.opengl.GLContext;
  import org.lwjgl.util.glu.GLU;
  import org.lwjgl.util.glu.Project;
@@ -878,7 +1111,7 @@ index 7b9e05f..5c9c968 100644
  import shadersmod.client.Shaders;
  import shadersmod.client.ShadersRender;
  
-@@ -118,7 +125,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -120,7 +127,10 @@
      private int rendererUpdateCount;
  
      /** Pointed entity */
@@ -890,7 +1123,7 @@ index 7b9e05f..5c9c968 100644
      private MouseFilter mouseFilterXAxis = new MouseFilter();
      private MouseFilter mouseFilterYAxis = new MouseFilter();
      private final float thirdPersonDistance = 4.0F;
-@@ -1365,6 +1375,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
+@@ -1378,6 +1388,10 @@
                      }
                  }
  
@@ -901,8 +1134,8 @@ index 7b9e05f..5c9c968 100644
                  this.mc.mcProfiler.endSection();
              }
  
-@@ -1751,6 +1765,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
-             this.mc.debugRenderer.renderDebug(partialTicks, finishTimeNano);
+@@ -1769,6 +1783,10 @@
+             GlStateManager.setFogEnabled(flag2);
          }
  
 +        //TODO: Client
@@ -912,11 +1145,14 @@ index 7b9e05f..5c9c968 100644
          if (!renderglobal.damagedBlocks.isEmpty())
          {
              this.mc.mcProfiler.endStartSection("destroyProgress");
-diff --git a/net/minecraft/client/renderer/RenderGlobal.java b/net/minecraft/client/renderer/RenderGlobal.java
-index 5f769f9..774592b 100644
---- a/net/minecraft/client/renderer/RenderGlobal.java
-+++ b/net/minecraft/client/renderer/RenderGlobal.java
-@@ -5,6 +5,8 @@ import com.google.common.collect.Maps;
+Index: src/minecraft/net/minecraft/client/renderer/RenderGlobal.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/renderer/RenderGlobal.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/renderer/RenderGlobal.java	(date 1502999984000)
+@@ -5,6 +5,8 @@
  import com.google.common.collect.Sets;
  import com.google.gson.JsonSyntaxException;
  import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -925,7 +1161,7 @@ index 5f769f9..774592b 100644
  import java.io.IOException;
  import java.util.ArrayDeque;
  import java.util.ArrayList;
-@@ -3529,4 +3531,42 @@ public class RenderGlobal implements IWorldEventListener, IResourceManagerReload
+@@ -3589,4 +3591,41 @@
              this.setFacing = p_initialize_3_;
          }
      }
@@ -933,14 +1169,13 @@ index 5f769f9..774592b 100644
 +    //TODO: Client
 +        public static void drawOutlinedBoundingBox(AxisAlignedBB axisAlignedBB, int color) {
 +            Color decode = new Color(color);
-+
 +            RenderGlobal.drawOutlinedBoundingBox(axisAlignedBB, decode.getRed(), decode.getGreen(), decode.getBlue(), decode.getAlpha());
 +        }
 +
 +        public static void drawOutlinedBoundingBox(AxisAlignedBB boundingBox, int red, int green, int blue, int alpha)
 +        {
 +            Tessellator tessellator = Tessellator.getInstance();
-+            VertexBuffer vertexbuffer = tessellator.getBuffer();
++            BufferBuilder vertexbuffer = tessellator.getBuffer();
 +            vertexbuffer.begin(3, DefaultVertexFormats.POSITION_COLOR);
 +            vertexbuffer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
 +            vertexbuffer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).color(red, green, blue, alpha).endVertex();
@@ -968,74 +1203,45 @@ index 5f769f9..774592b 100644
 +        }
 +    //
  }
-diff --git a/net/minecraft/client/renderer/VertexBuffer.java b/net/minecraft/client/renderer/VertexBuffer.java
-index 7224a6b..a65f686 100644
---- a/net/minecraft/client/renderer/VertexBuffer.java
-+++ b/net/minecraft/client/renderer/VertexBuffer.java
+Index: src/minecraft/net/minecraft/client/renderer/chunk/RenderChunk.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/renderer/chunk/RenderChunk.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/renderer/chunk/RenderChunk.java	(date 1502999984000)
 @@ -1,6 +1,9 @@
- package net.minecraft.client.renderer;
+ package net.minecraft.client.renderer.chunk;
  
- import com.google.common.primitives.Floats;
+ import com.google.common.collect.Sets;
 +
 +import de.paxii.clarinet.module.render.ModuleXray;
 +
- import java.nio.ByteBuffer;
- import java.nio.ByteOrder;
  import java.nio.FloatBuffer;
-@@ -434,27 +437,29 @@ public class VertexBuffer
-         int i = this.getColorIndex(vertexIndex);
-         int j = -1;
- 
--        if (!this.noColor)
--        {
--            j = this.rawIntBuffer.get(i);
--
--            if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN)
--            {
--                int k = (int)((float)(j & 255) * red);
--                int l = (int)((float)(j >> 8 & 255) * green);
--                int i1 = (int)((float)(j >> 16 & 255) * blue);
--                j = j & -16777216;
--                j = j | i1 << 16 | l << 8 | k;
--            }
--            else
--            {
--                int j1 = (int)((float)(j >> 24 & 255) * red);
--                int k1 = (int)((float)(j >> 16 & 255) * green);
--                int l1 = (int)((float)(j >> 8 & 255) * blue);
--                j = j & 255;
--                j = j | j1 << 24 | k1 << 16 | l1 << 8;
-+        //TODO: Client
-+            if (ModuleXray.isActive()) {
-+                j = ModuleXray.getXrayOpacity();
-+            } else {
-+                if (!this.noColor) {
-+                    j = this.rawIntBuffer.get(i);
-+
-+                    if (ByteOrder.nativeOrder() == ByteOrder.LITTLE_ENDIAN) {
-+                        int k = (int) ((float) (j & 255) * red);
-+                        int l = (int) ((float) (j >> 8 & 255) * green);
-+                        int i1 = (int) ((float) (j >> 16 & 255) * blue);
-+                        j = j & -16777216;
-+                        j = j | i1 << 16 | l << 8 | k;
-+                    } else {
-+                        int j1 = (int) ((float) (j >> 24 & 255) * red);
-+                        int k1 = (int) ((float) (j >> 16 & 255) * green);
-+                        int l1 = (int) ((float) (j >> 8 & 255) * blue);
-+                        j = j & 255;
-+                        j = j | j1 << 24 | k1 << 16 | l1 << 8;
-+                    }
-+                }
+ import java.util.HashSet;
+ import java.util.Set;
+@@ -300,7 +303,13 @@
+                 chunkcacheof.renderFinish();
              }
--        }
-+        //
  
-         this.rawIntBuffer.put(i, j);
-     }
-diff --git a/net/minecraft/client/renderer/entity/Render.java b/net/minecraft/client/renderer/entity/Render.java
-index ad07ac6..8d1e454 100644
---- a/net/minecraft/client/renderer/entity/Render.java
-+++ b/net/minecraft/client/renderer/entity/Render.java
+-            compiledchunk.setVisibility(lvt_9_1_.computeVisibility());
++            // TODO: Client
++                SetVisibility visibility = lvt_9_1_.computeVisibility();
++                if (ModuleXray.isActive()) {
++                    visibility.setAllVisible(true);
++                }
++                compiledchunk.setVisibility(visibility);
++            //
+             this.lockCompileTask.lock();
+ 
+             try
+Index: src/minecraft/net/minecraft/client/renderer/entity/Render.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/renderer/entity/Render.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/renderer/entity/Render.java	(date 1502999984000)
 @@ -1,5 +1,7 @@
  package net.minecraft.client.renderer.entity;
  
@@ -1044,7 +1250,7 @@ index ad07ac6..8d1e454 100644
  import javax.annotation.Nullable;
  import net.minecraft.block.state.IBlockState;
  import net.minecraft.client.Minecraft;
-@@ -386,7 +388,14 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
+@@ -386,7 +388,14 @@
              boolean flag1 = this.renderManager.options.thirdPersonView == 2;
              float f2 = entityIn.height + 0.5F - (flag ? 0.25F : 0.0F);
              int i = "deadmau5".equals(str) ? -10 : 0;
@@ -1060,10 +1266,13 @@ index ad07ac6..8d1e454 100644
          }
      }
  
-diff --git a/net/minecraft/client/renderer/entity/RenderManager.java b/net/minecraft/client/renderer/entity/RenderManager.java
-index 091ce5b..59891c4 100644
---- a/net/minecraft/client/renderer/entity/RenderManager.java
-+++ b/net/minecraft/client/renderer/entity/RenderManager.java
+Index: src/minecraft/net/minecraft/client/renderer/entity/RenderManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/renderer/entity/RenderManager.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/renderer/entity/RenderManager.java	(date 1502999984000)
 @@ -1,6 +1,11 @@
  package net.minecraft.client.renderer.entity;
  
@@ -1076,7 +1285,7 @@ index 091ce5b..59891c4 100644
  import java.util.Collections;
  import java.util.Map;
  import javax.annotation.Nullable;
-@@ -390,6 +395,16 @@ public class RenderManager
+@@ -391,6 +396,16 @@
  
      public void doRenderEntity(Entity entityIn, double x, double y, double z, float yaw, float partialTicks, boolean p_188391_10_)
      {
@@ -1093,54 +1302,69 @@ index 091ce5b..59891c4 100644
          Render<Entity> render = null;
  
          try
-@@ -439,6 +454,11 @@ public class RenderManager
-                     }
+@@ -441,8 +456,7 @@
                  }
              }
-+
-+            //TODO: Client
+         }
+-        catch (Throwable throwable3)
+-        {
++        catch (Throwable throwable3) {
+             CrashReport crashreport = CrashReport.makeCrashReport(throwable3, "Rendering entity in world");
+             CrashReportCategory crashreportcategory = crashreport.makeCategory("Entity being rendered");
+             entityIn.addEntityCrashInfo(crashreportcategory);
+@@ -453,6 +467,12 @@
+             crashreportcategory1.addCrashSection("Delta", Float.valueOf(partialTicks));
+             throw new ReportedException(crashreport);
+         }
++        //TODO: Client
++            finally {
 +                PostRenderEntityEvent postRenderEvent = new PostRenderEntityEvent(entityIn, x, y, z, partialTicks);
 +                EventManager.call(postRenderEvent);
-+            //
-         }
-         catch (Throwable throwable3)
-         {
-diff --git a/net/minecraft/client/settings/KeyBinding.java b/net/minecraft/client/settings/KeyBinding.java
-index d935c1d..68f52d1 100644
---- a/net/minecraft/client/settings/KeyBinding.java
-+++ b/net/minecraft/client/settings/KeyBinding.java
-@@ -2,6 +2,10 @@ package net.minecraft.client.settings;
++            }
++        //
+     }
  
- import com.google.common.collect.Lists;
+     public void renderMultipass(Entity p_188389_1_, float p_188389_2_)
+Index: src/minecraft/net/minecraft/client/settings/KeyBinding.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/client/settings/KeyBinding.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/client/settings/KeyBinding.java	(date 1502999984000)
+@@ -2,6 +2,10 @@
+ 
+ import com.google.common.collect.Maps;
  import com.google.common.collect.Sets;
 +
 +import de.paxii.clarinet.event.EventManager;
 +import de.paxii.clarinet.event.events.game.KeyPressedEvent;
 +
- import java.util.List;
+ import java.util.Map;
  import java.util.Set;
- import net.minecraft.client.resources.I18n;
-@@ -26,7 +30,11 @@ public class KeyBinding implements Comparable<KeyBinding>
+ import java.util.function.Supplier;
+@@ -28,6 +32,10 @@
      {
          if (keyCode != 0)
          {
--            KeyBinding keybinding = (KeyBinding)HASH.lookup(keyCode);
 +            //TODO: Client
-+            EventManager.call(new KeyPressedEvent(keyCode));
++                EventManager.call(new KeyPressedEvent(keyCode));
 +            //
 +
-+            KeyBinding keybinding = HASH.lookup(keyCode);
+             KeyBinding keybinding = HASH.lookup(keyCode);
  
              if (keybinding != null)
+Index: src/minecraft/net/minecraft/enchantment/EnchantmentHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/enchantment/EnchantmentHelper.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/enchantment/EnchantmentHelper.java	(date 1502999984000)
+@@ -54,6 +54,13 @@
              {
-diff --git a/net/minecraft/enchantment/EnchantmentHelper.java b/net/minecraft/enchantment/EnchantmentHelper.java
-index fb1c25b..e0c3941 100644
---- a/net/minecraft/enchantment/EnchantmentHelper.java
-+++ b/net/minecraft/enchantment/EnchantmentHelper.java
-@@ -84,6 +84,13 @@ public class EnchantmentHelper
-             for (int i = 0; i < nbttaglist.tagCount(); ++i)
-             {
-                 Enchantment enchantment = Enchantment.getEnchantmentByID(nbttaglist.getCompoundTagAt(i).getShort("id"));
+                 NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+                 Enchantment enchantment = Enchantment.getEnchantmentByID(nbttagcompound.getShort("id"));
 +
 +                //TODO: Client
 +                    if (enchantment == null) {
@@ -1148,14 +1372,17 @@ index fb1c25b..e0c3941 100644
 +                    }
 +                //
 +
-                 int j = nbttaglist.getCompoundTagAt(i).getShort("lvl");
-                 map.put(enchantment, Integer.valueOf(j));
-             }
-diff --git a/net/minecraft/entity/Entity.java b/net/minecraft/entity/Entity.java
-index 6fabb5c..a273d50 100644
---- a/net/minecraft/entity/Entity.java
-+++ b/net/minecraft/entity/Entity.java
-@@ -3,6 +3,12 @@ package net.minecraft.entity;
+                 int j = nbttagcompound.getShort("lvl");
+ 
+                 if (enchantment == enchID)
+Index: src/minecraft/net/minecraft/entity/Entity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/entity/Entity.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/entity/Entity.java	(date 1502999984000)
+@@ -3,6 +3,12 @@
  import com.google.common.collect.Iterables;
  import com.google.common.collect.Lists;
  import com.google.common.collect.Sets;
@@ -1168,7 +1395,7 @@ index 6fabb5c..a273d50 100644
  import java.util.Arrays;
  import java.util.Collection;
  import java.util.Collections;
-@@ -21,6 +27,7 @@ import net.minecraft.block.material.EnumPushReaction;
+@@ -22,6 +28,7 @@
  import net.minecraft.block.material.Material;
  import net.minecraft.block.state.IBlockState;
  import net.minecraft.block.state.pattern.BlockPattern;
@@ -1176,10 +1403,10 @@ index 6fabb5c..a273d50 100644
  import net.minecraft.command.CommandResultStats;
  import net.minecraft.command.ICommandSender;
  import net.minecraft.crash.CrashReport;
-@@ -623,6 +630,10 @@ public abstract class Entity implements ICommandSender
+@@ -633,6 +640,10 @@
  
          this.firstUpdate = false;
-         this.world.theProfiler.endSection();
+         this.world.profiler.endSection();
 +
 +        //TODO: Client
 +            EventManager.call(new PostEntityUpdateEvent(this));
@@ -1187,36 +1414,36 @@ index 6fabb5c..a273d50 100644
      }
  
      /**
-@@ -712,6 +723,16 @@ public abstract class Entity implements ICommandSender
+@@ -722,6 +733,16 @@
       */
-     public void moveEntity(MoverType x, double p_70091_2_, double p_70091_4_, double p_70091_6_)
+     public void move(MoverType type, double x, double y, double z)
      {
 +        //TODO: Client
-+            EntityMoveEvent moveEvent = new EntityMoveEvent(this, p_70091_2_, p_70091_4_, p_70091_6_, this.noClip);
++            EntityMoveEvent moveEvent = new EntityMoveEvent(this, x, y, z, this.noClip);
 +            EventManager.call(moveEvent);
 +
-+            p_70091_2_ = moveEvent.getX();
-+            p_70091_4_ = moveEvent.getY();
-+            p_70091_6_ = moveEvent.getZ();
++            x = moveEvent.getX();
++            y = moveEvent.getY();
++            z = moveEvent.getZ();
 +            this.noClip = moveEvent.isNoClip();
 +        //
 +
          if (this.noClip)
          {
-             this.setEntityBoundingBox(this.getEntityBoundingBox().offset(p_70091_2_, p_70091_4_, p_70091_6_));
-@@ -907,6 +928,10 @@ public abstract class Entity implements ICommandSender
+             this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, y, z));
+@@ -917,6 +938,10 @@
  
-             if (this.stepHeight > 0.0F && flag && (d2 != p_70091_2_ || d4 != p_70091_6_))
+             if (this.stepHeight > 0.0F && flag && (d2 != x || d4 != z))
              {
 +                //TODO: Client
 +                    double oldY = this.boundingBox.minY;
 +                //
 +
-                 double d14 = p_70091_2_;
-                 double d6 = p_70091_4_;
-                 double d7 = p_70091_6_;
-@@ -1005,6 +1030,12 @@ public abstract class Entity implements ICommandSender
-                     p_70091_6_ = d7;
+                 double d14 = x;
+                 double d6 = y;
+                 double d7 = z;
+@@ -1015,6 +1040,12 @@
+                     z = d7;
                      this.setEntityBoundingBox(axisalignedbb1);
                  }
 +
@@ -1227,12 +1454,15 @@ index 6fabb5c..a273d50 100644
 +                //
              }
  
-             this.world.theProfiler.endSection();
-diff --git a/net/minecraft/entity/EntityLivingBase.java b/net/minecraft/entity/EntityLivingBase.java
-index f5f6c95..22e7876 100644
---- a/net/minecraft/entity/EntityLivingBase.java
-+++ b/net/minecraft/entity/EntityLivingBase.java
-@@ -2,6 +2,9 @@ package net.minecraft.entity;
+             this.world.profiler.endSection();
+Index: src/minecraft/net/minecraft/entity/EntityLivingBase.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/entity/EntityLivingBase.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/entity/EntityLivingBase.java	(date 1502999984000)
+@@ -2,6 +2,9 @@
  
  import com.google.common.base.Objects;
  import com.google.common.collect.Maps;
@@ -1242,7 +1472,7 @@ index f5f6c95..22e7876 100644
  import java.util.Collection;
  import java.util.ConcurrentModificationException;
  import java.util.Iterator;
-@@ -2036,30 +2039,32 @@ public abstract class EntityLivingBase extends Entity
+@@ -2120,30 +2123,32 @@
                          float f6 = 0.91F;
                          BlockPos.PooledMutableBlockPos blockpos$pooledmutableblockpos = BlockPos.PooledMutableBlockPos.retain(this.posX, this.getEntityBoundingBox().minY - 1.0D, this.posZ);
  
@@ -1250,7 +1480,7 @@ index f5f6c95..22e7876 100644
 -                        {
 -                            f6 = this.world.getBlockState(blockpos$pooledmutableblockpos).getBlock().slipperiness * 0.91F;
 -                        }
-+                        //TODO: Client
++                        // TODO: Client
 +                            if (this.onGround || ModuleStrafe.isActive())
 +                            {
 +                                f6 = this.world.getBlockState(blockpos$pooledmutableblockpos).getBlock().slipperiness * 0.91F;
@@ -1278,9 +1508,9 @@ index f5f6c95..22e7876 100644
 +                                f8 = this.jumpMovementFactor;
 +                            }
  
--                        this.moveRelative(strafe, forward, f8);
+-                        this.moveRelative(p_191986_1_, p_191986_2_, p_191986_3_, f8);
 -                        f6 = 0.91F;
-+                            this.moveRelative(strafe, forward, f8);
++                            this.moveRelative(p_191986_1_, p_191986_2_, p_191986_3_, f8);
 +                            f6 = 0.91F;
  
 -                        if (this.onGround)
@@ -1295,22 +1525,25 @@ index f5f6c95..22e7876 100644
  
                          if (this.isOnLadder())
                          {
-@@ -3085,4 +3090,10 @@ public abstract class EntityLivingBase extends Entity
+@@ -3187,4 +3192,10 @@
+     public void setPartying(BlockPos pos, boolean p_191987_2_)
      {
-         return true;
      }
 +
 +    //TODO: Client
 +        public boolean isUsingItem() {
-+        return this.activeItemStack != null;
-+    }
++            return this.activeItemStack != null;
++        }
 +    //
  }
-diff --git a/net/minecraft/entity/projectile/EntityFishHook.java b/net/minecraft/entity/projectile/EntityFishHook.java
-index 89f2ee3..b60579b 100644
---- a/net/minecraft/entity/projectile/EntityFishHook.java
-+++ b/net/minecraft/entity/projectile/EntityFishHook.java
-@@ -31,12 +31,17 @@ import net.minecraft.world.WorldServer;
+Index: src/minecraft/net/minecraft/entity/projectile/EntityFishHook.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/entity/projectile/EntityFishHook.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/entity/projectile/EntityFishHook.java	(date 1502999984000)
+@@ -31,12 +31,17 @@
  import net.minecraft.world.storage.loot.LootContext;
  import net.minecraft.world.storage.loot.LootTableList;
  
@@ -1320,7 +1553,7 @@ index 89f2ee3..b60579b 100644
  {
      private static final DataParameter<Integer> DATA_HOOKED_ENTITY = EntityDataManager.<Integer>createKey(EntityFishHook.class, DataSerializers.VARINT);
      private boolean inGround;
-     private int ticksInGround = 0;
+     private int ticksInGround;
 -    private EntityPlayer angler;
 +    //TODO: Client
 +        @Getter
@@ -1329,11 +1562,65 @@ index 89f2ee3..b60579b 100644
      private int ticksInAir;
      private int ticksCatchable;
      private int ticksCaughtDelay;
-diff --git a/net/minecraft/network/play/client/CPacketPlayer.java b/net/minecraft/network/play/client/CPacketPlayer.java
-index d66f3d0..a59a5fa 100644
---- a/net/minecraft/network/play/client/CPacketPlayer.java
-+++ b/net/minecraft/network/play/client/CPacketPlayer.java
-@@ -5,14 +5,24 @@ import net.minecraft.network.Packet;
+Index: src/minecraft/net/minecraft/item/ItemStack.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/item/ItemStack.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/item/ItemStack.java	(date 1502999984000)
+@@ -48,12 +48,17 @@
+ import net.minecraft.util.text.translation.I18n;
+ import net.minecraft.world.World;
+ 
++import lombok.Getter;
++
+ public final class ItemStack
+ {
+     public static final ItemStack EMPTY = new ItemStack((Item)null);
+     public static final DecimalFormat DECIMALFORMAT = new DecimalFormat("#.##");
+ 
+     /** Size of the stack. */
++    //TODO: Client
++        @Getter
++    //
+     private int stackSize;
+ 
+     /**
+Index: src/minecraft/net/minecraft/network/handshake/client/C00Handshake.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/network/handshake/client/C00Handshake.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/network/handshake/client/C00Handshake.java	(date 1502999984000)
+@@ -1,5 +1,7 @@
+ package net.minecraft.network.handshake.client;
+ 
++import de.paxii.clarinet.util.protocol.ProtocolVersion;
++
+ import java.io.IOException;
+ import net.minecraft.network.EnumConnectionState;
+ import net.minecraft.network.Packet;
+@@ -19,7 +21,9 @@
+ 
+     public C00Handshake(String p_i47613_1_, int p_i47613_2_, EnumConnectionState p_i47613_3_)
+     {
+-        this.protocolVersion = 338;
++        // TODO: Client
++            this.protocolVersion = ProtocolVersion.getProtocolVersion();
++        //
+         this.ip = p_i47613_1_;
+         this.port = p_i47613_2_;
+         this.requestedState = p_i47613_3_;
+Index: src/minecraft/net/minecraft/network/play/client/CPacketPlayer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/network/play/client/CPacketPlayer.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/network/play/client/CPacketPlayer.java	(date 1502999984000)
+@@ -5,14 +5,24 @@
  import net.minecraft.network.PacketBuffer;
  import net.minecraft.network.play.INetHandlerPlayServer;
  
@@ -1360,11 +1647,14 @@ index d66f3d0..a59a5fa 100644
      protected boolean moving;
      protected boolean rotating;
  
-diff --git a/net/minecraft/network/play/server/SPacketEntityVelocity.java b/net/minecraft/network/play/server/SPacketEntityVelocity.java
-index 06b7a71..d5811a3 100644
---- a/net/minecraft/network/play/server/SPacketEntityVelocity.java
-+++ b/net/minecraft/network/play/server/SPacketEntityVelocity.java
-@@ -6,12 +6,19 @@ import net.minecraft.network.Packet;
+Index: src/minecraft/net/minecraft/network/play/server/SPacketEntityVelocity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/network/play/server/SPacketEntityVelocity.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/network/play/server/SPacketEntityVelocity.java	(date 1502999984000)
+@@ -6,12 +6,19 @@
  import net.minecraft.network.PacketBuffer;
  import net.minecraft.network.play.INetHandlerPlayClient;
  
@@ -1387,10 +1677,101 @@ index 06b7a71..d5811a3 100644
  
      public SPacketEntityVelocity()
      {
-diff --git a/net/minecraft/util/MovementInputFromOptions.java b/net/minecraft/util/MovementInputFromOptions.java
-index ef62e62..0dd0109 100644
---- a/net/minecraft/util/MovementInputFromOptions.java
-+++ b/net/minecraft/util/MovementInputFromOptions.java
+Index: src/minecraft/net/minecraft/realms/RealmsSharedConstants.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/realms/RealmsSharedConstants.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/realms/RealmsSharedConstants.java	(date 1502999984000)
+@@ -1,11 +1,15 @@
+ package net.minecraft.realms;
+ 
++import de.paxii.clarinet.util.protocol.ProtocolVersion;
++
+ import net.minecraft.util.ChatAllowedCharacters;
+ 
+ public class RealmsSharedConstants
+ {
+-    public static int NETWORK_PROTOCOL_VERSION = 338;
+-    public static int TICKS_PER_SECOND = 20;
+-    public static String VERSION_STRING = "1.12.1";
+-    public static char[] ILLEGAL_FILE_CHARACTERS = ChatAllowedCharacters.ILLEGAL_FILE_CHARACTERS;
++    // TODO: Client
++        public static int NETWORK_PROTOCOL_VERSION = ProtocolVersion.getProtocolVersion();
++        public static int TICKS_PER_SECOND = 20;
++        public static String VERSION_STRING = ProtocolVersion.getGameVersion();
++        public static char[] ILLEGAL_FILE_CHARACTERS = ChatAllowedCharacters.ILLEGAL_FILE_CHARACTERS;
++    //
+ }
+Index: src/minecraft/net/minecraft/server/MinecraftServer.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/server/MinecraftServer.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/server/MinecraftServer.java	(date 1502999984000)
+@@ -9,6 +9,9 @@
+ import com.mojang.authlib.GameProfileRepository;
+ import com.mojang.authlib.minecraft.MinecraftSessionService;
+ import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
++
++import de.paxii.clarinet.util.protocol.ProtocolVersion;
++
+ import io.netty.buffer.ByteBuf;
+ import io.netty.buffer.ByteBufOutputStream;
+ import io.netty.buffer.Unpooled;
+@@ -529,7 +532,9 @@
+                 this.currentTime = getCurrentTimeMillis();
+                 long i = 0L;
+                 this.statusResponse.setServerDescription(new TextComponentString(this.motd));
+-                this.statusResponse.setVersion(new ServerStatusResponse.Version("1.12.1", 338));
++                // TODO: Client
++                    this.statusResponse.setVersion(new ServerStatusResponse.Version(ProtocolVersion.getGameVersion(), ProtocolVersion.getProtocolVersion()));
++                //
+                 this.applyServerIconToResponse(this.statusResponse);
+ 
+                 while (this.serverRunning)
+Index: src/minecraft/net/minecraft/server/network/NetHandlerHandshakeTCP.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/server/network/NetHandlerHandshakeTCP.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/server/network/NetHandlerHandshakeTCP.java	(date 1502999984000)
+@@ -1,5 +1,7 @@
+ package net.minecraft.server.network;
+ 
++import de.paxii.clarinet.util.protocol.ProtocolVersion;
++
+ import net.minecraft.network.EnumConnectionState;
+ import net.minecraft.network.NetworkManager;
+ import net.minecraft.network.handshake.INetHandlerHandshakeServer;
+@@ -32,13 +34,15 @@
+             case LOGIN:
+                 this.networkManager.setConnectionState(EnumConnectionState.LOGIN);
+ 
+-                if (packetIn.getProtocolVersion() > 338)
++                // TODO: Client
++                if (packetIn.getProtocolVersion() > ProtocolVersion.getProtocolVersion())
+                 {
+                     ITextComponent itextcomponent = new TextComponentTranslation("multiplayer.disconnect.outdated_server", new Object[] {"1.12.1"});
+                     this.networkManager.sendPacket(new SPacketDisconnect(itextcomponent));
+                     this.networkManager.closeChannel(itextcomponent);
+                 }
+-                else if (packetIn.getProtocolVersion() < 338)
++                // TODO: Client
++                else if (packetIn.getProtocolVersion() < ProtocolVersion.getProtocolVersion())
+                 {
+                     ITextComponent itextcomponent1 = new TextComponentTranslation("multiplayer.disconnect.outdated_client", new Object[] {"1.12.1"});
+                     this.networkManager.sendPacket(new SPacketDisconnect(itextcomponent1));
+Index: src/minecraft/net/minecraft/util/MovementInputFromOptions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/util/MovementInputFromOptions.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/util/MovementInputFromOptions.java	(date 1502999984000)
 @@ -1,5 +1,8 @@
  package net.minecraft.util;
  
@@ -1400,7 +1781,7 @@ index ef62e62..0dd0109 100644
  import net.minecraft.client.settings.GameSettings;
  
  public class MovementInputFromOptions extends MovementInput
-@@ -64,5 +67,11 @@ public class MovementInputFromOptions extends MovementInput
+@@ -64,5 +67,11 @@
              this.moveStrafe = (float)((double)this.moveStrafe * 0.3D);
              this.moveForward = (float)((double)this.moveForward * 0.3D);
          }
@@ -1412,28 +1793,34 @@ index ef62e62..0dd0109 100644
 +        //
      }
  }
-diff --git a/net/minecraft/util/math/MathHelper.java b/net/minecraft/util/math/MathHelper.java
-index 99fb73d..2ea507c 100644
---- a/net/minecraft/util/math/MathHelper.java
-+++ b/net/minecraft/util/math/MathHelper.java
-@@ -64,6 +64,12 @@ public class MathHelper
+Index: src/minecraft/net/minecraft/util/math/MathHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/util/math/MathHelper.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/util/math/MathHelper.java	(date 1502999984000)
+@@ -64,6 +64,12 @@
          return (float)Math.sqrt(value);
      }
  
 +    //TODO: Client
 +        public static float sqrt_double(double value) {
-+        return sqrt(value);
-+    }
++            return sqrt(value);
++        }
 +    //
 +
      /**
       * Returns the greatest integer less than or equal to the float argument
       */
-diff --git a/net/minecraft/util/text/TextFormatting.java b/net/minecraft/util/text/TextFormatting.java
-index 446e4de..f35db47 100644
---- a/net/minecraft/util/text/TextFormatting.java
-+++ b/net/minecraft/util/text/TextFormatting.java
-@@ -9,6 +9,8 @@ import java.util.Map;
+Index: src/minecraft/net/minecraft/util/text/TextFormatting.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/util/text/TextFormatting.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/util/text/TextFormatting.java	(date 1502999984000)
+@@ -9,6 +9,8 @@
  import java.util.regex.Pattern;
  import javax.annotation.Nullable;
  
@@ -1442,7 +1829,7 @@ index 446e4de..f35db47 100644
  public enum TextFormatting
  {
      BLACK("BLACK", '0', 0),
-@@ -46,7 +48,10 @@ public enum TextFormatting
+@@ -46,7 +48,10 @@
      private final String name;
  
      /** The formatting code that produces this format. */
@@ -1454,12 +1841,15 @@ index 446e4de..f35db47 100644
      private final boolean fancyStyling;
  
      /**
-diff --git a/net/minecraft/world/World.java b/net/minecraft/world/World.java
-index e142f54..e898eaf 100644
---- a/net/minecraft/world/World.java
-+++ b/net/minecraft/world/World.java
-@@ -4,6 +4,11 @@ import com.google.common.base.Function;
- import com.google.common.base.Objects;
+Index: src/minecraft/net/minecraft/world/World.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/world/World.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/world/World.java	(date 1502999984000)
+@@ -4,6 +4,11 @@
+ import com.google.common.base.MoreObjects;
  import com.google.common.base.Predicate;
  import com.google.common.collect.Lists;
 +
@@ -1470,9 +1860,9 @@ index e142f54..e898eaf 100644
  import java.util.Calendar;
  import java.util.Collection;
  import java.util.Iterator;
-@@ -1222,6 +1227,12 @@ public abstract class World implements IBlockAccess
+@@ -1236,6 +1241,12 @@
       */
-     public boolean spawnEntityInWorld(Entity entityIn)
+     public boolean spawnEntity(Entity entityIn)
      {
 +        //TODO: Client
 +            if (entityIn == Wrapper.getPlayer()) {
@@ -1483,7 +1873,7 @@ index e142f54..e898eaf 100644
          int i = MathHelper.floor(entityIn.posX / 16.0D);
          int j = MathHelper.floor(entityIn.posZ / 16.0D);
          boolean flag = entityIn.forceSpawn;
-@@ -3936,4 +3947,65 @@ public abstract class World implements IBlockAccess
+@@ -4011,4 +4022,66 @@
      {
          return null;
      }
@@ -1548,31 +1938,41 @@ index e142f54..e898eaf 100644
 +            return false;
 +        }
 +    //
++
  }
-diff --git a/net/minecraft/world/WorldProvider.java b/net/minecraft/world/WorldProvider.java
-index d0ec8ad..b5b08ce 100644
---- a/net/minecraft/world/WorldProvider.java
-+++ b/net/minecraft/world/WorldProvider.java
-@@ -61,7 +61,8 @@ public abstract class WorldProvider
+Index: src/minecraft/net/minecraft/world/WorldProvider.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/world/WorldProvider.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/world/WorldProvider.java	(date 1502999984000)
+@@ -64,7 +64,9 @@
      /**
       * Creates the light to brightness table
       */
 -    protected void generateLightBrightnessTable()
-+    //TODO: Client
++    // TODO: Client
 +    public void generateLightBrightnessTable()
++    //
      {
          float f = 0.0F;
  
-diff --git a/net/minecraft/world/WorldProviderHell.java b/net/minecraft/world/WorldProviderHell.java
-index 511669d..8e6f17f 100644
---- a/net/minecraft/world/WorldProviderHell.java
-+++ b/net/minecraft/world/WorldProviderHell.java
-@@ -30,7 +30,7 @@ public class WorldProviderHell extends WorldProvider
+Index: src/minecraft/net/minecraft/world/WorldProviderHell.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/world/WorldProviderHell.java	(date 1502999936000)
++++ src/minecraft/net/minecraft/world/WorldProviderHell.java	(date 1502999984000)
+@@ -33,7 +33,9 @@
      /**
       * Creates the light to brightness table
       */
 -    protected void generateLightBrightnessTable()
-+    public void generateLightBrightnessTable()
++    // TODO: Client
++        public void generateLightBrightnessTable()
++    //
      {
          float f = 0.1F;
  
