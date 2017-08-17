@@ -21,6 +21,9 @@ public class ClientSettingsHandler {
     File settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/settings.json");
 
     try {
+      if (!settingsFile.exists()) {
+        settingsFile.createNewFile();
+      }
       ClientSettingsContainer clientSettingsContainer = FileService.getFileContents(settingsFile, ClientSettingsContainer.class);
       if (clientSettingsContainer != null) {
         clientSettingsContainer.getClientSettings().forEach((k, v) -> {

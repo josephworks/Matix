@@ -105,16 +105,16 @@ public class ModuleTriggerbot extends Module {
       }
 
       Vec3d vec3d1 = entity.getLook(partialTicks);
-      Vec3d vec3d2 = vec3d.addVector(vec3d1.xCoord * d0, vec3d1.yCoord * d0, vec3d1.zCoord * d0);
+      Vec3d vec3d2 = vec3d.addVector(vec3d1.x * d0, vec3d1.y * d0, vec3d1.z * d0);
       pointedEntity = null;
       Vec3d vec3d3 = null;
       float f = 1.0F;
       List<Entity> list = Wrapper.getWorld().getEntitiesInAABBexcluding(
               entity,
               entity.getEntityBoundingBox().expand(
-                      vec3d1.xCoord * d0,
-                      vec3d1.yCoord * d0,
-                      vec3d1.zCoord * d0).expand(
+                      vec3d1.x * d0,
+                      vec3d1.y * d0,
+                      vec3d1.z * d0).expand(
                       (double) f,
                       (double) f,
                       (double) f),
@@ -123,10 +123,10 @@ public class ModuleTriggerbot extends Module {
       double d2 = d1;
 
       for (Entity entity1 : list) {
-        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz((double) entity1.getCollisionBorderSize());
+        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow((double) entity1.getCollisionBorderSize());
         RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 
-        if (axisalignedbb.isVecInside(vec3d)) {
+        if (axisalignedbb.contains(vec3d)) {
           if (d2 >= 0.0D) {
             pointedEntity = entity1;
             vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;

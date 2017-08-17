@@ -22,8 +22,8 @@ public class GuiAddAlt extends GuiDirectLogin {
     super.initGui();
     int startX = this.width / 2 - 100;
 
-    this.passwordField.xPosition = startX;
-    this.passwordField.yPosition = this.height / 2 + 30;
+    this.passwordField.x = startX;
+    this.passwordField.y = this.height / 2 + 30;
     this.textFieldList.add(
             this.emailField = new GuiTextField(4, Wrapper.getFontRenderer(), startX, this.height / 2 - 10, this.buttonWidth, 20)
     );

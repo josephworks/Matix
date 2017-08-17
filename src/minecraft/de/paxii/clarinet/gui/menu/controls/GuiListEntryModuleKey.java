@@ -22,7 +22,7 @@ public class GuiListEntryModuleKey implements GuiListExtended.IGuiListEntry {
   }
 
   @Override
-  public void func_192633_a(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
+  public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
   }
 
   @Override

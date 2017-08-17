@@ -157,10 +157,9 @@ public class GuiModuleStore extends GuiScreen {
       this.externalModuleList.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    this.drawCenteredString(this.fontRendererObj, Client.getClientName()
-            + " Plugins", this.width / 2, 8, 16777215);
-    this.drawString(this.fontRendererObj, "Plugin may be compatible", 5, this.height - 55, ModuleStore.COMPATIBLE_MAY);
-    this.drawString(this.fontRendererObj, "Plugin is incompatible", 5, this.height - 45, ModuleStore.COMPATIBLE_NO);
+    this.drawCenteredString(this.fontRenderer, Client.getClientName() + " Plugins", this.width / 2, 8, 16777215);
+    this.drawString(this.fontRenderer, "Plugin may be compatible", 5, this.height - 55, ModuleStore.COMPATIBLE_MAY);
+    this.drawString(this.fontRenderer, "Plugin is incompatible", 5, this.height - 45, ModuleStore.COMPATIBLE_NO);
 
     super.drawScreen(mouseX, mouseY, partialTicks);
   }
