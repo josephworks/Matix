@@ -3,16 +3,17 @@ package de.paxii.clarinet.module.external;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.module.store.ModuleStore;
-import de.paxii.clarinet.util.settings.ClientSettings;
 
 import java.io.File;
-import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.ServiceLoader;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ExternalModuleLoader {
   private final File moduleFolder;
@@ -75,9 +76,7 @@ public class ExternalModuleLoader {
   }
 
   private void loadModuleJars(File[] moduleJars) {
-    for (File moduleFile : moduleJars) {
-      this.addToClassPath(moduleFile);
-    }
+    this.addToClassPath(moduleJars);
   }
 
   private Module[] loadExternalModules() {
@@ -96,18 +95,24 @@ public class ExternalModuleLoader {
     return moduleList.toArray(new Module[moduleList.size()]);
   }
 
-  private void addToClassPath(File file) {
-    URLClassLoader systemClassLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
-    Class systemClassLoaderClass = URLClassLoader.class;
+  private void addToClassPath(File[] files) {
+    Function<File, URL> toUrl = file -> {
+      try {
+        return file.toURI().toURL();
+      } catch (MalformedURLException e) {
+        e.printStackTrace();
+      }
+      return null;
+    };
 
     try {
-      Method method = systemClassLoaderClass.getDeclaredMethod("addURL", URL.class);
-      method.setAccessible(true);
-      method.invoke(systemClassLoader, file.toURI().toURL());
+      ClassLoader pluginClassLoader = URLClassLoader.newInstance(
+              Arrays.stream(files).map(toUrl).collect(Collectors.toList()).toArray(new URL[files.length]),
+              Thread.currentThread().getContextClassLoader()
+      );
+      Thread.currentThread().setContextClassLoader(pluginClassLoader);
     } catch (Exception e) {
-      System.out.println("Could not load Module " + file.getName());
       e.printStackTrace();
     }
-
   }
 }
