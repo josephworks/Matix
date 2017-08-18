@@ -58,7 +58,7 @@ public class ModuleStore {
       }
 
       ModuleEntry moduleEntry = ModuleStore.moduleList.get(moduleName);
-      File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName + "-" + moduleEntry.getVersion()));
+      File moduleFile = new File(ModuleStore.getModuleFolder(), String.format("%s.jar", moduleName + "-" + moduleEntry.getVersion()));
       URL downloadUrl = new URL(String.format(moduleUrl, Client.getGameVersion(), moduleName, moduleName + "-" + moduleEntry.getVersion()));
 
       if (moduleFile.exists()) {
@@ -152,12 +152,12 @@ public class ModuleStore {
 
         if (modulesToRemove != null) {
           modulesToRemove.forEach((moduleName -> {
-            File moduleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", moduleName));
+            File moduleFile = new File(ModuleStore.getModuleFolder(), String.format("%s.jar", moduleName));
             moduleFile.delete();
 
             if (moduleName.contains("-")) {
               String oldModuleName = moduleName.split("-")[0];
-              File oldModuleFile = new File(ClientSettings.getClientFolderPath().getValue() + "/modules/", String.format("%s.jar", oldModuleName));
+              File oldModuleFile = new File(ModuleStore.getModuleFolder(), String.format("%s.jar", oldModuleName));
 
               if (oldModuleFile.exists()) {
                 oldModuleFile.delete();
@@ -213,6 +213,10 @@ public class ModuleStore {
         e.printStackTrace();
       }
     }
+  }
+
+  public static File getModuleFolder() {
+    return new File(ClientSettings.getClientFolderPath().getValue() + "/modules/" + Client.getGameVersion() + "/");
   }
 
   @Data

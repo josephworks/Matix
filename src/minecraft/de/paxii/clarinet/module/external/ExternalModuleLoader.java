@@ -18,7 +18,7 @@ public class ExternalModuleLoader {
   private final File moduleFolder;
 
   public ExternalModuleLoader() {
-    this.moduleFolder = new File((ClientSettings.getClientFolderPath().getValue() + "/modules"));
+    this.moduleFolder = ModuleStore.getModuleFolder();
     this.moduleFolder.mkdirs();
   }
 
