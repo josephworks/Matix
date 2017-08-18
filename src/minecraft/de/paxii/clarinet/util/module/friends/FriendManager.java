@@ -48,11 +48,7 @@ public class FriendManager {
   }
 
   public int getFriendColor(String friendName) {
-    if (this.isFriend(friendName)) {
-      return this.getFriends().get(friendName);
-    }
-
-    return 0xFF0000;
+    return this.getFriends().getOrDefault(friendName, 0xFF0000);
   }
 
   public Color getFriendColorObject(String friendName) {
