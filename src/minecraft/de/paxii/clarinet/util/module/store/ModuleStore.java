@@ -2,7 +2,6 @@ package de.paxii.clarinet.util.module.store;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import de.paxii.clarinet.Client;
@@ -22,11 +21,11 @@ import net.minecraft.network.play.client.CPacketChatMessage;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -99,7 +98,16 @@ public class ModuleStore {
       if (!ModuleStore.modulesToDelete.contains(removedVersion)) {
         ModuleStore.modulesToDelete.add(removedVersion);
       }
+
+      Wrapper.getClient().getNotificationManager().addNotification(
+              "Module was successfully removed. Please restart the Client.",
+              NotificationPriority.GOOD
+      );
     } catch (Exception e) {
+      Wrapper.getClient().getNotificationManager().addNotification(
+            "There was an error when uninstalling the plugin.",
+            NotificationPriority.GOOD
+    );
       e.printStackTrace();
     }
   }
