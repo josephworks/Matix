@@ -32,7 +32,7 @@ public class ClientSettingsHandler {
           ClientSettings.getClientSettings().put(k, clientSetting);
         });
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }

@@ -172,7 +172,7 @@ public class GuiAltManager extends GuiScreen {
                 .peek(alt -> alt.setPassword(Wrapper.getStringEncryption().decryptString(alt.getPassword())))
                 .collect(Collectors.toCollection(ArrayList::new));
       }
-    } catch (IOException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
