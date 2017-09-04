@@ -127,6 +127,7 @@ public class ModuleStore {
         ModuleEntry moduleEntry = new ModuleEntry();
         moduleEntry.setModule("Error");
         moduleEntry.setDescription("Could not get list of external Modules!");
+        moduleEntry.setCompatible("no");
         moduleList.put("Error", moduleEntry);
       }
     }
