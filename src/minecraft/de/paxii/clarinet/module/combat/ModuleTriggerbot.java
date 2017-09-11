@@ -33,6 +33,10 @@ import java.util.function.Function;
 public class ModuleTriggerbot extends Module {
   private final TimeManager timeManager;
   private RayTraceResult objectMouseOver;
+  private final PanelKeyBindButton triggerKeyButton;
+
+  private final Function<Integer, String> triggerKeyCaption = keyCode -> "Triggerkey: " +
+          (keyCode != -1 ? (keyCode < -1 ? String.format("Mouse %d", keyCode + 100) : Keyboard.getKeyName(keyCode)) : "None");
 
   public ModuleTriggerbot() {
     super("Triggerbot", ModuleCategory.COMBAT);
@@ -48,20 +52,24 @@ public class ModuleTriggerbot extends Module {
     this.getModuleSettings().put("triggerKey", new ClientSettingInteger("Trigger Key", 56));
     this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
 
-    final Function<Integer, String> caption = keyCode -> "Triggerkey: " +
-            (keyCode != -1 ? (keyCode < -1 ? String.format("Mouse %d", keyCode + 100) : Keyboard.getKeyName(keyCode)) : "None");
-    this.addPanelElement(new PanelKeyBindButton(caption.apply(this.getTriggerKey()), (keyCode, self) -> {
+
+    this.addPanelElement(this.triggerKeyButton = new PanelKeyBindButton(this.triggerKeyCaption.apply(this.getTriggerKey()), (keyCode, self) -> {
       if (keyCode == 1) {
         keyCode = -1;
       }
       this.setTriggerKey(keyCode);
-      self.setCaption(caption.apply(keyCode));
+      self.setCaption(this.triggerKeyCaption.apply(keyCode));
 
       return false;
     }));
 
     this.timeManager = new TimeManager();
     this.timeManager.setRandom(true);
+  }
+
+  @Override
+  public void onStartup() {
+    this.triggerKeyButton.setCaption(this.triggerKeyCaption.apply(this.getTriggerKey()));
   }
 
   @EventHandler
