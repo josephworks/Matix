@@ -57,6 +57,7 @@ public class PanelModuleButton extends PanelElement {
             }
           }
         });
+        this.getPanelElements().addAll(module.getGuiPanelElements());
         module.getModuleValues().forEach((valueName, value) -> {
           PanelSlider panelSlider = new PanelSlider(value, value.isShouldRound());
           panelSlider.setElementWidth(90);

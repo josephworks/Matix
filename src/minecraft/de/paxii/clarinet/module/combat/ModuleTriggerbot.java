@@ -5,6 +5,7 @@ import com.google.common.base.Predicates;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.game.IngameTickEvent;
+import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelKeyBindButton;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.chat.Chat;
@@ -27,6 +28,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class ModuleTriggerbot extends Module {
   private final TimeManager timeManager;
@@ -45,6 +47,18 @@ public class ModuleTriggerbot extends Module {
     this.getModuleValues().put("randomness", new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true, "Randomness"));
     this.getModuleSettings().put("triggerKey", new ClientSettingInteger("Trigger Key", 56));
     this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
+
+    final Function<Integer, String> caption = keyCode -> "Triggerkey: " +
+            (keyCode != -1 ? (keyCode < -1 ? String.format("Mouse %d", keyCode + 100) : Keyboard.getKeyName(keyCode)) : "None");
+    this.addPanelElement(new PanelKeyBindButton(caption.apply(this.getTriggerKey()), (keyCode, self) -> {
+      if (keyCode == 1) {
+        keyCode = -1;
+      }
+      this.setTriggerKey(keyCode);
+      self.setCaption(caption.apply(keyCode));
+
+      return false;
+    }));
 
     this.timeManager = new TimeManager();
     this.timeManager.setRandom(true);
@@ -76,8 +90,16 @@ public class ModuleTriggerbot extends Module {
     return this.timeManager.sleep((long) (1000L / this.getModuleValues().get("clickSpeed").getValue()));
   }
 
+  private void setTriggerKey(int triggerKey) {
+    this.setValue("triggerKey", triggerKey);
+  }
+
+  private int getTriggerKey() {
+    return this.getValueOrDefault("triggerKey", Integer.class, 56);
+  }
+
   private boolean isKeyDown() {
-    int triggerKey = this.getValueOrDefault("triggerKey", Integer.class, 56);
+    int triggerKey = this.getTriggerKey();
     return triggerKey >= 0 ? Keyboard.isKeyDown(triggerKey) : Mouse.isButtonDown(triggerKey + 100);
   }
 
