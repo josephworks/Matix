@@ -3,11 +3,13 @@ package de.paxii.clarinet.module;
 import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.events.Event;
+import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.chat.ChatColor;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSetting;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import lombok.AccessLevel;
@@ -33,6 +35,7 @@ public class Module implements Comparable<Module> {
   private String version;
   private HashMap<String, ValueBase> moduleValues;
   private HashMap<String, ClientSetting> moduleSettings;
+  private ArrayList<PanelElement> guiPanelElements;
 
   public Module(String name, ModuleCategory category) {
     this.name = name;
@@ -44,6 +47,7 @@ public class Module implements Comparable<Module> {
 
     this.moduleValues = new HashMap<>();
     this.moduleSettings = new HashMap<>();
+    this.guiPanelElements = new ArrayList<>();
     this.setDisplayedInGui(true);
   }
 
@@ -139,6 +143,14 @@ public class Module implements Comparable<Module> {
 
   public ValueBase getValueBase(String valueName) {
     return this.getModuleValues().get(valueName);
+  }
+
+  public void addPanelElement(PanelElement panelElement) {
+    this.guiPanelElements.add(panelElement);
+  }
+
+  public void removePanelElement(PanelElement panelElement) {
+    this.guiPanelElements.remove(panelElement);
   }
 
   protected void sendClientMessage(String message) {
