@@ -1,0 +1,47 @@
+Index: src/minecraft/net/minecraft/src/ListQuadsOverlay.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/src/ListQuadsOverlay.java	(date 1506089015000)
++++ src/minecraft/net/minecraft/src/ListQuadsOverlay.java	(revision )
+@@ -9,9 +9,9 @@
+ 
+ public class ListQuadsOverlay
+ {
+-    private List<BakedQuad> listQuads = new ArrayList<BakedQuad>();
+-    private List<IBlockState> listBlockStates = new ArrayList<IBlockState>();
+-    private List<BakedQuad> listQuadsSingle = Arrays.<BakedQuad>asList();
++    private List<BakedQuad> listQuads = new ArrayList<>();
++    private List<IBlockState> listBlockStates = new ArrayList<>();
++    private List<BakedQuad> listQuadsSingle = new ArrayList<>();
+ 
+     public void addQuad(BakedQuad p_addQuad_1_, IBlockState p_addQuad_2_)
+     {
+@@ -36,7 +36,12 @@
+ 
+     public List<BakedQuad> getListQuadsSingle(BakedQuad p_getListQuadsSingle_1_)
+     {
+-        this.listQuadsSingle.set(0, p_getListQuadsSingle_1_);
++        if (this.listQuadsSingle.size() == 0) {
++            this.listQuadsSingle.add(p_getListQuadsSingle_1_);
++        } else {
++            this.listQuadsSingle.set(0, p_getListQuadsSingle_1_);
++        }
++
+         return this.listQuadsSingle;
+     }
+ 
+Index: .gitmodules
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .gitmodules	(date 1506089015000)
++++ .gitmodules	(revision )
+@@ -1,3 +1,3 @@
+-[submodule "src\\minecraft\\matix"]
+-	path = src\\minecraft\\matix
++[submodule "src/minecraft/matix"]
++	path = src/minecraft/matix
+ 	url = https://bitbucket.org/matixclient/matix.git
