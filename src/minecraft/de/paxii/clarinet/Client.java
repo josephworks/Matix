@@ -28,9 +28,9 @@ public class Client {
   @Getter
   private static final String clientName = "Matix";
   @Getter
-  private static final String clientVersion = "1.8.7B";
+  private static final String clientVersion = "1.8.8B";
   @Getter
-  private static final String gameVersion = "1.12.1";
+  private static final String gameVersion = "1.12.2";
   @Getter
   private static final int clientBuild = 18700;
   @Getter
