@@ -61,7 +61,7 @@ public class GuiAltManager extends GuiScreen {
     if (ClientSettings.getValue("client.hidden", Boolean.class))
       return;
 
-    if (event.getGuiScreen() instanceof GuiMainMenu) {
+    if (event.getGuiScreen() instanceof GuiMainMenu || (event.getGuiScreen() == null && Wrapper.getWorld() == null)) {
       event.setGuiScreen(mainMenuHook);
     }
   }
