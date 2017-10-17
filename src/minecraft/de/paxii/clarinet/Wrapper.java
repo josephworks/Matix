@@ -59,15 +59,15 @@ public class Wrapper {
   }
 
   public static EntityPlayerSP getPlayer() {
-    return getMinecraft().player;
+    return getMinecraft().thePlayer;
   }
 
   public static WorldClient getWorld() {
-    return getMinecraft().world;
+    return getMinecraft().theWorld;
   }
 
   public static FontRenderer getFontRenderer() {
-    return getMinecraft().fontRenderer;
+    return getMinecraft().fontRendererObj;
   }
 
   public static EntityRenderer getRenderer() {

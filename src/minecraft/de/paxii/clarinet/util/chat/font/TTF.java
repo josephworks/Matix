@@ -11,7 +11,7 @@ package de.paxii.clarinet.util.chat.font;
 import de.paxii.clarinet.Wrapper;
 
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
@@ -346,7 +346,7 @@ public class TTF {
 
   private void drawTexturedModalRect(float x, float y, float textureX, float textureY, float width, float height) {
     Tessellator tessellator = Tessellator.getInstance();
-    BufferBuilder vertexbuffer = tessellator.getBuffer();
+    VertexBuffer vertexbuffer = tessellator.getBuffer();
     vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
     int zLevel = 0;
     vertexbuffer.pos((double) x, (double) (y + height), (double) zLevel).tex((double) (textureX * 0.00390625F), (double) ((textureY + height) * 0.00390625F)).endVertex();

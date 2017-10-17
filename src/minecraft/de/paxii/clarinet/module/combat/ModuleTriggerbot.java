@@ -157,10 +157,10 @@ public class ModuleTriggerbot extends Module {
       double d2 = d1;
 
       for (Entity entity1 : list) {
-        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().grow((double) entity1.getCollisionBorderSize());
+        AxisAlignedBB axisalignedbb = entity1.getEntityBoundingBox().expandXyz((double) entity1.getCollisionBorderSize());
         RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(vec3d, vec3d2);
 
-        if (axisalignedbb.contains(vec3d)) {
+        if (axisalignedbb.isVecInside(vec3d)) {
           if (d2 >= 0.0D) {
             pointedEntity = entity1;
             vec3d3 = raytraceresult == null ? vec3d : raytraceresult.hitVec;

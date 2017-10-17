@@ -21,12 +21,12 @@ public class GuiAltListEntry implements GuiListExtended.IGuiListEntry {
   }
 
   @Override
-  public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
+  public void setSelected(int p_192633_1_, int p_192633_2_, int p_192633_3_) {
   }
 
   @Override
   public void drawEntry(int slotIndex, int x, int y, int listWidth,
-                        int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+                        int slotHeight, int mouseX, int mouseY, boolean isSelected) {
     GuiAltManager altManager = (GuiAltManager) parentScreen;
 
     this.x = x;

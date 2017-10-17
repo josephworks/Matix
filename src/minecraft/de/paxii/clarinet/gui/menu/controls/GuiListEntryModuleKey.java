@@ -22,11 +22,11 @@ public class GuiListEntryModuleKey implements GuiListExtended.IGuiListEntry {
   }
 
   @Override
-  public void updatePosition(int p_192633_1_, int p_192633_2_, int p_192633_3_, float p_192633_4_) {
+  public void setSelected(int p_192633_1_, int p_192633_2_, int p_192633_3_) {
   }
 
   @Override
-  public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks) {
+  public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
     GuiKeybinds guiKeybinds = (GuiKeybinds) this.parentScreen;
 
     if (isSelected) {

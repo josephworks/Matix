@@ -31,7 +31,7 @@ public class ModuleAutoFish extends Module {
 
   @Override
   public void onEnable() {
-    Wrapper.getMinecraft().getSoundHandler().getSndManager().addListener(this.soundEventListener);
+    Wrapper.getMinecraft().getSoundHandler().sndManager.addListener(this.soundEventListener);
   }
 
   @EventHandler
@@ -42,7 +42,7 @@ public class ModuleAutoFish extends Module {
       EntityFishHook fishHook = (EntityFishHook) entity;
 
       if (this.fishSound
-              && fishHook.getAngler().getEntityId() == Wrapper.getPlayer().getEntityId()
+              && fishHook.angler.getEntityId() == Wrapper.getPlayer().getEntityId()
               && event.getVelocityPacket().getMotionX() == 0
               && event.getVelocityPacket().getMotionZ() == 0) {
         new Thread(() -> {
@@ -63,7 +63,7 @@ public class ModuleAutoFish extends Module {
 
   @Override
   public void onDisable() {
-    Wrapper.getMinecraft().getSoundHandler().getSndManager().removeListener(this.soundEventListener);
+    Wrapper.getMinecraft().getSoundHandler().sndManager.removeListener(this.soundEventListener);
   }
 
 }

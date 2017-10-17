@@ -9,7 +9,7 @@ import de.paxii.clarinet.util.settings.type.ClientSettingBoolean;
 
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -25,6 +25,7 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 import lombok.Getter;
@@ -75,7 +76,7 @@ public class ModuleNameTags extends Module {
     int i = fontRenderer.getStringWidth(nameTag) / 2;
     GlStateManager.disableTexture2D();
     Tessellator tessellator = Tessellator.getInstance();
-    BufferBuilder vertexbuffer = tessellator.getBuffer();
+    VertexBuffer vertexbuffer = tessellator.getBuffer();
     vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
     vertexbuffer.pos((double) (-i - 1), (double) (-1 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
     vertexbuffer.pos((double) (-i - 1), (double) (8 + yOffset), 0.0D).color(0.0F, 0.0F, 0.0F, alpha).endVertex();
@@ -114,7 +115,7 @@ public class ModuleNameTags extends Module {
     GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 
     ArrayList<ItemStack> itemList = new ArrayList<>();
-    itemList.addAll(entityPlayer.inventory.armorInventory);
+    itemList.addAll(Arrays.asList(entityPlayer.inventory.armorInventory));
     itemList.add(entityPlayer.getHeldItemMainhand());
     itemList.add(entityPlayer.getHeldItemOffhand());
 
@@ -137,7 +138,7 @@ public class ModuleNameTags extends Module {
 
         if (Item.getIdFromItem(itemStack.getItem()) != 0) {
           GlStateManager.scale(2.0D, 2.0D, 2.0D);
-          fontRenderer.drawString(itemStack.getStackSize() + "x", (80 - (xIndex * 50) + 15) / 2, -10, 0xFFFFFFFF);
+          fontRenderer.drawString(itemStack.stackSize + "x", (80 - (xIndex * 50) + 15) / 2, -10, 0xFFFFFFFF);
           GlStateManager.scale(0.5D, 0.5D, 0.5D);
         }
 

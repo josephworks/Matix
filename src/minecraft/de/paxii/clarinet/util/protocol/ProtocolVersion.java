@@ -7,7 +7,7 @@ import lombok.Getter;
  */
 
 public class ProtocolVersion {
-  private static CompatibleVersion currentVersion = CompatibleVersion._1122;
+  private static CompatibleVersion currentVersion = CompatibleVersion._110;
 
   public static int getProtocolVersion() {
     return currentVersion.getProtocolVersion();
@@ -29,7 +29,7 @@ public class ProtocolVersion {
   }
 
   public enum CompatibleVersion {
-    _1122(340, "1.12.2");
+    _110(210, "1.10");
 
     @Getter
     private int protocolVersion;

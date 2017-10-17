@@ -17,6 +17,7 @@ import de.paxii.clarinet.util.settings.type.ClientSettingInteger;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 import org.lwjgl.opengl.GL11;
@@ -82,7 +83,6 @@ public class ModuleBlockESP extends Module {
   public void onRender(RenderTickEvent event) {
     this.renderBlocks.forEach((renderBlock -> {
       int renderColor = searchBlocks.get(renderBlock.getBlockID());
-      Color decode = new Color(renderColor);
       BlockPos blockPos = renderBlock.getBlockPos();
 
       double x = blockPos.getX() - (Wrapper.getPlayer().lastTickPosX
@@ -103,7 +103,7 @@ public class ModuleBlockESP extends Module {
       GlStateManager.disableCull();
       GlStateManager.disableBlend();
       GL11.glLineWidth(1.0F);
-      RenderGlobal.drawBoundingBox(x, y, z, x + 1.0D, y + 1.0D, z + 1.0D, decode.getRed() / 255.0F, decode.getGreen() / 255.0F, decode.getBlue() / 255.0F, 1.0F);
+      RenderGlobal.drawOutlinedBoundingBox(new AxisAlignedBB(x, y, z, x + 1.0D, y + 1.0D, z + 1.0D), renderColor);
       GL11Helper.disableDefaults();
       GlStateManager.enableTexture2D();
       GlStateManager.enableLighting();
