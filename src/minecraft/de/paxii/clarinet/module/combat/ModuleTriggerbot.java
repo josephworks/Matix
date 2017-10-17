@@ -112,7 +112,7 @@ public class ModuleTriggerbot extends Module {
 
   private boolean isKeyDown() {
     int triggerKey = this.getTriggerKey();
-    return triggerKey >= 0 ? Keyboard.isKeyDown(triggerKey) : Mouse.isButtonDown(triggerKey + 100);
+    return triggerKey > 0 ? Keyboard.isKeyDown(triggerKey) : Mouse.isButtonDown(triggerKey + 100);
   }
 
   private boolean shouldAttack(Entity entity) {
