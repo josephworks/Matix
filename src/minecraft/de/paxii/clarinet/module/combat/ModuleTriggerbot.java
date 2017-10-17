@@ -50,8 +50,8 @@ public class ModuleTriggerbot extends Module {
     this.getModuleValues().put("clickRange", new ValueBase("Triggerbot Range", 4.5F, 1F, 6.6F, "Range"));
     this.getModuleValues().put("randomness", new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true, "Randomness"));
     this.getModuleSettings().put("triggerKey", new ClientSettingInteger("Trigger Key", 56));
+    this.getModuleSettings().put("ignoreHitboxes", new ClientSettingBoolean("Ignore Hitboxes", false));
     this.getModuleSettings().put("autoDelay", new ClientSettingBoolean("Auto Delay", false));
-
 
     this.addPanelElement(this.triggerKeyButton = new PanelKeyBindButton(this.triggerKeyCaption.apply(this.getTriggerKey()), (keyCode, self) -> {
       if (keyCode == 1) {
@@ -77,15 +77,19 @@ public class ModuleTriggerbot extends Module {
     if (this.isKeyDown()) {
       this.getMouseOver(Wrapper.getMinecraft().getTimer().renderPartialTicks);
       this.timeManager.updateTimer((int) this.getModuleValues().get("randomness").getValue());
+      Entity pointedEntity = null;
 
       if (this.objectMouseOver != null && this.objectMouseOver.entityHit != null) {
-        Entity pointedEntity = this.objectMouseOver.entityHit;
+        pointedEntity = this.objectMouseOver.entityHit;
+      }
 
-        if (shouldAttack(pointedEntity) && this.isDelayComplete()) {
+      if (((this.getValue("ignoreHitboxes", Boolean.class) && pointedEntity == null) || this.shouldAttack(pointedEntity))
+              && this.isDelayComplete()) {
+        if (pointedEntity != null) {
           Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), pointedEntity);
-          Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
-          this.timeManager.updateLast();
         }
+        Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
+        this.timeManager.updateLast();
       }
     }
   }
