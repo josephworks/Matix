@@ -59,10 +59,6 @@ public class CommandReload extends AClientCommand {
           if (!oldCommands.contains(k))
             Chat.printClientMessage("New Command: " + k);
         });
-      } else {
-        if (!somethingNew) {
-          somethingNew = false;
-        }
       }
 
       if (!somethingNew) {
