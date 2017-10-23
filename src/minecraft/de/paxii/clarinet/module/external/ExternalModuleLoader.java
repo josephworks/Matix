@@ -30,9 +30,7 @@ public class ExternalModuleLoader {
   public void loadModules(Runnable callback) {
     new Thread(() -> {
       try {
-        this.loadModuleJars(this.getModuleJars());
-        Module[] externalModules = this.loadExternalModules();
-
+        Module[] externalModules = this.loadExternalModules(this.getModuleJars());
         for (Module externalModule : externalModules) {
           externalModule.setPlugin(true);
           Wrapper.getModuleManager().addModule(externalModule);
@@ -75,14 +73,9 @@ public class ExternalModuleLoader {
     }).toArray(File[]::new);
   }
 
-  private void loadModuleJars(File[] moduleJars) {
-    this.addToClassPath(moduleJars);
-  }
-
-  private Module[] loadExternalModules() {
+  private Module[] loadExternalModules(File[] moduleJars) {
     ArrayList<Module> moduleList = new ArrayList<>();
-
-    Iterator<Module> it = ServiceLoader.load(Module.class).iterator();
+    Iterator<Module> it = ServiceLoader.load(Module.class, this.getPluginClassLoader(moduleJars)).iterator();
 
     while (it.hasNext()) {
       try {
@@ -95,7 +88,7 @@ public class ExternalModuleLoader {
     return moduleList.toArray(new Module[moduleList.size()]);
   }
 
-  private void addToClassPath(File[] files) {
+  private ClassLoader getPluginClassLoader(File[] jarFiles) {
     Function<File, URL> toUrl = file -> {
       try {
         return file.toURI().toURL();
@@ -105,14 +98,9 @@ public class ExternalModuleLoader {
       return null;
     };
 
-    try {
-      ClassLoader pluginClassLoader = URLClassLoader.newInstance(
-              Arrays.stream(files).map(toUrl).collect(Collectors.toList()).toArray(new URL[files.length]),
-              Thread.currentThread().getContextClassLoader()
-      );
-      Thread.currentThread().setContextClassLoader(pluginClassLoader);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    return URLClassLoader.newInstance(
+            Arrays.stream(jarFiles).map(toUrl).collect(Collectors.toList()).toArray(new URL[jarFiles.length])
+    );
   }
+
 }
