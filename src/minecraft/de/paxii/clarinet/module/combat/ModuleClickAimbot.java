@@ -11,6 +11,7 @@ import de.paxii.clarinet.util.chat.Chat;
 import de.paxii.clarinet.util.module.killaura.AuraManager;
 import de.paxii.clarinet.util.module.killaura.EntityManager;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
+import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -20,6 +21,7 @@ public class ModuleClickAimbot extends Module {
   private final AuraManager auraManager;
   private final TimeManager timeManager;
   private final EntityManager entityManager;
+  private final ValueBase valueRandomness;
   private EntityLivingBase target;
 
   public ModuleClickAimbot() {
@@ -33,6 +35,9 @@ public class ModuleClickAimbot extends Module {
     this.timeManager = new TimeManager();
     this.entityManager = new EntityManager(this.auraManager,
             Wrapper.getFriendManager());
+    this.valueRandomness = new ValueBase(String.format("%s Random", this.getName()), 50.0F, 1.0F, 250.0F, true, "Randomness");
+
+    this.getModuleValues().put("randomness", valueRandomness);
   }
 
   @EventHandler
@@ -45,8 +50,8 @@ public class ModuleClickAimbot extends Module {
       return;
     }
 
-    this.timeManager.updateTimer();
-    this.target = entityManager.getClosestEntityToCursor(this.auraManager.getAngle());
+    this.timeManager.updateTimer((int) this.valueRandomness.getValue());
+    this.target = this.entityManager.getClosestEntityToCursor(this.auraManager.getAngle());
 
     if (this.target == null) {
       return;
@@ -60,7 +65,7 @@ public class ModuleClickAimbot extends Module {
       return;
     }
 
-    if (timeManager.sleep(this.auraManager.getDelay())) {
+    if (this.auraManager.isDelayComplete(this.timeManager)) {
       Wrapper.getMinecraft().playerController.attackEntity(Wrapper.getPlayer(), this.target);
       Wrapper.getPlayer().swingArm(EnumHand.MAIN_HAND);
       this.auraManager.addToAttackMap(this.target.getEntityId(), this.timeManager.getLast());
