@@ -1,0 +1,33 @@
+Index: src/minecraft/net/minecraft/network/NetworkManager.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/minecraft/net/minecraft/network/NetworkManager.java	(revision 6fe34012ed089b18a27bb3781c202749d6e741da)
++++ src/minecraft/net/minecraft/network/NetworkManager.java	(revision )
+@@ -2,6 +2,10 @@
+ 
+ import com.google.common.collect.Queues;
+ import com.google.common.util.concurrent.ThreadFactoryBuilder;
++
++import de.paxii.clarinet.event.EventManager;
++import de.paxii.clarinet.event.events.game.ReceivePacketEvent;
++
+ import io.netty.bootstrap.Bootstrap;
+ import io.netty.channel.Channel;
+ import io.netty.channel.ChannelException;
+@@ -148,6 +152,14 @@
+         {
+             try
+             {
++                // TODO: Client
++                    ReceivePacketEvent receivePacketEvent = new ReceivePacketEvent(p_channelRead0_2_);
++                    EventManager.call(receivePacketEvent);
++                    if (receivePacketEvent.isCancelled()) {
++                        return;
++                    }
++                    p_channelRead0_2_ = receivePacketEvent.getPacket();
++                //
+                 ((Packet<INetHandler>)p_channelRead0_2_).processPacket(this.packetListener);
+             }
+             catch (ThreadQuickExitException var4)
