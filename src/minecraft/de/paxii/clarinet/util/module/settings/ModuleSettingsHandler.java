@@ -74,6 +74,8 @@ public class ModuleSettingsHandler {
       try {
         settingsFile.delete();
 
+        module.onShutdown();
+
         if (settingsFile.createNewFile()) {
           FileService.setFileContentsAsJson(settingsFile, new ModuleSettingsObject(module));
         }
