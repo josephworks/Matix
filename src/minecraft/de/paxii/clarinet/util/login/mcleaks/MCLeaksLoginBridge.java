@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  * Created by Lars on 04.09.2016.
  */
 public class MCLeaksLoginBridge {
-  private static final String endPoint = "http://auth.mcleaks.net/v1/%s";
+  private static final String endPoint = "https://auth.mcleaks.net/v1/%s";
 
   public static Session loginWithToken(String token) {
     MCLeaksResponse mcLeaksResponse = JsonFetcher.post(String.format(endPoint, "redeem"), String.format("{\"token\": \"%s\"}", token), MCLeaksResponse.class);
