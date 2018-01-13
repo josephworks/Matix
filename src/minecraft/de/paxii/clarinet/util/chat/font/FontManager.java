@@ -15,6 +15,8 @@ public class FontManager {
   @Getter
   private static TTF smallFont;
   @Getter
+  private static TTF bigUbuntuFont;
+  @Getter
   private static TTF ubuntuFont;
   @Getter
   private static TTF smallUbuntuFont;
@@ -27,7 +29,8 @@ public class FontManager {
   private void loadFonts(StartGameEvent event) {
     FontManager.defaultFont = new TTF("Verdana", 16);
     FontManager.smallFont = new TTF("Verdana", 8);
-    FontManager.ubuntuFont = new TTF("Ubuntu Bold", 20);
-    FontManager.smallUbuntuFont = new TTF("Ubuntu", 18);
+    FontManager.bigUbuntuFont = new TTF("Ubuntu Bold", 20);
+    FontManager.ubuntuFont = new TTF("Ubuntu Standard", 18);
+    FontManager.smallUbuntuFont = new TTF("Ubuntu Bold", 18);
   }
 }

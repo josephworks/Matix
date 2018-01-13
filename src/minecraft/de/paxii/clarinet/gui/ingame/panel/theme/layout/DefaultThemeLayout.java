@@ -1,6 +1,6 @@
 package de.paxii.clarinet.gui.ingame.panel.theme.layout;
 
-public class Matix2HDThemeLayout implements GuiThemeLayout {
+public class DefaultThemeLayout implements GuiThemeLayout {
 
   @Override
   public ElementSpacing getPanelLayout() {
@@ -8,8 +8,13 @@ public class Matix2HDThemeLayout implements GuiThemeLayout {
   }
 
   @Override
+  public ElementSpacing getModuleButtonLayout() {
+    return new ElementSpacing(90, 16, 2, 8, 0, 2);
+  }
+
+  @Override
   public ElementSpacing getButtonLayout() {
-    return new ElementSpacing(90, 12, 0, 5, 1, 5);
+    return new ElementSpacing(90, 16, 2, 0, 0, 2);
   }
 
   @Override
@@ -19,6 +24,6 @@ public class Matix2HDThemeLayout implements GuiThemeLayout {
 
   @Override
   public ElementSpacing getSliderLayout() {
-    return new ElementSpacing(88, 15, 0, 0, 1, 5);
+    return new ElementSpacing(86, 15, 0, 0, 5, 7);
   }
 }

@@ -100,7 +100,7 @@ public class PanelModuleButton extends PanelElement {
       displayHelp = true;
     }
 
-    this.moduleSettings.setPanelX(elementX + this.getWidth() + 5);
+    this.moduleSettings.setPanelX(elementX + this.getWidth() + this.getElementSpacing().getMarginRight());
     this.moduleSettings.setPanelY(elementY);
 
     Wrapper.getClickableGui()

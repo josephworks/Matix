@@ -9,7 +9,7 @@ public class LegacyThemeLayout implements GuiThemeLayout {
 
   @Override
   public ElementSpacing getButtonLayout() {
-    return new ElementSpacing(90, 12, 0, 0, 2, 5);
+    return new ElementSpacing(90, 12, 0, 5, 2, 5);
   }
 
   @Override
