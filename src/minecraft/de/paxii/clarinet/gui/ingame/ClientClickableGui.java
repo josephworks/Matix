@@ -7,7 +7,7 @@ import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelManager;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
-import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.LegacyTheme;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.Matix2HDTheme;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.settings.type.ClientSettingString;
@@ -46,7 +46,7 @@ public class ClientClickableGui extends GuiScreen {
 
   private void loadThemes() {
     this.panelThemes.add(new Matix2HDTheme());
-    this.panelThemes.add(new DefaultClientTheme());
+    this.panelThemes.add(new LegacyTheme());
 
     IClientTheme clientTheme = this.getTheme(ClientSettings.getValue("client.guitheme", String.class));
 
@@ -62,7 +62,7 @@ public class ClientClickableGui extends GuiScreen {
     GuiPanel colorPanel = this.getGuiPanel("Gui Color");
 
     if (colorPanel != null) {
-      if (clientTheme instanceof DefaultClientTheme) {
+      if (clientTheme instanceof LegacyTheme) {
         colorPanel.setVisible(true);
       } else {
         colorPanel.setVisible(false);

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
-public class DefaultClientTheme implements IClientTheme {
+public class LegacyTheme implements IClientTheme {
   @Getter
   private ArrayList<DefaultThemeColorObject> colorObjects;
 
@@ -31,7 +31,7 @@ public class DefaultClientTheme implements IClientTheme {
   @Setter
   private DefaultThemeColorObject currentColor;
 
-  public DefaultClientTheme() {
+  public LegacyTheme() {
     this.colorObjects = new ArrayList<>();
 
     this.colorObjects.add(new DefaultThemeColorObject("Blue", 0xAA3F73FF, 0xAA272833, 0xCC8C9399, 0xCCD2CED1, 0xCC3F73FF, 0xCC759CFF, 0xFFFFFFFF));
@@ -48,7 +48,7 @@ public class DefaultClientTheme implements IClientTheme {
 
   @Override
   public String getName() {
-    return "Default";
+    return "Legacy";
   }
 
   @Override
