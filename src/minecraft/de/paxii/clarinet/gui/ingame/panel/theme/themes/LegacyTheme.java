@@ -2,7 +2,9 @@ package de.paxii.clarinet.gui.ingame.panel.theme.themes;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
-import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.GuiThemeLayout;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.LegacyThemeLayout;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;
 import de.paxii.clarinet.util.module.settings.ValueBase;
@@ -23,7 +25,10 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
-public class LegacyTheme implements IClientTheme {
+public class LegacyTheme implements GuiTheme {
+
+  private static final GuiThemeLayout LAYOUT = new LegacyThemeLayout();
+
   @Getter
   private ArrayList<DefaultThemeColorObject> colorObjects;
 
@@ -237,8 +242,13 @@ public class LegacyTheme implements IClientTheme {
                     + format.format(valueBase.getValue()), sliderX,
             sliderY, this.currentColor.getTextColor());
 
-    IClientTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth,
+    GuiTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth,
             sliderHeight, dragX, shouldRound);
+  }
+
+  @Override
+  public GuiThemeLayout getLayout() {
+    return LAYOUT;
   }
 
   public class DefaultThemeColorObject {

@@ -3,6 +3,7 @@ package de.paxii.clarinet.gui.ingame.panel;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelModuleButton;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ import net.minecraft.util.EnumActionResult;
 
 public class GuiPanel {
   @Getter
-  ArrayList<PanelElement> panelElements;
+  private ArrayList<PanelElement> panelElements;
   @Getter
   @Setter
   private String panelName;
@@ -57,7 +58,9 @@ public class GuiPanel {
     int height = 20;
 
     for (PanelElement panelElement : this.getPanelElements()) {
-      height += panelElement.getElementHeight() + panelElement.getElementYOffset();
+      height += panelElement.getHeight()
+              + panelElement.getElementSpacing().getMarginTop()
+              + panelElement.getElementSpacing().getMarginBottom();
     }
 
     return height;
@@ -77,13 +80,10 @@ public class GuiPanel {
       int index = 17;
 
       for (PanelElement panelElement : this.getPanelElements()) {
-        if (panelElement instanceof PanelModuleButton) {
-          panelElement.setElementHeight(12);
-          panelElement.setElementYOffset(0);
-        }
-
-        panelElement.drawElement(this.getPanelX() + 5, this.getPanelY() + index, mouseX, mouseY);
-        index += panelElement.getElementHeight();
+        ElementSpacing spacing = panelElement.getElementSpacing();
+        index += spacing.getMarginTop();
+        panelElement.drawElement(this.getPanelX() + spacing.getMarginLeft(), this.getPanelY() + index, mouseX, mouseY);
+        index += panelElement.getHeight() + spacing.getMarginBottom();
       }
     }
   }

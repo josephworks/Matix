@@ -1,38 +1,27 @@
 package de.paxii.clarinet.gui.ingame.panel.element;
 
-import de.paxii.clarinet.Wrapper;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 
 public class PanelElement {
   @Getter
   @Setter
-  private int elementX, elementY, elementWidth, elementHeight, elementYOffset;
+  private int elementX, elementY;
 
   public PanelElement() {
   }
 
-  public PanelElement(int elementWidth, int elementHeight) {
-    this.elementWidth = elementWidth;
-    this.elementHeight = elementHeight;
-  }
-
-  public PanelElement(int elementX, int elementY, int elementWidth, int elementHeight) {
+  public PanelElement(int elementX, int elementY) {
     this.elementX = elementX;
     this.elementY = elementY;
-    this.elementWidth = elementWidth;
-    this.elementHeight = elementHeight;
   }
 
   public void drawElement(int elementX, int elementY, int mouseX, int mouseY) {
     this.elementX = elementX;
     this.elementY = elementY;
-
-    this.elementWidth = Wrapper.getClickableGui().getCurrentTheme().getElementWidth(this);
-    this.elementHeight = Wrapper.getClickableGui().getCurrentTheme().getElementHeight(this);
   }
 
   public void mouseClicked(int mouseX, int mouseY, int buttonClicked) {
@@ -47,10 +36,22 @@ public class PanelElement {
 
   public boolean isMouseOverButton(int mouseX, int mouseY) {
     boolean rightX = mouseX > this.getElementX()
-            && mouseX <= this.getElementX() + this.getElementWidth();
+            && mouseX <= this.getElementX() + this.getWidth();
     boolean rightY = mouseY > this.getElementY()
-            && mouseY <= this.getElementY() + this.getElementHeight();
+            && mouseY <= this.getElementY() + this.getHeight();
 
     return rightX && rightY;
+  }
+
+  public int getWidth() {
+    return this.getElementSpacing().getWidth();
+  }
+
+  public int getHeight() {
+    return this.getElementSpacing().getHeight();
+  }
+
+  public ElementSpacing getElementSpacing() {
+    return new ElementSpacing(0, 0);
   }
 }

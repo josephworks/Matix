@@ -2,8 +2,9 @@ package de.paxii.clarinet.gui.ingame.panel.theme.themes;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
-import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
-import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.GuiThemeLayout;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.LegacyThemeLayout;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.font.FontManager;
 import de.paxii.clarinet.util.render.GuiMethods;
@@ -13,7 +14,9 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-public class DefaultTheme implements IClientTheme {
+public class DefaultTheme implements GuiTheme {
+
+  private static final GuiThemeLayout LAYOUT = new LegacyThemeLayout();
 
   private static final ResourceLocation PANEL_HEADER = DefaultTheme.getResource("panel-header");
 
@@ -91,13 +94,8 @@ public class DefaultTheme implements IClientTheme {
   }
 
   @Override
-  public int getElementWidth(PanelElement panelElement) {
-    return 95;
-  }
-
-  @Override
-  public int getElementHeight(PanelElement panelElement) {
-    return 22;
+  public GuiThemeLayout getLayout() {
+    return LAYOUT;
   }
 
   protected void drawTexture(ResourceLocation resource, int x, int y, int textureX, int textureY, int width, int height) {

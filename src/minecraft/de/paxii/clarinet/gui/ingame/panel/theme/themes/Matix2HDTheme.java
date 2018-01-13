@@ -3,7 +3,10 @@ package de.paxii.clarinet.gui.ingame.panel.theme.themes;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
-import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.GuiThemeLayout;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.LegacyThemeLayout;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.Matix2HDThemeLayout;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;
 import de.paxii.clarinet.util.chat.font.FontManager;
@@ -24,7 +27,10 @@ import java.text.DecimalFormat;
 /**
  * Created by Lars on 26.06.2016.
  */
-public class Matix2HDTheme implements IClientTheme {
+public class Matix2HDTheme implements GuiTheme {
+
+  private static final GuiThemeLayout LAYOUT = new Matix2HDThemeLayout();
+
   @Override
   public String getName() {
     return "Matix2HD";
@@ -225,6 +231,11 @@ public class Matix2HDTheme implements IClientTheme {
             0xFFFFFFFF
     );
 
-    IClientTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth, sliderHeight, dragX, shouldRound);
+    GuiTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth, sliderHeight, dragX, shouldRound);
+  }
+
+  @Override
+  public GuiThemeLayout getLayout() {
+    return LAYOUT;
   }
 }

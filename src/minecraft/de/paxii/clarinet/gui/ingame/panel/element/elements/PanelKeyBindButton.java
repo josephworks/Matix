@@ -2,8 +2,9 @@ package de.paxii.clarinet.gui.ingame.panel.element.elements;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 import de.paxii.clarinet.util.function.TwoArgumentsFunction;
-import java.util.function.Function;
+
 import lombok.Setter;
 import net.minecraft.util.EnumActionResult;
 
@@ -53,9 +54,14 @@ public class PanelKeyBindButton extends PanelElement {
   public void drawElement(int elementX, int elementY, int mouseX, int mouseY) {
     Wrapper.getClickableGui()
         .getCurrentTheme()
-        .drawButton(this.caption, elementX, elementY, this.getElementWidth(),
-            this.getElementHeight(), this.listening, this.isMouseOverButton(mouseX, mouseY));
+        .drawButton(this.caption, elementX, elementY, this.getWidth(),
+            this.getHeight(), this.listening, this.isMouseOverButton(mouseX, mouseY));
 
     super.drawElement(elementX, elementY, mouseX, mouseY);
+  }
+
+  @Override
+  public ElementSpacing getElementSpacing() {
+    return Wrapper.getClickableGui().getCurrentTheme().getLayout().getButtonLayout();
   }
 }

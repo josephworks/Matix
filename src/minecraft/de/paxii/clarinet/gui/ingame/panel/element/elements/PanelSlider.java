@@ -2,6 +2,7 @@ package de.paxii.clarinet.gui.ingame.panel.element.elements;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 
 import lombok.Getter;
@@ -46,15 +47,15 @@ public class PanelSlider extends PanelElement {
       this.dragX = 0;
     }
 
-    if (this.dragX > this.getElementWidth()) {
-      this.dragX = this.getElementWidth();
+    if (this.dragX > this.getWidth()) {
+      this.dragX = this.getWidth();
     }
 
     Wrapper.getClickableGui()
             .getCurrentTheme()
             .drawSlider(sliderValue, this.getElementX(),
-                    this.getElementY(), this.getElementWidth(),
-                    this.getElementHeight(), dragX, shouldRound);
+                    this.getElementY(), this.getWidth(),
+                    this.getHeight(), dragX, shouldRound);
   }
 
   @Override
@@ -78,7 +79,7 @@ public class PanelSlider extends PanelElement {
     boolean rightX = mouseX >= this.getElementX() + dragX - 3
             && mouseX <= this.getElementX() + dragX + 6 + 3;
     boolean rightY = mouseY >= this.getElementY()
-            && mouseY <= this.getElementY() + this.getElementHeight();
+            && mouseY <= this.getElementY() + this.getHeight();
 
     return rightX && rightY;
   }
@@ -88,8 +89,13 @@ public class PanelSlider extends PanelElement {
 
     value -= this.sliderValue.getMin();
 
-    float fraction = this.getElementWidth()
+    float fraction = this.getWidth()
             / (this.sliderValue.getMax() - this.sliderValue.getMin());
     dragX = fraction * value;
+  }
+
+  @Override
+  public ElementSpacing getElementSpacing() {
+    return Wrapper.getClickableGui().getCurrentTheme().getLayout().getSliderLayout();
   }
 }

@@ -2,6 +2,7 @@ package de.paxii.clarinet.gui.ingame.panel.element.elements;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.AbstractPanelValueElement;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 
 /**
  * Created by Lars on 31.07.2016.
@@ -12,8 +13,6 @@ public class PanelCheckBox extends AbstractPanelValueElement<Boolean> {
   public PanelCheckBox(String caption, boolean checked) {
     this.caption = caption;
     this.value = checked;
-    this.setElementWidth(90);
-    this.setElementHeight(12);
   }
 
   @Override
@@ -24,8 +23,8 @@ public class PanelCheckBox extends AbstractPanelValueElement<Boolean> {
             this.value,
             elementX,
             elementY,
-            this.getElementWidth(),
-            this.getElementHeight(),
+            this.getWidth(),
+            this.getHeight(),
             buttonHovered
     );
 
@@ -37,5 +36,10 @@ public class PanelCheckBox extends AbstractPanelValueElement<Boolean> {
     if (this.isMouseOverButton(mouseX, mouseY)) {
       this.setValue(!this.getValue());
     }
+  }
+
+  @Override
+  public ElementSpacing getElementSpacing() {
+    return Wrapper.getClickableGui().getCurrentTheme().getLayout().getCheckboxLayout();
   }
 }

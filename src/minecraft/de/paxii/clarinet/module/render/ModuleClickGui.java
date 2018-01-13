@@ -4,7 +4,7 @@ import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.event.EventHandler;
 import de.paxii.clarinet.event.events.game.IngameTickEvent;
 import de.paxii.clarinet.gui.ingame.ClientClickableGui;
-import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.chat.Chat;
@@ -49,7 +49,7 @@ public class ModuleClickGui extends Module {
       if (args[0].equalsIgnoreCase("theme")) {
         if (args[1].equalsIgnoreCase("list")) {
           String themes = "";
-          for (IClientTheme clientTheme : Wrapper.getClickableGui().getPanelThemes()) {
+          for (GuiTheme clientTheme : Wrapper.getClickableGui().getPanelThemes()) {
             themes += ", " + clientTheme.getName();
           }
 
@@ -63,7 +63,7 @@ public class ModuleClickGui extends Module {
 
 
           if (Wrapper.getClickableGui().doesThemeExist(themeName)) {
-            IClientTheme clientTheme = Wrapper.getClickableGui().getTheme(themeName);
+            GuiTheme clientTheme = Wrapper.getClickableGui().getTheme(themeName);
             Wrapper.getClickableGui().setCurrentTheme(clientTheme);
 
             Chat.printClientMessage("The GUI Theme was set to " + clientTheme.getName() + ".");
