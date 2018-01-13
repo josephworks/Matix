@@ -7,6 +7,7 @@ import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelManager;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultTheme;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.LegacyTheme;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.Matix2HDTheme;
 import de.paxii.clarinet.util.settings.ClientSettings;
@@ -45,6 +46,7 @@ public class ClientClickableGui extends GuiScreen {
   }
 
   private void loadThemes() {
+    this.panelThemes.add(new DefaultTheme());
     this.panelThemes.add(new Matix2HDTheme());
     this.panelThemes.add(new LegacyTheme());
 

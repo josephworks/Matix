@@ -1,5 +1,7 @@
 package de.paxii.clarinet.gui.ingame.panel.element;
 
+import de.paxii.clarinet.Wrapper;
+
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.util.ActionResult;
@@ -28,6 +30,9 @@ public class PanelElement {
   public void drawElement(int elementX, int elementY, int mouseX, int mouseY) {
     this.elementX = elementX;
     this.elementY = elementY;
+
+    this.elementWidth = Wrapper.getClickableGui().getCurrentTheme().getElementWidth(this);
+    this.elementHeight = Wrapper.getClickableGui().getCurrentTheme().getElementHeight(this);
   }
 
   public void mouseClicked(int mouseX, int mouseY, int buttonClicked) {
