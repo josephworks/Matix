@@ -2,6 +2,7 @@ package de.paxii.clarinet.gui.menu.hooks;
 
 import de.paxii.clarinet.Client;
 import de.paxii.clarinet.Wrapper;
+import de.paxii.clarinet.gui.menu.changelog.GuiChangelog;
 import de.paxii.clarinet.gui.menu.store.module.GuiModuleStore;
 import de.paxii.clarinet.util.protocol.ProtocolVersion;
 
@@ -22,6 +23,7 @@ public class GuiMainMenuHook extends GuiMainMenu {
     this.buttonList.add(new GuiButton(200, 2, this.height - 40, 100, 20, "AltManager"));
     this.pluginsButton = new GuiButton(201, this.width - 102, this.height - 40, 100, 20, "Plugins");
     this.protocolButton = new GuiButton(202, 2, this.height - 65, 100, 20, ProtocolVersion.getGameVersion());
+    this.buttonList.add(new GuiButton(203, this.width - 102, this.height - 65, 100, 20, "Changelog"));
 
 //    this.pluginsButton.enabled = false;
     this.buttonList.add(pluginsButton);
@@ -44,6 +46,9 @@ public class GuiMainMenuHook extends GuiMainMenu {
     if (button.id == this.protocolButton.id) {
       ProtocolVersion.cycleVersion();
       this.protocolButton.displayString = ProtocolVersion.getGameVersion();
+    }
+    if (button.id == 203) {
+      Wrapper.getMinecraft().displayGuiScreen(new GuiChangelog());
     }
   }
 
