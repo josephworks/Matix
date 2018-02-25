@@ -24,6 +24,6 @@ public class DefaultThemeLayout implements GuiThemeLayout {
 
   @Override
   public ElementSpacing getSliderLayout() {
-    return new ElementSpacing(86, 15, 0, 0, 5, 7);
+    return new ElementSpacing(86, 15, 3, 0, 2, 7);
   }
 }
