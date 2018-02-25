@@ -11,6 +11,8 @@ import net.minecraft.client.gui.GuiScreen;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
 
 import lombok.Getter;
 
@@ -113,9 +115,9 @@ public class GuiChangelog extends GuiScreen {
 
   @Getter
   private class Changelog {
-    private HashMap<String, Entry> changelog;
+    private LinkedHashMap<String, Entry> changelog;
 
-    public Changelog(HashMap<String, Entry> changelog) {
+    public Changelog(LinkedHashMap<String, Entry> changelog) {
       this.changelog = changelog;
     }
   }
