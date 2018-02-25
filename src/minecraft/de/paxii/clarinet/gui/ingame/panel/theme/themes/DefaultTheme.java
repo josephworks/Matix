@@ -6,11 +6,15 @@ import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
 import de.paxii.clarinet.gui.ingame.panel.theme.layout.DefaultThemeLayout;
 import de.paxii.clarinet.gui.ingame.panel.theme.layout.GuiThemeLayout;
 import de.paxii.clarinet.module.Module;
+import de.paxii.clarinet.module.render.ModuleXray;
 import de.paxii.clarinet.util.chat.font.FontManager;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.render.GuiMethods;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Mouse;
@@ -117,7 +121,20 @@ public class DefaultTheme implements GuiTheme {
 
   @Override
   public void drawBlockButton(IBlockState iBlockState, int buttonX, int buttonY, int buttonWidth, int buttonHeight, boolean buttonHovered) {
+    int blockID = Block.getIdFromBlock(iBlockState.getBlock());
+    boolean isEnabled = ModuleXray.getBlockList().contains(blockID);
 
+    RenderHelper.enableGUIStandardItemLighting();
+    Wrapper.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(new ItemStack(iBlockState.getBlock(), 1), buttonX + 2, buttonY + 2);
+    RenderHelper.disableStandardItemLighting();
+
+    GL11.glPushMatrix();
+    GL11.glTranslatef(0.0F, 0.0F, 255.0F);
+    GL11.glScalef(0.5F, 0.5F, 0.5F);
+    Wrapper.getFontRenderer().drawSplitString(iBlockState.getBlock().getLocalizedName(), buttonX * 2 + 2, buttonY * 2 + 2, 38, 0xFFFFFFFF);
+    GL11.glPopMatrix();
+
+    GuiMethods.drawRoundedRect(buttonX, buttonY, buttonX + buttonWidth, buttonY + buttonHeight, isEnabled ? 0xFF00FF00 : 0xFFFF0000, 0);
   }
 
   @Override
