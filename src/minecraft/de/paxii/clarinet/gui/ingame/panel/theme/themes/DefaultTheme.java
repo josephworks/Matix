@@ -80,7 +80,6 @@ public class DefaultTheme implements GuiTheme {
 
     this.drawTexture(resourceLocation, buttonX, buttonY, 0, 0, 256, 256);
     FontManager.getSmallUbuntuFont().drawCenteredString(caption, buttonX + (buttonWidth / 2), buttonY + (buttonHeight / 2) - 7, 0xFFFFFFFF);
-
   }
 
   @Override
@@ -172,9 +171,11 @@ public class DefaultTheme implements GuiTheme {
 
   protected void drawTexture(ResourceLocation resource, int x, int y, int textureX, int textureY, int width, int height) {
     GL11.glPushMatrix();
+    GL11.glEnable(GL11.GL_BLEND);
     GL11.glScaled(0.5, 0.5, 0.5);
     Wrapper.getMinecraft().getTextureManager().bindTexture(resource);
     GuiMethods.drawTexturedModalRect(x * 2, y * 2, textureX, textureY, width, height, 0.0D);
+    GL11.glDisable(GL11.GL_BLEND);
     GL11.glPopMatrix();
   }
 
