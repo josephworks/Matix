@@ -4,6 +4,7 @@ import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelModuleButton;
 import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultTheme;
 
 import java.util.ArrayList;
 
@@ -155,6 +156,14 @@ public class GuiPanel {
   }
 
   public boolean isMouseOverCollapseButton(int mouseX, int mouseY) {
+    // FIXME: Position Collapse Button based on Layout
+    if (Wrapper.getClickableGui().getCurrentTheme() instanceof DefaultTheme) {
+      return mouseX >= this.getPanelX() + this.getPanelWidth() - 15 &&
+              mouseX <= this.getPanelX() + this.getPanelWidth() - 5 &&
+              mouseY >= this.getPanelY() + 2 &&
+              mouseY <= this.getPanelY() + 20;
+    }
+
     return mouseX >= this.getPanelX() + this.getPanelWidth() - 11 &&
             mouseX <= this.getPanelX() + this.getPanelWidth() - 2 &&
             mouseY >= this.getPanelY() + 2 &&

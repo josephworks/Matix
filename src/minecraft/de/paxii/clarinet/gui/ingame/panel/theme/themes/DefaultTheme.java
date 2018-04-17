@@ -34,11 +34,6 @@ public class DefaultTheme implements GuiTheme {
   private static final ResourceLocation MODULE_DISABLED = DefaultTheme.getResource("module-disabled");
   private static final ResourceLocation MODULE_DISABLED_HOVERED = DefaultTheme.getResource("module-disabled-hovered");
 
-  private static final ResourceLocation BUTTON_ENABLED = DefaultTheme.getResource("button-enabled");
-  private static final ResourceLocation BUTTON_ENABLED_HOVERED = DefaultTheme.getResource("button-enabled-hovered");
-  private static final ResourceLocation BUTTON_DISABLED = DefaultTheme.getResource("button-disabled");
-  private static final ResourceLocation BUTTON_DISABLED_HOVERED = DefaultTheme.getResource("button-disabled-hovered");
-
   @Override
   public String getName() {
     return "Default";
@@ -55,12 +50,17 @@ public class DefaultTheme implements GuiTheme {
 
     FontManager.getBigUbuntuFont().drawCenteredString(guiPanel.getPanelName(), guiPanel.getPanelX() + (guiPanel.getPanelWidth() / 2), guiPanel.getPanelY() + (guiPanel.getTitleHeight() / 2) - ((int) FontManager.getBigUbuntuFont().getStringHeight(" ") / 2) + 1, 0xFFFFFFFF);
 
+    if (guiPanel.isCollapsible()) {
+      FontManager.getSmallUbuntuFont().drawCenteredString(guiPanel.isOpened() ? "-" : "+", guiPanel.getPanelX() + guiPanel.getPanelWidth() - 10, guiPanel.getPanelY() + (guiPanel.getTitleHeight() / 2) - ((int) FontManager.getBigUbuntuFont().getStringHeight(" ") / 2) + 1, 0xFFFFFFFF);
+      GuiMethods.drawCircle(guiPanel.getPanelX() + guiPanel.getPanelWidth() - 10, guiPanel.getPanelY() + (guiPanel.getTitleHeight() / 2) + 4, 5, 0xffffffff);
+    }
+
     if (guiPanel.isOpened()) {
       GuiMethods.drawGradientRect(
               guiPanel.getPanelX(),
               guiPanel.getPanelY() + 19,
               guiPanel.getPanelX() + guiPanel.getPanelWidth(),
-              guiPanel.getPanelY() + (guiPanel.isOpened() ? guiPanel.getPanelHeight() : guiPanel.getTitleHeight()),
+              guiPanel.getPanelY() + guiPanel.getPanelHeight(),
               0x99000000,
               0x99000000
       );
