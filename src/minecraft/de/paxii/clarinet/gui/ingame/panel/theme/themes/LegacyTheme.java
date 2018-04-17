@@ -7,6 +7,7 @@ import de.paxii.clarinet.gui.ingame.panel.theme.layout.GuiThemeLayout;
 import de.paxii.clarinet.gui.ingame.panel.theme.layout.LegacyThemeLayout;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;
+import de.paxii.clarinet.util.gui.MouseService;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.render.GuiMethods;
 
@@ -133,8 +134,8 @@ public class LegacyTheme implements GuiTheme {
     if (displayHelp && module.getDescription().length() > 0) {
       GL11.glPushMatrix();
       GL11.glTranslatef(0.0F, 0.0F, 255.0F);
-      int posX = Mouse.getX() / 2 + 10;
-      int posY = (Display.getHeight() - Mouse.getY()) / 2;
+      int posX = MouseService.getX() + 10;
+      int posY = MouseService.getY() + 10;
       GuiMethods.drawRoundedRect(
               posX - 3,
               posY,
