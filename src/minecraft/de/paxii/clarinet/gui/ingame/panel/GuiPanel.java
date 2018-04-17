@@ -55,7 +55,7 @@ public class GuiPanel {
   }
 
   private int calculateHeight() {
-    int height = 20;
+    int height = 22;
 
     for (PanelElement panelElement : this.getPanelElements()) {
       height += panelElement.getHeight()
@@ -77,7 +77,7 @@ public class GuiPanel {
     Wrapper.getClickableGui().getCurrentTheme().drawPanel(this, mouseX, mouseY);
 
     if (this.isOpened()) {
-      int index = 17;
+      int index = 19;
 
       for (PanelElement panelElement : this.getPanelElements()) {
         ElementSpacing spacing = panelElement.getElementSpacing();

@@ -46,13 +46,19 @@ public class DefaultTheme implements GuiTheme {
 
   @Override
   public void drawPanel(GuiPanel guiPanel, int mouseX, int mouseY) {
-    this.drawTexture(PANEL_HEADER, guiPanel.getPanelX(), guiPanel.getPanelY(), 0, 0, 256, 256);
+    // dynamically render panel header based on panel width
+    for (int i = 0; i < (guiPanel.getPanelWidth() - 30) * 2; i += 12) {
+      this.drawTexture(PANEL_HEADER, guiPanel.getPanelX() + 20 + (i / 2), guiPanel.getPanelY(), 0, 124, 12, 45);
+    }
+    this.drawTexture(PANEL_HEADER, guiPanel.getPanelX(), guiPanel.getPanelY(), 0, 0, 45, 45);
+    this.drawTexture(PANEL_HEADER, guiPanel.getPanelX() + guiPanel.getPanelWidth() - 20, guiPanel.getPanelY(), 0, 64, 45, 45);
+
     FontManager.getBigUbuntuFont().drawCenteredString(guiPanel.getPanelName(), guiPanel.getPanelX() + (guiPanel.getPanelWidth() / 2), guiPanel.getPanelY() + (guiPanel.getTitleHeight() / 2) - ((int) FontManager.getBigUbuntuFont().getStringHeight(" ") / 2) + 1, 0xFFFFFFFF);
 
     if (guiPanel.isOpened()) {
       GuiMethods.drawGradientRect(
               guiPanel.getPanelX(),
-              guiPanel.getPanelY() + 20,
+              guiPanel.getPanelY() + 19,
               guiPanel.getPanelX() + guiPanel.getPanelWidth(),
               guiPanel.getPanelY() + (guiPanel.isOpened() ? guiPanel.getPanelHeight() : guiPanel.getTitleHeight()),
               0x99000000,
