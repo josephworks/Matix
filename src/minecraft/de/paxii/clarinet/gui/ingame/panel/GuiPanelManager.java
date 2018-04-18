@@ -8,7 +8,7 @@ import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelBlockButton;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelBlockRow;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelModuleButton;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelColorButton;
-import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.LegacyTheme;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.ModuleCategory;
 import de.paxii.clarinet.util.objects.IntObject;
@@ -73,11 +73,11 @@ public class GuiPanelManager {
 //
 //		xIndex += clickableGui.getGuiPanel("Settings").getPanelWidth() + 10;
 
-    if (clickableGui.getCurrentTheme().getName().equals("Default")) {
+    if (clickableGui.getCurrentTheme().getName().equals("Legacy")) {
       clickableGui.getGuiPanels().add(new GuiPanel("Gui Color", xIndex, yIndex, 100, 200) {
         @Override
         public void addElements() {
-          DefaultClientTheme defaultTheme = (DefaultClientTheme) clickableGui.getCurrentTheme();
+          LegacyTheme defaultTheme = (LegacyTheme) clickableGui.getCurrentTheme();
 
           defaultTheme.getColorObjects().forEach((colorObject) ->
                   this.getPanelElements().add(new PanelColorButton(colorObject)));

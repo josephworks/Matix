@@ -3,6 +3,8 @@ package de.paxii.clarinet.gui.ingame.panel;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
 import de.paxii.clarinet.gui.ingame.panel.element.elements.PanelModuleButton;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultTheme;
 
 import java.util.ArrayList;
 
@@ -12,7 +14,7 @@ import net.minecraft.util.EnumActionResult;
 
 public class GuiPanel {
   @Getter
-  ArrayList<PanelElement> panelElements;
+  private ArrayList<PanelElement> panelElements;
   @Getter
   @Setter
   private String panelName;
@@ -54,10 +56,12 @@ public class GuiPanel {
   }
 
   private int calculateHeight() {
-    int height = 20;
+    int height = 22;
 
     for (PanelElement panelElement : this.getPanelElements()) {
-      height += panelElement.getElementHeight() + panelElement.getElementYOffset();
+      height += panelElement.getHeight()
+              + panelElement.getElementSpacing().getMarginTop()
+              + panelElement.getElementSpacing().getMarginBottom();
     }
 
     return height;
@@ -74,16 +78,13 @@ public class GuiPanel {
     Wrapper.getClickableGui().getCurrentTheme().drawPanel(this, mouseX, mouseY);
 
     if (this.isOpened()) {
-      int index = 17;
+      int index = 19;
 
       for (PanelElement panelElement : this.getPanelElements()) {
-        if (panelElement instanceof PanelModuleButton) {
-          panelElement.setElementHeight(12);
-          panelElement.setElementYOffset(0);
-        }
-
-        panelElement.drawElement(this.getPanelX() + 5, this.getPanelY() + index, mouseX, mouseY);
-        index += panelElement.getElementHeight();
+        ElementSpacing spacing = panelElement.getElementSpacing();
+        index += spacing.getMarginTop();
+        panelElement.drawElement(this.getPanelX() + spacing.getMarginLeft(), this.getPanelY() + index, mouseX, mouseY);
+        index += panelElement.getHeight() + spacing.getMarginBottom();
       }
     }
   }
@@ -155,6 +156,14 @@ public class GuiPanel {
   }
 
   public boolean isMouseOverCollapseButton(int mouseX, int mouseY) {
+    // FIXME: Position Collapse Button based on Layout
+    if (Wrapper.getClickableGui().getCurrentTheme() instanceof DefaultTheme) {
+      return mouseX >= this.getPanelX() + this.getPanelWidth() - 15 &&
+              mouseX <= this.getPanelX() + this.getPanelWidth() - 5 &&
+              mouseY >= this.getPanelY() + 2 &&
+              mouseY <= this.getPanelY() + 20;
+    }
+
     return mouseX >= this.getPanelX() + this.getPanelWidth() - 11 &&
             mouseX <= this.getPanelX() + this.getPanelWidth() - 2 &&
             mouseY >= this.getPanelY() + 2 &&

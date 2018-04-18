@@ -3,10 +3,14 @@ package de.paxii.clarinet.gui.ingame.panel.theme.themes;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
-import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.GuiThemeLayout;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.LegacyThemeLayout;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.Matix2HDThemeLayout;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;
 import de.paxii.clarinet.util.chat.font.FontManager;
+import de.paxii.clarinet.util.gui.MouseService;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.render.GuiMethods;
 
@@ -24,7 +28,10 @@ import java.text.DecimalFormat;
 /**
  * Created by Lars on 26.06.2016.
  */
-public class Matix2HDTheme implements IClientTheme {
+public class Matix2HDTheme implements GuiTheme {
+
+  private static final GuiThemeLayout LAYOUT = new Matix2HDThemeLayout();
+
   @Override
   public String getName() {
     return "Matix2HD";
@@ -124,8 +131,8 @@ public class Matix2HDTheme implements IClientTheme {
     if (displayHelp && module.getDescription().length() > 0) {
       GL11.glPushMatrix();
       GL11.glTranslatef(0.0F, 0.0F, 255.0F);
-      int posX = Mouse.getX() / 2 + 10;
-      int posY = (Display.getHeight() - Mouse.getY()) / 2;
+      int posX = MouseService.getX() + 10;
+      int posY = MouseService.getY() + 10;
       GuiMethods.drawRect(
               posX - 3,
               posY,
@@ -225,6 +232,11 @@ public class Matix2HDTheme implements IClientTheme {
             0xFFFFFFFF
     );
 
-    IClientTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth, sliderHeight, dragX, shouldRound);
+    GuiTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth, sliderHeight, dragX, shouldRound);
+  }
+
+  @Override
+  public GuiThemeLayout getLayout() {
+    return LAYOUT;
   }
 }

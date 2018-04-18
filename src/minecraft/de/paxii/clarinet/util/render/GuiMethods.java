@@ -3,6 +3,9 @@ package de.paxii.clarinet.util.render;
 import de.paxii.clarinet.Wrapper;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.AxisAlignedBB;
 
 import org.lwjgl.opengl.GL11;
@@ -1176,5 +1179,18 @@ public class GuiMethods extends Gui {
     GL11.glVertex3d(box.minX, box.minY, box.maxZ);
     GL11.glVertex3d(box.minX, box.maxY, box.maxZ);
     GL11.glEnd();
+  }
+
+  public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, double zLevel)
+  {
+    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+    Tessellator tessellator = Tessellator.getInstance();
+    BufferBuilder bufferbuilder = tessellator.getBuffer();
+    bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+    bufferbuilder.pos((double)(x), (double)(y + height), zLevel).tex((double)((float)(textureX) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
+    bufferbuilder.pos((double)(x + width), (double)(y + height), zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY + height) * 0.00390625F)).endVertex();
+    bufferbuilder.pos((double)(x + width), (double)(y), zLevel).tex((double)((float)(textureX + width) * 0.00390625F), (double)((float)(textureY) * 0.00390625F)).endVertex();
+    bufferbuilder.pos((double)(x), (double)(y), zLevel).tex((double)((float)(textureX) * 0.00390625F), (double)((float)(textureY) * 0.00390625F)).endVertex();
+    tessellator.draw();
   }
 }

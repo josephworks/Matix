@@ -2,6 +2,7 @@ package de.paxii.clarinet.gui.ingame.panel.element.elements;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.AbstractPanelValueElement;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 
 import java.util.Collection;
 
@@ -12,7 +13,9 @@ import lombok.Setter;
  * Created by Lars on 27.08.2016.
  */
 public class PanelDropdown extends AbstractPanelValueElement<String> {
-  private final int defaultElementHeight = 12;
+
+  private int defaultElementHeight = 12;
+
   @Getter
   @Setter
   private String[] values;
@@ -25,8 +28,8 @@ public class PanelDropdown extends AbstractPanelValueElement<String> {
   public PanelDropdown(String value, String[] values) {
     this.value = value;
     this.values = values;
-    this.setElementWidth(90);
-    this.setElementHeight(this.defaultElementHeight);
+
+    this.defaultElementHeight = this.getElementSpacing().getHeight();
   }
 
   @Override
@@ -36,8 +39,8 @@ public class PanelDropdown extends AbstractPanelValueElement<String> {
             this.values,
             this.getElementX(),
             this.getElementY(),
-            this.getElementWidth(),
-            this.getElementHeight(),
+            this.getWidth(),
+            this.getHeight(),
             this.defaultElementHeight,
             this.opened,
             this.isMouseOverButton(mouseX, mouseY)
@@ -66,26 +69,26 @@ public class PanelDropdown extends AbstractPanelValueElement<String> {
 
   private void setOpened(boolean opened) {
     this.opened = opened;
-    this.setElementHeight(this.opened ? this.calculateHeight() : this.defaultElementHeight);
+    this.getElementSpacing().setHeight(opened ? this.calculateHeight() : this.defaultElementHeight);
   }
 
   @Override
   public boolean isMouseOverButton(int mouseX, int mouseY) {
     boolean rightX = mouseX > this.getElementX()
-            && mouseX <= this.getElementX() + this.getElementWidth();
+            && mouseX <= this.getElementX() + this.getWidth();
     boolean rightY = mouseY > this.getElementY()
-            && mouseY <= this.getElementY() + this.defaultElementHeight;
+            && mouseY <= this.getElementY() + this.getHeight();
 
     return rightX && rightY;
   }
 
   private int getHoveredId(int mouseX, int mouseY) {
-    int indexY = this.getElementY() + this.defaultElementHeight;
+    int indexY = this.getElementY() + this.getHeight();
 
     for (int i = 0; i < this.values.length; i++) {
-      int lowerY = indexY + this.defaultElementHeight;
+      int lowerY = indexY + this.getHeight();
 
-      boolean hoverX = mouseX >= this.getElementX() && mouseX <= this.getElementX() + this.getElementWidth();
+      boolean hoverX = mouseX >= this.getElementX() && mouseX <= this.getElementX() + this.getWidth();
       boolean hoverY = mouseY >= indexY && mouseY <= lowerY;
 
       if (hoverX && hoverY) {
@@ -100,5 +103,10 @@ public class PanelDropdown extends AbstractPanelValueElement<String> {
 
   private int calculateHeight() {
     return this.defaultElementHeight + this.values.length * this.defaultElementHeight;
+  }
+
+  @Override
+  public ElementSpacing getElementSpacing() {
+    return Wrapper.getClickableGui().getCurrentTheme().getLayout().getDropdownLayout();
   }
 }

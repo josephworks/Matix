@@ -9,7 +9,7 @@ import de.paxii.clarinet.event.events.client.PostLoadPanelsEvent;
 import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
-import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.LegacyTheme;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
 import java.io.BufferedReader;
@@ -69,7 +69,7 @@ public class PanelSettingsHandler {
             if (line.length() > 0) {
               String colorName = gson.fromJson(line, String.class);
 
-              ((DefaultClientTheme) Wrapper.getClickableGui().getTheme("Default")).setCurrentColor(((DefaultClientTheme) Wrapper.getClickableGui().getTheme("Default")).getColorObject(colorName));
+              ((LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy")).setCurrentColor(((LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy")).getColorObject(colorName));
             }
           }
 
@@ -108,7 +108,7 @@ public class PanelSettingsHandler {
           if (settingsFile.createNewFile()) {
             fileWriter = new FileWriter(settingsFile);
 
-            String colorName = gson.toJson(((DefaultClientTheme) Wrapper.getClickableGui().getTheme("Default")).getCurrentColor().getColorName());
+            String colorName = gson.toJson(((LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy")).getCurrentColor().getColorName());
             fileWriter.append(colorName);
             fileWriter.close();
           }

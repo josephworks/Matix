@@ -115,6 +115,15 @@ public class TTF {
                     "font" + font.toString() + size, new DynamicTexture(this.bufferedImage));
   }
 
+  public void drawCenteredString(String text, int x, int y, int color) {
+    this.drawCenteredString(text, x, y, FontType.NORMAL, color, color);
+  }
+
+  public void drawCenteredString(String text, int x, int y, FontType fontType, int color, int color2) {
+    float width = this.getStringWidth(text);
+    this.drawString(text, x - (width / 2), y, fontType, color, color2);
+  }
+
   public void drawString(String text, int x, int y, int color) {
     this.drawString(text, x, y, FontType.NORMAL, color, color);
   }

@@ -2,9 +2,12 @@ package de.paxii.clarinet.gui.ingame.panel.theme.themes;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
-import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.GuiThemeLayout;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.LegacyThemeLayout;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.module.render.ModuleXray;
+import de.paxii.clarinet.util.gui.MouseService;
 import de.paxii.clarinet.util.module.settings.ValueBase;
 import de.paxii.clarinet.util.render.GuiMethods;
 
@@ -23,7 +26,10 @@ import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
 
-public class DefaultClientTheme implements IClientTheme {
+public class LegacyTheme implements GuiTheme {
+
+  private static final GuiThemeLayout LAYOUT = new LegacyThemeLayout();
+
   @Getter
   private ArrayList<DefaultThemeColorObject> colorObjects;
 
@@ -31,7 +37,7 @@ public class DefaultClientTheme implements IClientTheme {
   @Setter
   private DefaultThemeColorObject currentColor;
 
-  public DefaultClientTheme() {
+  public LegacyTheme() {
     this.colorObjects = new ArrayList<>();
 
     this.colorObjects.add(new DefaultThemeColorObject("Blue", 0xAA3F73FF, 0xAA272833, 0xCC8C9399, 0xCCD2CED1, 0xCC3F73FF, 0xCC759CFF, 0xFFFFFFFF));
@@ -48,7 +54,7 @@ public class DefaultClientTheme implements IClientTheme {
 
   @Override
   public String getName() {
-    return "Default";
+    return "Legacy";
   }
 
   @Override
@@ -128,8 +134,8 @@ public class DefaultClientTheme implements IClientTheme {
     if (displayHelp && module.getDescription().length() > 0) {
       GL11.glPushMatrix();
       GL11.glTranslatef(0.0F, 0.0F, 255.0F);
-      int posX = Mouse.getX() / 2 + 10;
-      int posY = (Display.getHeight() - Mouse.getY()) / 2;
+      int posX = MouseService.getX() + 10;
+      int posY = MouseService.getY() + 10;
       GuiMethods.drawRoundedRect(
               posX - 3,
               posY,
@@ -237,8 +243,13 @@ public class DefaultClientTheme implements IClientTheme {
                     + format.format(valueBase.getValue()), sliderX,
             sliderY, this.currentColor.getTextColor());
 
-    IClientTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth,
+    GuiTheme.super.drawSlider(valueBase, sliderX, sliderY, sliderWidth,
             sliderHeight, dragX, shouldRound);
+  }
+
+  @Override
+  public GuiThemeLayout getLayout() {
+    return LAYOUT;
   }
 
   public class DefaultThemeColorObject {

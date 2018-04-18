@@ -5,6 +5,7 @@ import de.paxii.clarinet.event.events.player.PlayerSendChatMessageEvent;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSetting;
@@ -60,7 +61,6 @@ public class PanelModuleButton extends PanelElement {
         this.getPanelElements().addAll(module.getGuiPanelElements());
         module.getModuleValues().forEach((valueName, value) -> {
           PanelSlider panelSlider = new PanelSlider(value, value.isShouldRound());
-          panelSlider.setElementWidth(90);
           this.getPanelElements().add(panelSlider);
         });
         Function<Integer, String> caption = keyCode -> "Keybind: " + (keyCode != -1 ? Keyboard.getKeyName(keyCode) : "None");
@@ -100,13 +100,13 @@ public class PanelModuleButton extends PanelElement {
       displayHelp = true;
     }
 
-    this.moduleSettings.setPanelX(elementX + this.getElementWidth() + 5);
+    this.moduleSettings.setPanelX(elementX + this.getWidth() + this.getElementSpacing().getMarginRight());
     this.moduleSettings.setPanelY(elementY);
 
     Wrapper.getClickableGui()
             .getCurrentTheme()
-            .drawModuleButton(module, elementX, elementY, this.getElementWidth(),
-                    this.getElementHeight(), buttonHovered, hasSettings, displayHelp);
+            .drawModuleButton(module, elementX, elementY, this.getWidth(),
+                    this.getHeight(), buttonHovered, hasSettings, displayHelp);
 
     super.drawElement(elementX, elementY, mouseX, mouseY);
   }
@@ -134,5 +134,10 @@ public class PanelModuleButton extends PanelElement {
         )));
       }
     }
+  }
+
+  @Override
+  public ElementSpacing getElementSpacing() {
+    return Wrapper.getClickableGui().getCurrentTheme().getLayout().getModuleButtonLayout();
   }
 }

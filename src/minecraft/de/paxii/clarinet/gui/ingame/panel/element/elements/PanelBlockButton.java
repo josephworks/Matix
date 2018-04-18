@@ -2,6 +2,7 @@ package de.paxii.clarinet.gui.ingame.panel.element.elements;
 
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
+import de.paxii.clarinet.gui.ingame.panel.theme.layout.ElementSpacing;
 import de.paxii.clarinet.module.render.ModuleXray;
 
 import net.minecraft.block.Block;
@@ -28,8 +29,8 @@ public class PanelBlockButton extends PanelElement {
 
     Wrapper.getClickableGui()
             .getCurrentTheme()
-            .drawBlockButton(this.iBlockState, elementX, elementY, this.getElementWidth(),
-                    this.getElementHeight(), buttonHovered);
+            .drawBlockButton(this.iBlockState, elementX, elementY, this.getWidth(),
+                    this.getHeight(), buttonHovered);
 
     super.drawElement(elementX, elementY, mouseX, mouseY);
   }
@@ -48,5 +49,10 @@ public class PanelBlockButton extends PanelElement {
 
       Wrapper.getMinecraft().renderGlobal.loadRenderers();
     }
+  }
+
+  @Override
+  public ElementSpacing getElementSpacing() {
+    return Wrapper.getClickableGui().getCurrentTheme().getLayout().getBlockButtonLayout();
   }
 }

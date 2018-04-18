@@ -6,8 +6,9 @@ import de.paxii.clarinet.event.events.client.PostLoadModulesEvent;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelManager;
 import de.paxii.clarinet.gui.ingame.panel.element.PanelElement;
-import de.paxii.clarinet.gui.ingame.panel.theme.IClientTheme;
-import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultClientTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.GuiTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.DefaultTheme;
+import de.paxii.clarinet.gui.ingame.panel.theme.themes.LegacyTheme;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.Matix2HDTheme;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.settings.type.ClientSettingString;
@@ -24,11 +25,11 @@ import net.minecraft.util.EnumActionResult;
 public class ClientClickableGui extends GuiScreen {
   private final GuiPanelManager panelManager;
   @Getter
-  private IClientTheme currentTheme;
+  private GuiTheme currentTheme;
   @Getter
   private ArrayList<GuiPanel> guiPanels;
   @Getter
-  private ArrayList<IClientTheme> panelThemes;
+  private ArrayList<GuiTheme> panelThemes;
 
   public ClientClickableGui() {
     this.guiPanels = new ArrayList<>();
@@ -45,10 +46,11 @@ public class ClientClickableGui extends GuiScreen {
   }
 
   private void loadThemes() {
+    this.panelThemes.add(new DefaultTheme());
     this.panelThemes.add(new Matix2HDTheme());
-    this.panelThemes.add(new DefaultClientTheme());
+    this.panelThemes.add(new LegacyTheme());
 
-    IClientTheme clientTheme = this.getTheme(ClientSettings.getValue("client.guitheme", String.class));
+    GuiTheme clientTheme = this.getTheme(ClientSettings.getValue("client.guitheme", String.class));
 
     if (clientTheme != null) {
       this.setCurrentTheme(clientTheme);
@@ -57,12 +59,12 @@ public class ClientClickableGui extends GuiScreen {
     }
   }
 
-  public void setCurrentTheme(IClientTheme clientTheme) {
+  public void setCurrentTheme(GuiTheme clientTheme) {
     //TODO: Implement proper color changing?
     GuiPanel colorPanel = this.getGuiPanel("Gui Color");
 
     if (colorPanel != null) {
-      if (clientTheme instanceof DefaultClientTheme) {
+      if (clientTheme instanceof LegacyTheme) {
         colorPanel.setVisible(true);
       } else {
         colorPanel.setVisible(false);
@@ -183,7 +185,7 @@ public class ClientClickableGui extends GuiScreen {
   }
 
   public boolean doesThemeExist(String themeName) {
-    for (IClientTheme theme : this.getPanelThemes()) {
+    for (GuiTheme theme : this.getPanelThemes()) {
       if (theme.getName().equalsIgnoreCase(themeName))
         return true;
     }
@@ -191,8 +193,8 @@ public class ClientClickableGui extends GuiScreen {
     return false;
   }
 
-  public IClientTheme getTheme(String themeName) {
-    for (IClientTheme theme : this.getPanelThemes()) {
+  public GuiTheme getTheme(String themeName) {
+    for (GuiTheme theme : this.getPanelThemes()) {
       if (theme.getName().equalsIgnoreCase(themeName))
         return theme;
     }
