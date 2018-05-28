@@ -11,13 +11,14 @@ import de.paxii.clarinet.util.module.killaura.TimeManager;
 import de.paxii.clarinet.util.settings.ClientSetting;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
-import java.util.function.Function;
 import net.minecraft.network.play.client.CPacketChatMessage;
 
+import org.lwjgl.input.Keyboard;
+
 import java.util.ArrayList;
+import java.util.function.Function;
 
 import lombok.Getter;
-import org.lwjgl.input.Keyboard;
 
 public class PanelModuleButton extends PanelElement {
   private final GuiPanel guiPanel;
@@ -65,7 +66,7 @@ public class PanelModuleButton extends PanelElement {
         });
         Function<Integer, String> caption = keyCode -> "Keybind: " + (keyCode != -1 ? Keyboard.getKeyName(keyCode) : "None");
         this.getPanelElements().add(new PanelKeyBindButton(caption.apply(module.getKey()), (keyCode, self) -> {
-          if (keyCode == 1) {
+          if (keyCode == 1 || keyCode < 0) {
             keyCode = -1;
           }
           module.setKey(keyCode);

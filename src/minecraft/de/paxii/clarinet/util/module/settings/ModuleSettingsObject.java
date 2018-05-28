@@ -9,14 +9,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import lombok.Getter;
+import lombok.Setter;
 
 public class ModuleSettingsObject {
   @Getter
   @Deprecated
   private String moduleName;
   @Getter
+  @Setter
   private int moduleKey;
   @Getter
+  @Setter
   private boolean enabled;
   @Getter
   private HashMap<String, ClientSettingSettingsObject> moduleSettings;

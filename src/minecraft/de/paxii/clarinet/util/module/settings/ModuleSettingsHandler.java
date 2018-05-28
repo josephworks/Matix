@@ -46,7 +46,12 @@ public class ModuleSettingsHandler {
 
         try {
           ModuleSettingsObject moduleSettings = FileService.getFileContents(moduleSettingsFile, ModuleSettingsObject.class);
+
           if (moduleSettings != null) {
+            if (moduleSettings.getModuleKey() < 0) {
+              moduleSettings.setModuleKey(-1);
+            }
+
             moduleSettings.restoreToModule(module);
             if (moduleSettings.isEnabled()) {
               this.enabledModules.add(module);
