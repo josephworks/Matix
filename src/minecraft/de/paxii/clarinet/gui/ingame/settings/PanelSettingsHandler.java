@@ -10,12 +10,10 @@ import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanel;
 import de.paxii.clarinet.gui.ingame.panel.GuiPanelModuleSettings;
 import de.paxii.clarinet.gui.ingame.panel.theme.themes.LegacyTheme;
+import de.paxii.clarinet.util.file.FileService;
 import de.paxii.clarinet.util.settings.ClientSettings;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -28,18 +26,9 @@ public class PanelSettingsHandler {
   @EventHandler
   public void onPanelsLoaded(PostLoadPanelsEvent event) {
     try {
-      Gson gson = new Gson();
       File settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/panels.json");
-
       if (settingsFile.exists()) {
-        BufferedReader br = new BufferedReader(new FileReader(settingsFile));
-        String line, jsonString = "";
-
-        while ((line = br.readLine()) != null) {
-          jsonString += line;
-        }
-
-        PanelSettingsContainer panelSettingsContainer = gson.fromJson(jsonString, PanelSettingsContainer.class);
+        PanelSettingsContainer panelSettingsContainer = FileService.getFileContents(settingsFile, PanelSettingsContainer.class);
 
         if (panelSettingsContainer != null) {
           panelSettingsContainer.getPanelSettings().forEach((panelName, panel) -> {
@@ -54,29 +43,15 @@ public class PanelSettingsHandler {
             }
           });
         }
-
-        br.close();
       }
 
-      try {
-        settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/color.json");
-
-        if (settingsFile.exists()) {
-          BufferedReader br = new BufferedReader(new FileReader(settingsFile));
-          String line;
-
-          while ((line = br.readLine()) != null) {
-            if (line.length() > 0) {
-              String colorName = gson.fromJson(line, String.class);
-
-              ((LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy")).setCurrentColor(((LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy")).getColorObject(colorName));
-            }
-          }
-
-          br.close();
+      settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/color.json");
+      if (settingsFile.exists()) {
+        String colorName = FileService.getFileContents(settingsFile, String.class);
+        LegacyTheme theme = (LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy");
+        if (theme != null) {
+          theme.setCurrentColor((theme).getColorObject(colorName));
         }
-      } catch (Exception e) {
-        e.printStackTrace();
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -93,24 +68,21 @@ public class PanelSettingsHandler {
       }
 
       if (settingsFile.createNewFile()) {
-        FileWriter fileWriter = new FileWriter(settingsFile);
-
         GuiPanel[] guiPanels = Wrapper.getClickableGui().getGuiPanels().stream()
                 .filter(guiPanel -> !(guiPanel instanceof GuiPanelModuleSettings))
                 .toArray(GuiPanel[]::new);
         PanelSettingsContainer panelSettingsContainer = new PanelSettingsContainer(new ArrayList<>(Arrays.asList(guiPanels)));
-        String jsonString = gson.toJson(panelSettingsContainer);
-        fileWriter.write(jsonString);
-        fileWriter.close();
+        FileService.setFileContentsAsJson(settingsFile, panelSettingsContainer);
 
         try {
-          settingsFile = new File((ClientSettings.getClientFolderPath().getValue()), "/color.json");
-          if (settingsFile.createNewFile()) {
-            fileWriter = new FileWriter(settingsFile);
+          File colorFile = new File((ClientSettings.getClientFolderPath().getValue()), "/color.json");
+          if (colorFile.exists() || colorFile.createNewFile()) {
+            LegacyTheme legacyTheme = (LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy");
 
-            String colorName = gson.toJson(((LegacyTheme) Wrapper.getClickableGui().getTheme("Legacy")).getCurrentColor().getColorName());
-            fileWriter.append(colorName);
-            fileWriter.close();
+            if (legacyTheme != null) {
+              String colorName = gson.toJson(legacyTheme.getCurrentColor().getColorName());
+              FileService.setFileContentsAsJson(colorFile, colorName);
+            }
           }
         } catch (Exception e) {
           e.printStackTrace();

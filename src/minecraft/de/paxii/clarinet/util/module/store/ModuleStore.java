@@ -1,7 +1,5 @@
 package de.paxii.clarinet.util.module.store;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import de.paxii.clarinet.Client;
@@ -12,6 +10,7 @@ import de.paxii.clarinet.event.events.game.StopGameEvent;
 import de.paxii.clarinet.event.events.player.PlayerSendChatMessageEvent;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
+import de.paxii.clarinet.util.file.FileService;
 import de.paxii.clarinet.util.notifications.NotificationPriority;
 import de.paxii.clarinet.util.settings.ClientSettings;
 import de.paxii.clarinet.util.web.JsonFetcher;
@@ -21,12 +20,9 @@ import net.minecraft.network.play.client.CPacketChatMessage;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -105,9 +101,9 @@ public class ModuleStore {
       );
     } catch (Exception e) {
       Wrapper.getClient().getNotificationManager().addNotification(
-            "There was an error when uninstalling the plugin.",
-            NotificationPriority.GOOD
-    );
+              "There was an error when uninstalling the plugin.",
+              NotificationPriority.GOOD
+      );
       e.printStackTrace();
     }
   }
@@ -145,18 +141,8 @@ public class ModuleStore {
     File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
 
     if (modulesToDelete.exists()) {
-      StringBuilder jsonString = new StringBuilder();
-
       try {
-        Scanner sc = new Scanner(modulesToDelete);
-        Gson gson = new Gson();
-
-        while (sc.hasNextLine())
-          jsonString.append(sc.nextLine());
-
-        sc.close();
-
-        ArrayList<String> modulesToRemove = gson.fromJson(jsonString.toString(), new TypeToken<ArrayList<String>>() {
+        ArrayList<String> modulesToRemove = FileService.getFileContents(modulesToDelete, new TypeToken<ArrayList<String>>() {
         }.getType());
 
         if (modulesToRemove != null) {
@@ -202,25 +188,12 @@ public class ModuleStore {
     File modulesToDelete = new File(ClientSettings.getClientFolderPath().getValue(), "modulesToDelete.json");
 
     try {
-      modulesToDelete.createNewFile();
+      if (ModuleStore.modulesToDelete.size() > 0) {
+        modulesToDelete.createNewFile();
+        FileService.setFileContentsAsJson(modulesToDelete, ModuleStore.modulesToDelete);
+      }
     } catch (IOException e) {
       e.printStackTrace();
-    }
-
-    if (ModuleStore.modulesToDelete.size() > 0) {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-      String jsonString = gson.toJson(ModuleStore.modulesToDelete);
-
-      try {
-        FileWriter fw = new FileWriter(modulesToDelete);
-
-        fw.write(jsonString);
-
-        fw.close();
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 
