@@ -43,7 +43,7 @@ public class PacketPatcher {
 
     if (packetIn instanceof CPacketChatMessage) {
       CPacketChatMessage tempPacket = (CPacketChatMessage) packetIn;
-      String bypassPrefix = "_PASS_";
+      String bypassPrefix = PlayerSendChatMessageEvent.BYPASS_PREFIX;
 
       if (tempPacket.getMessage().startsWith(bypassPrefix)) {
         String chatMessage = tempPacket.getMessage().substring(bypassPrefix.length());

@@ -5,6 +5,8 @@ import de.paxii.clarinet.event.events.type.EventCancellable;
 import net.minecraft.network.play.client.CPacketChatMessage;
 
 public class PlayerSendChatMessageEvent extends EventCancellable {
+  public static final String BYPASS_PREFIX = "_PASS_";
+
   private CPacketChatMessage chatPacket;
 
   public PlayerSendChatMessageEvent(CPacketChatMessage chatPacket) {
