@@ -3,15 +3,25 @@ package de.paxii.clarinet.command.commands.module;
 import de.paxii.clarinet.Wrapper;
 import de.paxii.clarinet.command.AClientCommand;
 import de.paxii.clarinet.command.CommandCategory;
+import de.paxii.clarinet.event.EventHandler;
+import de.paxii.clarinet.event.events.gui.DisplayGuiScreenEvent;
 import de.paxii.clarinet.gui.menu.controls.GuiKeybinds;
 import de.paxii.clarinet.module.Module;
 import de.paxii.clarinet.util.chat.Chat;
 
+import net.minecraft.client.gui.GuiChat;
+
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 
 public class CommandKey extends AClientCommand {
+
+  private boolean openGui;
+  private final GuiKeybinds guiKeybinds;
+
+  public CommandKey() {
+    this.guiKeybinds = new GuiKeybinds(null);
+    Wrapper.getEventManager().register(this, DisplayGuiScreenEvent.class);
+  }
 
   @Override
   public String getCommand() {
@@ -68,30 +78,23 @@ public class CommandKey extends AClientCommand {
         } else {
           Chat.printClientMessage("Unknown sub-command!");
         }
-      } else if (args.length == 1) {
+      } else {
         if (args[0].equalsIgnoreCase("gui")) {
-          new Thread(() -> {
-            try {
-              Thread.sleep(200L);
-            } catch (InterruptedException e) {
-              e.printStackTrace();
-            } finally {
-              Wrapper.getMinecraft().displayGuiScreen(new GuiKeybinds(null));
-              //TODO: Client Eh what?
-              // This prevents the Cursor from being invisible
-              // Find some other way, this is ugly.
-              Mouse.setCursorPosition(-999, -999);
-              Mouse.setCursorPosition(Display.getWidth() / 2, Display.getHeight() / 2);
-            }
-          }).start();
+          this.openGui = true;
         } else {
           Chat.printClientMessage("Unknown sub-command!");
         }
-      } else {
-        Chat.printClientMessage("Too few arguments!");
       }
     } else {
       Chat.printClientMessage("Too few arguments!");
+    }
+  }
+
+  @EventHandler
+  public void onDisplayGuiScreen(DisplayGuiScreenEvent screenEvent) {
+    if (this.openGui && Wrapper.getMinecraft().currentScreen instanceof GuiChat && screenEvent.getGuiScreen() == null) {
+      screenEvent.setGuiScreen(this.guiKeybinds);
+      this.openGui = false;
     }
   }
 
