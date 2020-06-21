@@ -1,7 +1,5 @@
 package de.paxii.clarinet;
 
-// Note: This file is useless, make changes to Matix.java
-
 import de.paxii.clarinet.command.ClientConsole;
 import de.paxii.clarinet.event.EventManager;
 import de.paxii.clarinet.gui.ingame.ClientClickableGui;
